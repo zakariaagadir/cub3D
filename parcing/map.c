@@ -1,0 +1,172 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/19 16:13:34 by zmounji           #+#    #+#             */
+/*   Updated: 2025/06/20 15:02:28 by zmounji          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
+#include "../cube.h"
+
+void	ft_error_el(const char *str)
+{
+	write(2, "Error\n", 7);
+	write(2, str, ff_strlen(str));
+    // leack truck
+	exit (1);
+}
+
+char	*ft_strnext(const char *haystack, const char *needle)
+{
+    int i;
+    int j;
+    int k;
+    
+    i = 0;
+    while (haystack && haystack[i])
+    {
+        j = 0;
+        while (needle && needle[j] && haystack[i + j] == needle[j])
+            j++;
+        if (needle[j] == '/0')
+        {
+            while (haystack && (haystack [j] == '\t' || haystack[j] == ' '))
+                j++;
+                return (haystack + j);
+        }
+    }
+	return (NULL);
+}
+
+int extruct_elements(char *line)
+{
+    int             i;
+    char            str;
+    t_elements      *element;
+
+    i = 0;
+    str = NULL;
+    element = getter();
+    str = ft_strnext(line, "NO");
+    if (str && element->no)
+        ft_error_el ("elements was duplicated");
+    if (!str)
+    {
+        str = ft_strnext(line, "SO");
+        if (str && element->so)
+            ft_error_el ("elements was duplicated");
+    }
+    if (!str)
+    {
+        str = ft_strnext(line, "WE");
+        if (str && element->we)
+            ft_error_el ("elements was duplicated");
+    }
+    if (!str)
+    {
+        str = ft_strnext(line, "EA");
+        if (str && element->ea)
+            ft_error_el ("elements was duplicated");
+    }
+    if (!str)
+    {
+        str = ft_strnext(line, "F");
+        if (str && element->f)
+            ft_error_el ("elements was duplicated");
+    }
+    if (!str)
+    {
+        str = ft_strnext(line, "C");
+        if (str && element->c)
+            ft_error_el ("elements was duplicated");
+    }
+    while (!str && line && line[i])
+    {
+        if (line[i] != ' ')
+            ft_error_el("invalide character\n");
+        i++;   
+    }
+    return (str != NULL);
+}
+
+int extruct_map(char *line)
+{
+    int             i;
+    char            str;
+    t_elements      *element;
+
+    i = 0;
+    str = NULL;
+    element = getter();
+    str = ft_strnext(line, "NO");
+    if (str && element->no)
+        ft_error_el ("elements was duplicated");
+    if (!str)
+    {
+        str = ft_strnext(line, "SO");
+        if (str && element->so)
+            ft_error_el ("elements was duplicated");
+    }
+    if (!str)
+    {
+        str = ft_strnext(line, "WE");
+        if (str && element->we)
+            ft_error_el ("elements was duplicated");
+    }
+    if (!str)
+    {
+        str = ft_strnext(line, "EA");
+        if (str && element->ea)
+            ft_error_el ("elements was duplicated");
+    }
+    if (!str)
+    {
+        str = ft_strnext(line, "F");
+        if (str && element->f)
+            ft_error_el ("elements was duplicated");
+    }
+    if (!str)
+    {
+        str = ft_strnext(line, "C");
+        if (str && element->c)
+            ft_error_el ("elements was duplicated");
+    }
+    while (!str && line && line[i])
+    {
+        if (line[i] != ' ')
+            ft_error_el("invalide character\n");
+        i++;   
+    }
+    return (str != NULL);
+}
+
+
+void    map(char *argv)
+{
+    int     fd;
+    int     len;
+    int     number;
+    char    *line;
+
+    fd = open (argv[1], O_RDONLY,0644);
+    line = get_next_line(fd);
+    number = 0;
+    while(line && (number < 6))
+    {
+        number += extruct_elements(line);
+        line = get_next_line(fd);
+    }
+    if(number < 6)
+        ft_error_el("element or more are absents");
+    while(line)
+    {
+        number += extruct_map(line);
+        line = get_next_line(fd);
+    }
+    
+}

@@ -1,0 +1,28 @@
+NAME = cub3D
+CC = cc
+FLAGS = -Wall -Wextra -Werror
+
+SRC = main.c parcing/parcing_mn.c
+
+OBJ = ${SRC:.c=.o}
+
+%.o: %.c
+	${CC} ${FLAGS} -c $< -o $@
+
+all: ${NAME}
+
+
+${NAME}: ${OBJ}
+	${CC}  ${OBJ} -o ${NAME}
+
+clean:
+	rm -f ${OBJ}
+
+fclean: clean
+	rm -f ${NAME}
+
+re: fclean all
+
+
+.PHONY: all clean fclean re
+.SECONDARY:
