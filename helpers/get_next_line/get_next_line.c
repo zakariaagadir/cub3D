@@ -6,11 +6,11 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 20:18:30 by zmounji           #+#    #+#             */
-/*   Updated: 2024/12/02 18:15:36 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/22 16:11:15 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../../cube.h"
 
 char	*reset_res(char *reserve)
 {
@@ -65,19 +65,11 @@ char	*get_line(char *reserve)
 	i = 0;
 	while (reserve[i] && reserve[i] != '\n')
 		i++;
-	if (reserve[i] == '\n')
-		line = malloc(i + 2);
-	else
-		line = malloc(i + 1);
+	line = malloc(i + 1);
 	if (!line)
 		return (NULL);
 	i = 0;
 	while (reserve[i] && reserve[i] != '\n')
-	{
-		line[i] = reserve[i];
-		i++;
-	}
-	if (reserve[i] == '\n')
 	{
 		line[i] = reserve[i];
 		i++;

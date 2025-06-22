@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zmounji <zmounji@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 06:44:44 by zmounji           #+#    #+#             */
-/*   Updated: 2024/12/02 17:30:23 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/22 16:09:45 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../../cube.h"
 
 size_t	ft_strlen(char *s)
 {
