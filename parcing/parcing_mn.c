@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 14:22:08 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/19 21:19:34 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/21 23:21:53 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	strlen_exit(void)
 
 int ff_strlen(const char *str)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (str && str[i])
@@ -69,4 +69,5 @@ void parcing_mn(int ac, char **argv)
 		ft_error("Number of parametter not correct\n");
 	if (!ft_strstr(argv[1], ".cub"))
 		ft_error("Name of the map not correct\n");
+	map(argv);
 }

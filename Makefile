@@ -1,8 +1,10 @@
 NAME = cub3D
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 
-SRC = main.c parcing/parcing_mn.c
+SRC = main.c parcing/parcing_mn.c parcing/extract_map.c parcing/map.c\
+	helpers/get_next_line/get_next_line.c helpers/get_next_line/get_next_line_utils.c\
+	helpers/libft/ft_bzero.c
 
 OBJ = ${SRC:.c=.o}
 
