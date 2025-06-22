@@ -36,6 +36,8 @@ typedef struct s_elements
 
 void        parcing_mn(int ac, char **argv);
 void        map(char **argv);
+int         copy_map(char *line, int fd);
+int         upload_map(char **argv);
 void        strlen_exit(void);
 void        ft_error(const char *str);
 void        ft_error_el(const char *str);
@@ -44,6 +46,8 @@ t_elements  *getter(void);
 void        ft_bzero(void *s, size_t n);
 int         extruct_map(char *line, int fd);
 int         start_map(char *line, int fd);
+char        *ft_strnext( char *haystack, const char *needle);
+int         extruct_elements(char *line);
 
 
 // get_next_line

@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:13:34 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/22 16:10:12 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/22 16:27:06 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void    map(char **argv)
     if (number < 6)
         ft_error_el("element or more are absents");
     start_map(line, fd);
-    // upload_map(argv);
+    upload_map(argv);
     
     
 }
