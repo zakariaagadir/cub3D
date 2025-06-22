@@ -1,37 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/19 14:40:21 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/22 15:25:45 by zmounji          ###   ########.fr       */
+/*   Created: 2025/06/22 15:10:47 by zmounji           #+#    #+#             */
+/*   Updated: 2025/06/22 15:10:48 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube.h"
 
-t_elements *getter(void)
+#include "../../cube.h"
+
+void	ft_bzero(void *s, size_t n)
 {
-    static t_elements elements;
-    if (elements.map == NULL)
-    {
-        elements.map = malloc(sizeof(t_map));
-        if (!elements.map)
-            return (NULL);
-        ft_bzero(elements.map, sizeof(t_map));
-    }
+	unsigned char	*ptr;
 
-    return (&elements);
-}
-
-
-int main(int ac, char ** argv)
-{
-    parcing_mn(ac, argv);
-
-
-
-    return (0);
+	ptr = (unsigned char *)s;
+	while (n--)
+		*ptr++ = 0;
 }

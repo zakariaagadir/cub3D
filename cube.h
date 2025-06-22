@@ -35,10 +35,15 @@ typedef struct s_elements
 
 
 void        parcing_mn(int ac, char **argv);
+void        map(char **argv);
 void        strlen_exit(void);
 void        ft_error(const char *str);
+void        ft_error_el(const char *str);
 int         ff_strlen(const char *str);
 t_elements  *getter(void);
+void        ft_bzero(void *s, size_t n);
+int         extruct_map(char *line, int fd);
+int         start_map(char *line, int fd);
 
 
 // get_next_line
