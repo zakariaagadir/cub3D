@@ -16,12 +16,21 @@ typedef struct s_color
     int c;
 }t_color;
 
+
 typedef struct s_map
 {
     int rows;
     int colomns;
     char **map;
 }t_map;
+
+
+typedef struct s_player
+{
+    int x;
+    int y;
+    char    *direction;
+}t_player;
 
 typedef struct s_elements
 {
@@ -32,6 +41,7 @@ typedef struct s_elements
     t_color *f;
     t_color *c;
     t_map   *map;
+    t_player    *player;
 }t_elements;
 
 
@@ -52,10 +62,12 @@ int         extruct_elements(char *line);
 int         extruct_them(char *line);
 void        cheack_map(void);
 void        print_map(t_elements *element);
+void        deb_map(void);
 
 
-
-
+//player
+void        set_up_player(void);
+void        deb_map(void);
 // get_next_line
 
 # ifndef BUFFER_SIZE
