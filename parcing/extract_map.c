@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:43:48 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/22 21:38:37 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/24 19:16:52 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,17 @@ int extruct_map(char *line, int fd)
     }
 
     close (fd);
-    element->map->map = malloc(sizeof(char *) * element->map->rows);
+    element->map->map = malloc(sizeof(char *) * (element->map->rows + 1));
     if (!element)
         ft_error_el("ellocation failed \n");
     i = 0;
+    element->map->map[element->map->rows] = NULL;
     while(i < element->map->colomns)
     {
-        element->map->map[i] = malloc(sizeof(char) * element->map->colomns);
+        element->map->map[i] = malloc(sizeof(char) * (element->map->colomns + 1));
         if (!element->map->map[i])
             ft_error_el("ellocation failed \n");
+        element->map->map[i][element->map->colomns] = '\0';
         i++;
     }
     return (1);

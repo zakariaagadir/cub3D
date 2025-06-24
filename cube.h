@@ -51,6 +51,7 @@ char        *ft_strnext( char *haystack, const char *needle);
 int         extruct_elements(char *line);
 int         extruct_them(char *line);
 void        cheack_map(void);
+void        print_map(t_elements *element);
 
 
 

@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:13:34 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/24 16:37:54 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/24 19:21:38 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int extruct_elements(char *line)
         }
         if (str)
         {
-            printf("me\n");
+            // printf("me\n");
             element->f = malloc(sizeof(t_color));
             if (!element->f)
                 ft_error_el("can not allocat");
@@ -185,6 +185,9 @@ void    map(char **argv)
     int     fd;
     int     number;
     char    *line;
+    t_elements  *element;
+
+    element = getter();
 
     fd = open (argv[1], O_RDONLY,0644);
     line = NULL;
@@ -202,6 +205,7 @@ void    map(char **argv)
         ft_error_el("element or more are absents");
     start_map(line, fd);
     upload_map(argv);
+
     cheack_map();
     
     

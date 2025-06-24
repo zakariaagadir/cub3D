@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:28:16 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/23 20:18:23 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/24 19:23:15 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int copy_map(char *line, int fd)
             element->map->map[j][i] = ' ';
             i++;
         }
+        element->map->map[j][i] = '\0';
         j++;
         free (line);
         line = NULL;
