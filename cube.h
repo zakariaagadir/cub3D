@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <sys/wait.h>
 
+
 typedef struct s_color
 {
     int a;
@@ -48,6 +49,10 @@ int         extruct_map(char *line, int fd);
 int         start_map(char *line, int fd);
 char        *ft_strnext( char *haystack, const char *needle);
 int         extruct_elements(char *line);
+int         extruct_them(char *line);
+void        cheack_map(void);
+
+
 
 
 // get_next_line
@@ -65,6 +70,10 @@ char	*reset_res(char *reserve);
 char	*read_mine(int fd);
 char	*get_line(char *reserve);
 void	ft_memcpy(char *s1, char *s2, size_t i);
+
+// libft
+char	**ft_split(char const *s, char c);
+int     ft_atoi(const char *str);
 
 
 

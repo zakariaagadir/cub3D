@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:28:16 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/22 17:03:05 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/23 20:18:23 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,30 @@ int copy_map(char *line, int fd)
     t_elements      *element;
     
     element = getter();
-    i = 0;
     j = 0;
     while(line)
     {
+        i = 0;
         while(line && line[i])
         {
-            if (line[i] != ' ' && line[i] != '1' && line[i] != '0' && line[i] != '\n' && line[i] != 'N' && line[i] != 'E' && line[i] != 'O' && line[i] != 'S')
-                ft_error_el("invalid character \n");
+            if (line && line[i] && line[i] != ' ' && line[i] != '1' && line[i] != '0' && line[i] != '\0' && line[i] != 'N' && line[i] != 'E' && line[i] != 'O' && line[i] != 'S')
+            {
+                ft_error_el("invalid character NOO \n");
+            }
             element->map->map[j][i] = line[i];
+            i++;
+        }
+        while (i < element->map->colomns)
+        {
+            element->map->map[j][i] = ' ';
             i++;
         }
         j++;
         free (line);
         line = NULL;
-        get_next_line(fd);
+        line = get_next_line(fd);
     }
+    printf("bay was uploded\n");
     close (fd);
     return (1);
 }
@@ -59,9 +67,9 @@ int    upload_map(char **argv)
     elements = getter();
     while (line && (number < 6))
     {
-        printf(" ------> %s \n", line);
+        // printf(" ------> %s \n", line);
         if (ft_strnext(line, "NO") || ft_strnext(line, "SO") || ft_strnext(line, "WE") || ft_strnext(line, "EA") || ft_strnext(line, "F") || ft_strnext(line, "C"))
-            number += extruct_elements(line);
+            number += extruct_them(line);
         free (line);
         line = NULL;
         line = get_next_line(fd);
@@ -81,7 +89,9 @@ int    upload_map(char **argv)
             i++;
         }
         if (ismap == 1)
+        {
             return (copy_map(line, fd));
+        }
         free (line);
         line = NULL;
         line = get_next_line(fd);

@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:43:48 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/22 10:18:11 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/22 21:38:37 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,17 @@ int extruct_map(char *line, int fd)
     t_elements      *element;
     
     element = getter();
-    i = 0;
+    element->map->rows = 0;
     while(line)
     {
+        i = 0;
+        // printf(" ----------------------------%d: %s \n", element->map->rows, line);
         while(line && line[i])
         {
-            if (line[i] != ' ' && line[i] != '1' && line[i] != '0' && line[i] != '\n' && line[i] != 'N' && line[i] != 'E' && line[i] != 'O' && line[i] != 'S')
+            if (line[i] != ' ' && line[i] != '1' && line[i] != '0' && line[i] != '\0' && line[i] != 'N' && line[i] != 'E' && line[i] != 'O' && line[i] != 'S')
+            {
                 ft_error_el("invalid character \n");
+            }
             i++;
         }
         element->map->rows++;
@@ -66,7 +70,7 @@ int extruct_map(char *line, int fd)
             element->map->colomns = col;
         free (line);
         line = NULL;
-        get_next_line(fd);
+        line = get_next_line(fd);
     }
 
     close (fd);
