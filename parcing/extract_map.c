@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:43:48 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/24 19:16:52 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/25 12:04:15 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,32 @@ int start_map(char *line, int fd)
     return (1);
 }
 
+int ft_vid(char *line)
+{
+    int i;
+    
+    i = 0;
+    while (line && line[i])
+    {
+        if (line[i] != ' ' && line[i] != '\t')
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
 int extruct_map(char *line, int fd)
 {
     int col;
+    int val1;
+    int val2;
     int i;
     t_elements      *element;
     
     element = getter();
     element->map->rows = 0;
+    val1 = 0;
+    val2 = 0;
     while(line)
     {
         i = 0;
@@ -63,7 +81,12 @@ int extruct_map(char *line, int fd)
                 ft_error_el("invalid character \n");
             }
             i++;
+            if (val1 && val2)
+                ft_error("map must not separated\n");
+            val1 = 1;
         }
+        if (ft_vid(line))
+            val2 = 1;
         element->map->rows++;
         col = ft_strlen(line);
         if (element->map->colomns < col)

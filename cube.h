@@ -6,6 +6,9 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <stdio.h>
+# include <X11/X.h>
+# include <X11/keysym.h>
+# include <mlx.h>
 #include <sys/wait.h>
 
 
@@ -32,8 +35,17 @@ typedef struct s_player
     char    *direction;
 }t_player;
 
+typedef struct s_draw
+{
+    void    *mlx;
+    void    *win;
+    void    *wall_img;
+    void    *player_img;
+}t_draw;
+
 typedef struct s_elements
 {
+    t_draw  *drawing;
     char    *no;
     char    *so;
     char    *ea;
@@ -68,6 +80,9 @@ void        deb_map(void);
 //player
 void        set_up_player(void);
 void        deb_map(void);
+void        inisialise_dr(void);
+void        set_up_player(void);
+
 // get_next_line
 
 # ifndef BUFFER_SIZE
