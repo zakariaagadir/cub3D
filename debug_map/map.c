@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/25 13:44:01 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/26 16:28:09 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,44 @@ void    inisialise_dr(void)
         ft_error_el("malloc\n");
     ft_bzero(element->drawing, sizeof(t_draw));
     element->drawing->mlx = mlx_init();
-    element->drawing->player_img = mlx_xpm_file_to_image(element->drawing->mlx, "texture/small_player.xpm", &(int){0}, &(int){0});
-    element->drawing->wall_img = mlx_xpm_file_to_image(element->drawing->mlx, "texture/wall.xpm", &(int){0}, &(int){0});
-    element->drawing->win = mlx_new_window(element->drawing->mlx, element->map->colomns * 64, element->map->rows * 64, "Cub3D Mini Map");
+    element->drawing->player_img = mlx_xpm_file_to_image(element->drawing->mlx, "texture/player_deb.xpm", &(int){0}, &(int){0});
+    element->drawing->wall_img = mlx_xpm_file_to_image(element->drawing->mlx, "texture/wall_deb.xpm", &(int){0}, &(int){0});
+    element->drawing->win = mlx_new_window(element->drawing->mlx, 1080, 720, "Cub3D");
 }
 
+void render_frame(void)
+{
+    t_elements  *element = getter();
+    char        **map = element->map->map;
+    int         i, j;
+
+    for (i = 0; i < 30 && i < element->map->rows; i++)
+    {
+        for (j = 0; j < 50 && j < element->map->colomns; j++)
+        {
+            if (map[i][j] == '1')
+            {
+                mlx_put_image_to_window(
+                    element->drawing->mlx,
+                    element->drawing->win,
+                    element->drawing->wall_img,
+                    j * 16,
+                    i * 16
+                );
+            }
+        }
+    }
+
+    // Draw player at appropriate position (optional):
+    int px = (int)element->player->x;
+    int py = (int)element->player->y;
+    mlx_put_image_to_window(
+        element->drawing->mlx,
+        element->drawing->win,
+        element->drawing->player_img, px * 16,
+        py * 16
+    );
+}
 
 void    deb_map(void)
 {
@@ -79,4 +112,5 @@ void    deb_map(void)
         ft_error_el("player not exist\n");
     printf("player her --> x=%d , y=%d\n",element->player->x, element->player->y);
     inisialise_dr();
+    render_frame();
 }

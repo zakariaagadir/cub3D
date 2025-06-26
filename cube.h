@@ -82,7 +82,7 @@ void        set_up_player(void);
 void        deb_map(void);
 void        inisialise_dr(void);
 void        set_up_player(void);
-
+void        render_frame(void);
 // get_next_line
 
 # ifndef BUFFER_SIZE

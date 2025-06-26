@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:40:21 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/25 13:38:46 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/26 09:55:22 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int main(int ac, char ** argv)
     element = getter();
     parcing_mn(ac, argv);
     print_map(element);
-
+    deb_map();
     mlx_loop(element->drawing->mlx);
     return (0);
 }
