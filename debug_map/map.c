@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/26 16:28:09 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/26 18:43:11 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,37 +70,53 @@ void    inisialise_dr(void)
 
 void render_frame(void)
 {
-    t_elements  *element = getter();
-    char        **map = element->map->map;
-    int         i, j;
+    t_elements *element = getter();
+    char **map = element->map->map;
+    int player_row = (int)element->player->y;
+    int player_col = (int)element->player->x;
+    int i, j;
+    int tile_size = 8; // Smaller tile size for the minimap
+    int screen_x = 10; // Offset X on the window (e.g. top-left corner)
+    int screen_y = 10; // Offset Y on the window
 
-    for (i = 0; i < 30 && i < element->map->rows; i++)
+    int start_row = player_row - 50;
+    int end_row = player_row + 50;
+    int start_col = player_col - 50;
+    int end_col = player_col + 50;
+
+    for (i = start_row; i <= end_row; i++)
     {
-        for (j = 0; j < 50 && j < element->map->colomns; j++)
+        for (j = start_col; j <= end_col; j++)
         {
-            if (map[i][j] == '1')
+            if (i >= 0 && j >= 0 && i < element->map->rows && j < element->map->colomns)
             {
-                mlx_put_image_to_window(
-                    element->drawing->mlx,
-                    element->drawing->win,
-                    element->drawing->wall_img,
-                    j * 16,
-                    i * 16
-                );
+                if (map[i][j] == '1')
+                {
+                    mlx_put_image_to_window(
+                        element->drawing->mlx,
+                        element->drawing->win,
+                        element->drawing->wall_img,
+                        screen_x + (j - start_col) * tile_size,
+                        screen_y + (i - start_row) * tile_size
+                    );
+                }
+                // printf("hello\n");
+                if ((i == 6) && (j == 16))
+                {
+                    mlx_put_image_to_window(
+                        element->drawing->mlx,
+                        element->drawing->win,
+                        element->drawing->player_img,
+                        screen_x + (j - start_col) * tile_size,
+                        screen_y + (i - start_row) * tile_size
+                    );
+                }
             }
         }
     }
-
-    // Draw player at appropriate position (optional):
-    int px = (int)element->player->x;
-    int py = (int)element->player->y;
-    mlx_put_image_to_window(
-        element->drawing->mlx,
-        element->drawing->win,
-        element->drawing->player_img, px * 16,
-        py * 16
-    );
 }
+
+
 
 void    deb_map(void)
 {
