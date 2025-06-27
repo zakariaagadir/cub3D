@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:28:16 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/24 19:23:15 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/26 21:14:56 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int    upload_map(char **argv)
     t_elements  *elements;
 
     fd = open (argv[1], O_RDONLY,0644);
+    if (fd < 0)
+        ft_error_el("failed fd\n");
     line = NULL;
     line = get_next_line(fd);
     number = 0;
@@ -93,6 +95,7 @@ int    upload_map(char **argv)
         {
             return (copy_map(line, fd));
         }
+        if (!ismap)
         free (line);
         line = NULL;
         line = get_next_line(fd);

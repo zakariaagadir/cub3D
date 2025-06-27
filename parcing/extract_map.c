@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:43:48 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/25 12:04:15 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/26 22:32:03 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,5 +110,6 @@ int extruct_map(char *line, int fd)
         element->map->map[i][element->map->colomns] = '\0';
         i++;
     }
+    element->map->map[i] = NULL;
     return (1);
 }

@@ -11,6 +11,12 @@
 # include <mlx.h>
 #include <sys/wait.h>
 
+#define window_px 16
+#define window_py 16
+#define wall_color 0x00FF0000
+#define player_color 0x00FFFF00
+#define player_raduis 7
+
 
 typedef struct s_color
 {
@@ -31,7 +37,9 @@ typedef struct s_map
 typedef struct s_player
 {
     int x;
+    int px;
     int y;
+    int py;
     char    *direction;
 }t_player;
 

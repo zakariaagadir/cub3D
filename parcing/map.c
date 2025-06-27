@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:13:34 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/26 09:55:12 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/26 21:12:34 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,6 @@ void    map(char **argv)
         ft_error_el("element or more are absents");
     start_map(line, fd);
     upload_map(argv);
-
     cheack_map();
     // deb_map();
     
