@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/27 02:48:05 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/27 15:07:41 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,17 @@ void *create_colored_image(t_elements  *element, int width, int height, int colo
         return (NULL);
     
     addr = mlx_get_data_addr(img, &bits_per_pixel, &line_length, &endian);
-    
-    for (y = 0; y < height; y++)
+    y = 0;
+    while (y < height)
     {
-        for (x = 0; x < width; x++)
+        x = 0;
+        while (x < width)
         {
             int pixel_offset = (y * line_length) + (x * (bits_per_pixel / 8));
             *(unsigned int*)(addr + pixel_offset) = color;
+            x++;
         }
+        y++;
     }
     
     return (img);

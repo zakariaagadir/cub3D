@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 20:18:30 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/22 16:11:15 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/29 12:03:33 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	*reset_res(char *reserve)
 	}
 	newres[j] = '\0';
 	free (reserve);
+	reserve = NULL;
 	return (newres);
 }
 
@@ -51,6 +52,7 @@ char	*read_mine(int fd)
 	if (i <= 0)
 	{
 		free (r);
+		r = NULL;
 		return (NULL);
 	}
 	r[i] = '\0';

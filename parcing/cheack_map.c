@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 20:26:41 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/27 00:19:42 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/29 12:06:17 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ void check_surronded(t_elements *element)
                 // check UP
                 if (map[i + 1] && map[i + 1][j] && map[i + 1][j] != ' ' && map[i + 1][j] != '1')
                 {
+                    printf ("->%s\n",map[i]);
+                    printf ("->%d\n",i);
                     ft_error_el("Map not surrounded by walls (down)");
                 }
                 // check LEFT

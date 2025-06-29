@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:23:31 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/23 15:23:54 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/29 12:02:59 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ static char	**free_array(char **ptr, int i)
 	{
 		i--;
 		free(ptr[i]);
+		ptr[i] = NULL;
 	}
 	free(ptr);
+	ptr = NULL;
 	return (NULL);
 }
 

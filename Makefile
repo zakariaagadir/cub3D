@@ -1,6 +1,6 @@
 NAME = cub3D
 CC = cc 
-FLAGS = -Wall -Wextra -Werror -g #-fsanitize=adress
+FLAGS = -Wall -Wextra -Werror  
 
 SRC = main.c parcing/parcing_mn.c parcing/extract_map.c parcing/map.c\
 	helpers/get_next_line/get_next_line.c helpers/get_next_line/get_next_line_utils.c\
