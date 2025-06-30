@@ -18,7 +18,7 @@ all: ${NAME}
 
 
 ${NAME}: ${OBJ}
-	${CC}  ${OBJ} -lmlx -lXext -lX11 -lm -g -fsanitize=address -o ${NAME}
+	${CC}  ${OBJ} -lmlx -lXext -lX11 -lm  -o ${NAME}
 
 clean:
 	rm -f ${OBJ}

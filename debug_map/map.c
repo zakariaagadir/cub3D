@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/27 15:07:41 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/30 14:36:34 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,22 @@ void *create_circle_image(t_elements *element, int size, int color)
     
     return (img);
 }
+
+// void put_pixel_to_buffer(t_data *element, int x, int y, int color)
+// {
+//     int pixel_offset;
+    
+//     // Check bounds
+//     if (x < 0 || x >= element->drawing->win_width || 
+//         y < 0 || y >= element->drawing->win_height)
+//         return;
+    
+//     // Calculate pixel position in buffer
+//     pixel_offset = (y * element->drawing->line_length) + (x * (element->drawing->bits_per_pixel / 8));
+    
+//     // Set pixel color in buffer
+//     *(unsigned int*)(element->drawing->buffer_addr + pixel_offset) = color;
+// }
 
 void    inisialise_dr(void)
 {

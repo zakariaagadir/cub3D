@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:28:16 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/29 12:16:44 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/30 14:53:40 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,14 @@ int    upload_map(char **argv)
     {
         // printf(" ------> %s \n", line);
         if (ft_strnext(line, "NO") || ft_strnext(line, "SO") || ft_strnext(line, "WE") || ft_strnext(line, "EA") || ft_strnext(line, "F") || ft_strnext(line, "C"))
+        {
             number += extruct_them(line);
-        free (line);
-        line = NULL;
+        }
+        if (line)
+        {
+            free (line);
+            line = NULL;
+        }
         line = get_next_line(fd);
     }
     if (number < 6)
@@ -95,9 +100,11 @@ int    upload_map(char **argv)
         {
             return (copy_map(line, fd));
         }
-        if (!ismap)
-        free (line);
-        line = NULL;
+        if (line)
+        {
+            free (line);
+            line = NULL;
+        }
         line = get_next_line(fd);
    }
    return (1);
