@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:40:21 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/22 15:25:45 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/30 14:38:32 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,35 @@ t_elements *getter(void)
         if (!elements.map)
             return (NULL);
         ft_bzero(elements.map, sizeof(t_map));
+
     }
 
     return (&elements);
 }
 
+void    print_map(t_elements *element)
+{
+    int i;
+
+    i = 0;
+    printf("start\n");
+    while(i < element->map->rows)
+    {
+        printf("%s\n", element->map->map[i]);
+        i++;
+    }
+    printf("end\n");
+}
+
 
 int main(int ac, char ** argv)
 {
+    t_elements  *element;
+
+    element = getter();
     parcing_mn(ac, argv);
-
-
-
+    print_map(element);
+    deb_map();
+    mlx_loop(element->drawing->mlx);
     return (0);
 }
