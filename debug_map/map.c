@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/01 22:38:04 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/07/02 00:53:55 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ void clear_big_image(t_elements *element, int bg_color)
     
     for (i = 0; i < total_pixels; i++)
     {
-        ((unsigned int*)element->drawing->addr)[i] = bg_color;
+        ((unsigned  int *)element->drawing->addr)[i] = bg_color;
     }
 }
 
