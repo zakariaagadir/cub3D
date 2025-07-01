@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/01 18:13:42 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/07/01 22:38:04 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,10 +208,10 @@ void    inisialise_dr(void)
         ft_error_el("malloc\n");
     ft_bzero(element->drawing, sizeof(t_draw));
     element->drawing->mlx = mlx_init();
-    element->drawing->player_img = create_circle_image(element, player_raduis, player_color);
+    // element->drawing->player_img = create_circle_image(element, player_raduis, player_color);<----------------------
     // element->drawing->player_img = mlx_xpm_file_to_image(element->drawing->mlx, "texture/player_deb.xpm", &(int){0}, &(int){0});
     // element->drawing->wall_img = mlx_xpm_file_to_image(element->drawing->mlx, "texture/wall_deb.xpm", &(int){0}, &(int){0});
-    element->drawing->wall_img = create_colored_image(element, window_py, window_px, wall_color);
+    // element->drawing->wall_img = create_colored_image(element, window_py, window_px, wall_color);<---------------------------
     element->drawing->win = mlx_new_window(element->drawing->mlx, element->map->colomns * 16, element->map->rows * 16, "Cub3D");
     element->drawing->big_image = mlx_new_image(element->drawing->mlx, element->map->colomns * 16, element->map->rows * 16);
     element->drawing->addr = mlx_get_data_addr(element->drawing->big_image, &element->drawing->bits_per_pixel, &element->drawing->line_length, &element->drawing->endian);
