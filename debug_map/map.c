@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/30 15:56:09 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/07/01 18:13:42 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,90 +56,147 @@ void    set_up_player(void)
     
 }
 
-void *create_colored_image(t_elements  *element, int width, int height, int color)
+void put_pixel_in_big_image(t_elements *element, int x, int y, int color)
 {
-    void    *img;
-    char    *addr;
-    int     bits_per_pixel;
-    int     line_length;
-    int     endian;
-    int     x, y;
-
-    img = mlx_new_image(element->drawing->mlx, width, height);
-    if (!img)
-        return (NULL);
+    int pixel_offset;
     
-    addr = mlx_get_data_addr(img, &bits_per_pixel, &line_length, &endian);
-    y = 0;
-    while (y < height)
-    {
-        x = 0;
-        while (x < width)
-        {
-            int pixel_offset = (y * line_length) + (x * (bits_per_pixel / 8));
-            *(unsigned int*)(addr + pixel_offset) = color;
-            x++;
-        }
-        y++;
-    }
+    // Check bounds
+    if (x < 0 || x >= element->map->colomns * 16 || 
+        y < 0 || y >= element->map->rows * 16)
+        return;
     
-    return (img);
+    // Calculate pixel position in big image
+    pixel_offset = (y * element->drawing->line_length) + (x * (element->drawing->bits_per_pixel / 8));
+    
+    // Set pixel color in big image
+    *(unsigned int*)(element->drawing->addr + pixel_offset) = color;
 }
 
-void *create_circle_image(t_elements *element, int size, int color)
+void draw_circle_in_big_image(t_elements *element, int center_x, int center_y, int radius, int color)
 {
-    void    *img;
-    char    *addr;
-    int     bits_per_pixel;
-    int     line_length;
-    int     endian;
-    int     x, y;
-    int     center_x, center_y;
-    int     radius;
-    int     distance_squared;
-
-    // Create new image
-    img = mlx_new_image(element->drawing->mlx, size, size);
-    if (!img)
-        return (NULL);
+    int x, y;
+    int distance_squared;
     
-    // Get image data address
-    addr = mlx_get_data_addr(img, &bits_per_pixel, &line_length, &endian);
-    
-    // Calculate circle parameters
-    center_x = size / 2;
-    center_y = size / 2;
-    radius = (size / 2) - 1; // Slightly smaller than the tile
-    
-    // Fill the image with transparent background and yellow circle
-    y = 0;
-    while (y < size)
+    for (y = center_y - radius; y <= center_y + radius; y++)
     {
-        x = 0;
-        while (x < size)
+        for (x = center_x - radius; x <= center_x + radius; x++)
         {
-            // Calculate distance from center
             int dx = x - center_x;
             int dy = y - center_y;
             distance_squared = (dx * dx) + (dy * dy);
             
-            // Calculate pixel position in memory
-            int pixel_offset = (y * line_length) + (x * (bits_per_pixel / 8));
-            
-            // Draw circle
             if (distance_squared <= (radius * radius))
-                *(unsigned int*)(addr + pixel_offset) = color;
-            else
-                *(unsigned int*)(addr + pixel_offset) = 0x00000000; // Transparent
-            x++;
+                put_pixel_in_big_image(element, x, y, color);
         }
-        y++;
     }
-    
-    return (img);
 }
 
+void draw_wall_in_big_image(t_elements *element, int start_x, int start_y, int size, int color)
+{
+    int x, y;
+    
+    for (y = start_y; y < start_y + size; y++)
+    {
+        for (x = start_x; x < start_x + size; x++)
+        {
+            put_pixel_in_big_image(element, x, y, color);
+        }
+    }
+}
 
+// void *create_colored_image(t_elements  *element, int width, int height, int color)
+// {
+//     void    *img;
+//     char    *addr;
+//     int     bits_per_pixel;
+//     int     line_length;
+//     int     endian;
+//     int     x, y;
+
+//     img = mlx_new_image(element->drawing->mlx, width, height);
+//     if (!img)
+//         return (NULL);
+    
+//     addr = mlx_get_data_addr(img, &bits_per_pixel, &line_length, &endian);
+//     y = 0;
+//     while (y < height)
+//     {
+//         x = 0;
+//         while (x < width)
+//         {
+//             int pixel_offset = (y * line_length) + (x * (bits_per_pixel / 8));
+//             *(unsigned int*)(addr + pixel_offset) = color;
+//             x++;
+//         }
+//         y++;
+//     }
+    
+//     return (img);
+// }
+
+// void *create_circle_image(t_elements *element, int size, int color)
+// {
+//     void    *img;
+//     char    *addr;
+//     int     bits_per_pixel;
+//     int     line_length;
+//     int     endian;
+//     int     x, y;
+//     int     center_x, center_y;
+//     int     radius;
+//     int     distance_squared;
+
+//     // Create new image
+//     img = mlx_new_image(element->drawing->mlx, size, size);
+//     if (!img)
+//         return (NULL);
+    
+//     // Get image data address
+//     addr = mlx_get_data_addr(img, &bits_per_pixel, &line_length, &endian);
+    
+//     // Calculate circle parameters
+//     center_x = size / 2;
+//     center_y = size / 2;
+//     radius = (size / 2) - 1; // Slightly smaller than the tile
+    
+//     // Fill the image with transparent background and yellow circle
+//     y = 0;
+//     while (y < size)
+//     {
+//         x = 0;
+//         while (x < size)
+//         {
+//             // Calculate distance from center
+//             int dx = x - center_x;
+//             int dy = y - center_y;
+//             distance_squared = (dx * dx) + (dy * dy);
+            
+//             // Calculate pixel position in memory
+//             int pixel_offset = (y * line_length) + (x * (bits_per_pixel / 8));
+            
+//             // Draw circle
+//             if (distance_squared <= (radius * radius))
+//                 *(unsigned int*)(addr + pixel_offset) = color;
+//             else
+//                 *(unsigned int*)(addr + pixel_offset) = 0x00000000; // Transparent
+//             x++;
+//         }
+//         y++;
+//     }
+    
+//     return (img);
+// }
+
+void clear_big_image(t_elements *element, int bg_color)
+{
+    int total_pixels = (element->map->colomns * 16) * (element->map->rows * 16);
+    int i;
+    
+    for (i = 0; i < total_pixels; i++)
+    {
+        ((unsigned int*)element->drawing->addr)[i] = bg_color;
+    }
+}
 
 void    inisialise_dr(void)
 {
@@ -156,6 +213,8 @@ void    inisialise_dr(void)
     // element->drawing->wall_img = mlx_xpm_file_to_image(element->drawing->mlx, "texture/wall_deb.xpm", &(int){0}, &(int){0});
     element->drawing->wall_img = create_colored_image(element, window_py, window_px, wall_color);
     element->drawing->win = mlx_new_window(element->drawing->mlx, element->map->colomns * 16, element->map->rows * 16, "Cub3D");
+    element->drawing->big_image = mlx_new_image(element->drawing->mlx, element->map->colomns * 16, element->map->rows * 16);
+    element->drawing->addr = mlx_get_data_addr(element->drawing->big_image, &element->drawing->bits_per_pixel, &element->drawing->line_length, &element->drawing->endian);
 }
 
 void render_frame(void)
@@ -166,6 +225,7 @@ void render_frame(void)
     int j;
     
     i = 0;
+    clear_big_image(element, 0x00000000);
     while(i < element->map->rows)
     {
         j = 0;
@@ -173,13 +233,14 @@ void render_frame(void)
         {
             if (map[i][j] == '1')
             {
-                mlx_put_image_to_window(element->drawing->mlx, element->drawing->win, element->drawing->wall_img, j * 16, i * 16);
+                draw_wall_in_big_image(element, j * 16, i * 16, 16, wall_color);
             }
             j++;
         }
         i++;
     }
-    mlx_put_image_to_window(element->drawing->mlx, element->drawing->win, element->drawing->player_img, element->player->px, element->player->py);
+    draw_circle_in_big_image(element, element->player->px + (player_raduis / 2), element->player->py + (player_raduis / 2), player_raduis / 2, player_color);
+    mlx_put_image_to_window(element->drawing->mlx, element->drawing->win, element->drawing->big_image, 0, 0);
 }
 
 

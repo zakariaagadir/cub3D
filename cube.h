@@ -47,7 +47,12 @@ typedef struct s_draw
 {
     void    *mlx;
     void    *win;
+    char    *addr;
+    int     bits_per_pixel;
+    int     line_length;
+    int     endian;
     void    *wall_img;
+    void    *big_image;
     void    *player_img;
 }t_draw;
 
