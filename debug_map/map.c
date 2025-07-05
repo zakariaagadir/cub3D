@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/27 15:07:41 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/07/05 10:18:55 by abifkirn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void    set_up_player(void)
     map = element->map->map;
     i = 0;
     if (!map)
-        ft_error_el("mrid f krk\n");
+        ft_error_el("mrid f krk\n"); // hatid a mounji hiydst mn be3d hhh
     while (i < element->map->rows)
     {
         j = 0;
@@ -36,7 +36,7 @@ void    set_up_player(void)
                     ft_error("one player\n");
                 element->player = malloc(sizeof(t_player));
                 if (!element->player)
-                    ft_error_el("mallo\n");
+                    ft_error_el("malloc\n");
                 ft_bzero(element->player, sizeof(t_player));
                 element->player->direction = malloc(2);
                 if (!element->player->direction)
