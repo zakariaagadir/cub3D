@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/05 07:23:18 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/07/05 07:37:36 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,6 @@ void draw_up_ray(t_elements *e)
             break;
         pixel_offset = (y * e->drawing->line_length) + ((x + (player_raduis / 2)) * (e->drawing->bits_per_pixel / 8));
         *(unsigned int*)(e->drawing->addr + pixel_offset) = 0x00FFFF00;
-        // mlx_pixel_put(e->drawing->mlx, e->drawing->win, x, y, 0x00FFFF00);
         y--;
     }
 }
@@ -273,16 +272,16 @@ int    handle_keypress(int key_press, t_elements *element)
     x = element->player->px;
     y = element->player->py;
     map = element->map->map;
-    if (key_press == 119 && map[(int)((y - MOVE_SPEED) / window_py)][x / window_px] !='1')
+    if (key_press == 119 && map[(int)((y - MOVE_SPEED ) / window_py)][(x + player_raduis)/ window_px] !='1' && map[(int)((y - MOVE_SPEED) / window_py)][x / window_px] !='1')
     {
         element->player->py -=  MOVE_SPEED;
     }else if (key_press == 97 &&  map[y / window_py][(int)((x - MOVE_SPEED) / window_px)] !='1' &&  map[(y + player_raduis) / window_py][(int)((x - MOVE_SPEED) / window_px)] !='1')
     {
         element->player->px -=  MOVE_SPEED;
-    }else if (key_press == 115 && map[(int)((y + MOVE_SPEED + player_raduis) / window_py)][x / window_px] !='1' && map[(int)((y + MOVE_SPEED + player_raduis) / window_py)][(x + player_raduis) / window_px] !='1')
+    }else if (key_press == 115 && map[(int)((y + MOVE_SPEED + player_raduis) / window_py)][x / window_px] !='1' && map[(int)((y) / window_py)][(x + player_raduis) / window_px] !='1' && map[(int)((y + MOVE_SPEED + player_raduis) / window_py)][(x + player_raduis) / window_px] !='1')
     {
         element->player->py +=  MOVE_SPEED ;
-    }else if (key_press == 100 && map[(y + player_raduis)/ window_py][(int)((x + MOVE_SPEED) / window_px)] !='1' && map[(y + player_raduis)/ window_py][(int)((x + MOVE_SPEED + player_raduis) / window_px)] !='1')
+    }else if (key_press == 100 && map[(y)/ window_py][(int)((x + MOVE_SPEED) / window_px)] !='1' && map[(y + player_raduis)/ window_py][(int)((x + MOVE_SPEED) / window_px)] !='1'  && map[(y)/ window_py][(int)((x + MOVE_SPEED + player_raduis) / window_px)] !='1'  && map[(y + player_raduis)/ window_py][(int)((x + MOVE_SPEED + player_raduis) / window_px)] !='1')
     {
         element->player->px +=  MOVE_SPEED;
     }
