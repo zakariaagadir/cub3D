@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/05 09:09:11 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/07/05 09:21:48 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,7 +288,7 @@ void render_frame(void)
     draw_circle_in_big_image(element, element->player->px + (player_raduis / 2), element->player->py + (player_raduis / 2), player_raduis / 2, player_color);
     draw_up_ray(element);
     i = 0;
-    while (i < 20)
+    while (i < 99)
     {
         draw_oblique_ray(element, alpha - (alpha / (alpha + i)));
         i++;
