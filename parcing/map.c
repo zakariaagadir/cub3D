@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:13:34 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/22 15:28:41 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/06/26 21:12:34 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,12 @@ char	*ft_strnext( char *haystack, const char *needle)
 int extruct_elements(char *line)
 {
     int             i;
+    int             col;
     char            *str;
+    char            **s_ar;
     t_elements      *element;
     
-    printf("start \n");
+    // printf("start \n");
     i = 0;
     str = NULL;
     element = getter();
@@ -78,13 +80,49 @@ int extruct_elements(char *line)
     {
         str = ft_strnext(line, "F");
         if (str && element->f)
-            ft_error_el ("elements was duplicated");
+        {
+            printf("--> %s :---> %zu", str, ft_strlen(str));
+            ft_error_el ("elements was duplicated ************\n");
+        }
+        if (str)
+        {
+            // printf("me\n");
+            element->f = malloc(sizeof(t_color));
+            if (!element->f)
+                ft_error_el("can not allocat");
+            ft_bzero(element->f, sizeof(t_color));
+            s_ar = ft_split(str, ',');
+            col = 0;
+            while (s_ar[col])
+                col++;
+            if(col != 3)
+                ft_error_el("argument of coloro argb not correct\n");
+            element->f->a = ft_atoi(s_ar[0]);
+            element->f->b = ft_atoi(s_ar[1]);
+            element->f->c = ft_atoi(s_ar[2]);
+        }
     }
     if (!str)
     {
         str = ft_strnext(line, "C");
         if (str && element->c)
-            ft_error_el ("elements was duplicated");
+            ft_error_el ("elements was duplicated  -------\n");
+        if (str)
+        {
+            element->c = malloc(sizeof(t_color));
+            if (!element->c)
+                ft_error_el("can not allocat");
+            ft_bzero(element->c, sizeof(t_color));
+            s_ar = ft_split(str, ',');
+            col = 0;
+            while (s_ar[col])
+                col++;
+            if(col != 3)
+                ft_error_el("argument of coloro argb not correct\n");
+            element->c->a = ft_atoi(s_ar[0]);
+            element->c->b = ft_atoi(s_ar[1]);
+            element->c->c = ft_atoi(s_ar[2]);
+        }
     }
     while (!str && line && line[i])
     {
@@ -92,7 +130,50 @@ int extruct_elements(char *line)
             ft_error_el("invalide character\n");
         i++;   
     }
-    printf("end \n");
+    // printf("end \n");
+    return (str != NULL);
+}
+
+
+
+int extruct_them(char *line)
+{
+    int             i;
+    char            *str;
+    t_elements      *element;
+    
+    // printf("start \n");
+    i = 0;
+    str = NULL;
+    element = getter();
+    str = ft_strnext(line, "NO");
+    if (!str)
+    {
+        str = ft_strnext(line, "SO");
+    }
+    if (!str)
+    {
+        str = ft_strnext(line, "WE");
+    }
+    if (!str)
+    {
+        str = ft_strnext(line, "EA");
+    }
+    if (!str)
+    {
+        str = ft_strnext(line, "F");
+    }
+    if (!str)
+    {
+        str = ft_strnext(line, "C");
+    }
+    while (!str && line && line[i])
+    {
+        if (line[i] != ' ')
+            ft_error_el("invalide character\n");
+        i++;   
+    }
+    // printf("end \n");
     return (str != NULL);
 }
 
@@ -104,6 +185,9 @@ void    map(char **argv)
     int     fd;
     int     number;
     char    *line;
+    t_elements  *element;
+
+    element = getter();
 
     fd = open (argv[1], O_RDONLY,0644);
     line = NULL;
@@ -111,7 +195,7 @@ void    map(char **argv)
     number = 0;
     while (line && (number < 6))
     {
-        printf(" ------> %s \n", line);
+        // printf(" ------> %s \n", line);
         number += extruct_elements(line);
         free (line);
         line = NULL;
@@ -121,6 +205,7 @@ void    map(char **argv)
         ft_error_el("element or more are absents");
     start_map(line, fd);
     upload_map(argv);
-    
+    cheack_map();
+    // deb_map();
     
 }
