@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/02 00:53:55 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/07/05 07:23:18 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,26 @@ void    inisialise_dr(void)
     element->drawing->addr = mlx_get_data_addr(element->drawing->big_image, &element->drawing->bits_per_pixel, &element->drawing->line_length, &element->drawing->endian);
 }
 
+void draw_up_ray(t_elements *e)
+{
+    int x = (int)e->player->px;
+    int y = (int)e->player->py;
+    int pixel_offset;
+
+    while (y > 0)
+    {
+        int grid_y = (y / window_py);
+        int grid_x = (x / window_px);
+
+        if (e->map->map[grid_y][grid_x] == '1')
+            break;
+        pixel_offset = (y * e->drawing->line_length) + ((x + (player_raduis / 2)) * (e->drawing->bits_per_pixel / 8));
+        *(unsigned int*)(e->drawing->addr + pixel_offset) = 0x00FFFF00;
+        // mlx_pixel_put(e->drawing->mlx, e->drawing->win, x, y, 0x00FFFF00);
+        y--;
+    }
+}
+
 void render_frame(void)
 {
     t_elements *element = getter();
@@ -240,9 +260,37 @@ void render_frame(void)
         i++;
     }
     draw_circle_in_big_image(element, element->player->px + (player_raduis / 2), element->player->py + (player_raduis / 2), player_raduis / 2, player_color);
+    draw_up_ray(element);
     mlx_put_image_to_window(element->drawing->mlx, element->drawing->win, element->drawing->big_image, 0, 0);
 }
 
+int    handle_keypress(int key_press, t_elements *element)
+{
+    int x;
+    int y;
+    char    **map;
+
+    x = element->player->px;
+    y = element->player->py;
+    map = element->map->map;
+    if (key_press == 119 && map[(int)((y - MOVE_SPEED) / window_py)][x / window_px] !='1')
+    {
+        element->player->py -=  MOVE_SPEED;
+    }else if (key_press == 97 &&  map[y / window_py][(int)((x - MOVE_SPEED) / window_px)] !='1' &&  map[(y + player_raduis) / window_py][(int)((x - MOVE_SPEED) / window_px)] !='1')
+    {
+        element->player->px -=  MOVE_SPEED;
+    }else if (key_press == 115 && map[(int)((y + MOVE_SPEED + player_raduis) / window_py)][x / window_px] !='1' && map[(int)((y + MOVE_SPEED + player_raduis) / window_py)][(x + player_raduis) / window_px] !='1')
+    {
+        element->player->py +=  MOVE_SPEED ;
+    }else if (key_press == 100 && map[(y + player_raduis)/ window_py][(int)((x + MOVE_SPEED) / window_px)] !='1' && map[(y + player_raduis)/ window_py][(int)((x + MOVE_SPEED + player_raduis) / window_px)] !='1')
+    {
+        element->player->px +=  MOVE_SPEED;
+    }
+    element->player->x = (int)(element->player->px / window_px);
+    element->player->y = (int)(element->player->py / window_py);
+    render_frame ();
+    return (0);
+}
 
 
 void    deb_map(void)
@@ -256,4 +304,5 @@ void    deb_map(void)
     printf("player her --> x=%d , y=%d\n",element->player->x, element->player->y);
     inisialise_dr();
     render_frame();
+    mlx_hook(element->drawing->win, 2, 1L<<0, handle_keypress, element);
 }

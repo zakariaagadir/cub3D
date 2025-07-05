@@ -16,6 +16,8 @@
 #define wall_color 0x00FF0000
 #define player_color 0x00FFFF00
 #define player_raduis 7
+#define MOVE_SPEED 4
+#define PI 3.14285714286
 
 
 typedef struct s_color
@@ -37,9 +39,9 @@ typedef struct s_map
 typedef struct s_player
 {
     int x;
-    int px;
+    float px;
     int y;
-    int py;
+    float py;
     char    *direction;
 }t_player;
 
@@ -71,6 +73,9 @@ typedef struct s_elements
 
 
 void        parcing_mn(int ac, char **argv);
+void        render_frame(void);
+void        inisialise_dr(void);
+void        clear_big_image(t_elements *element, int bg_color);
 void        map(char **argv);
 int         copy_map(char *line, int fd);
 int         upload_map(char **argv);
