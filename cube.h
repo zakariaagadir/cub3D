@@ -10,6 +10,7 @@
 # include <X11/keysym.h>
 # include <mlx.h>
 #include <sys/wait.h>
+#include <math.h>
 
 #define window_px 16
 #define window_py 16
@@ -18,6 +19,7 @@
 #define player_raduis 7
 #define MOVE_SPEED 4
 #define PI 3.14285714286
+#define alpha (PI/2 - PI/8)
 
 
 typedef struct s_color

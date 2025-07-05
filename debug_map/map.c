@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/05 07:37:36 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/07/05 09:09:11 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,33 @@ void    inisialise_dr(void)
     element->drawing->addr = mlx_get_data_addr(element->drawing->big_image, &element->drawing->bits_per_pixel, &element->drawing->line_length, &element->drawing->endian);
 }
 
+void draw_oblique_ray(t_elements *e, double angle)
+{
+    double x = e->player->px + (player_raduis / 2);
+    double y = e->player->py + (player_raduis / 2);
+    double step = 0;
+    int pixel_offset;
+
+    while (1)
+    {
+        double ray_x = x + cos(angle) * step;
+        double ray_y = y - sin(angle) * step; // minus because up is y--
+
+        int grid_x = (int)(ray_x / window_px);
+        int grid_y = (int)(ray_y / window_py);
+
+        if (grid_y < 0 || grid_x < 0 || grid_y >= e->map->rows || grid_x >= e->map->colomns)
+            break;
+        if (e->map->map[grid_y][grid_x] == '1')
+            break;
+        pixel_offset = ((int)ray_y * e->drawing->line_length) + ((int)ray_x * (e->drawing->bits_per_pixel / 8));
+        *(unsigned int*)(e->drawing->addr + pixel_offset) = 0x00FFFF00;
+
+        step += 1; // increase step size (precision)
+    }
+}
+
+
 void draw_up_ray(t_elements *e)
 {
     int x = (int)e->player->px;
@@ -231,7 +258,7 @@ void draw_up_ray(t_elements *e)
         if (e->map->map[grid_y][grid_x] == '1')
             break;
         pixel_offset = (y * e->drawing->line_length) + ((x + (player_raduis / 2)) * (e->drawing->bits_per_pixel / 8));
-        *(unsigned int*)(e->drawing->addr + pixel_offset) = 0x00FFFF00;
+        *(unsigned int *)(e->drawing->addr + pixel_offset) = 0x00FFFF00;
         y--;
     }
 }
@@ -260,6 +287,12 @@ void render_frame(void)
     }
     draw_circle_in_big_image(element, element->player->px + (player_raduis / 2), element->player->py + (player_raduis / 2), player_raduis / 2, player_color);
     draw_up_ray(element);
+    i = 0;
+    while (i < 20)
+    {
+        draw_oblique_ray(element, alpha - (alpha / (alpha + i)));
+        i++;
+    }
     mlx_put_image_to_window(element->drawing->mlx, element->drawing->win, element->drawing->big_image, 0, 0);
 }
 
