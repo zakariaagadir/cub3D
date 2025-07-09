@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/05 09:21:48 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/07/09 14:37:36 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,11 @@ void draw_oblique_ray(t_elements *e, double angle)
         if (e->map->map[grid_y][grid_x] == '1')
             break;
         pixel_offset = ((int)ray_y * e->drawing->line_length) + ((int)ray_x * (e->drawing->bits_per_pixel / 8));
-        *(unsigned int*)(e->drawing->addr + pixel_offset) = 0x00FFFF00;
+        if ((((y - ray_y) < (window_py) ) && ((y - ray_y) > -(window_py) )) && (((x - ray_x) < (window_px) ) && ((x - ray_x) > -(window_px) )))
+            *(unsigned int*)(e->drawing->addr + pixel_offset) = 0x00FFFF00;
+        else
+            *(unsigned int*)(e->drawing->addr + pixel_offset) = 0x00FF0000;
+        
 
         step += 1; // increase step size (precision)
     }
@@ -248,6 +252,7 @@ void draw_up_ray(t_elements *e)
 {
     int x = (int)e->player->px;
     int y = (int)e->player->py;
+    int y_p = (int)e->player->py;
     int pixel_offset;
 
     while (y > 0)
@@ -258,7 +263,10 @@ void draw_up_ray(t_elements *e)
         if (e->map->map[grid_y][grid_x] == '1')
             break;
         pixel_offset = (y * e->drawing->line_length) + ((x + (player_raduis / 2)) * (e->drawing->bits_per_pixel / 8));
-        *(unsigned int *)(e->drawing->addr + pixel_offset) = 0x00FFFF00;
+        if ((y_p - y) > window_px)
+            *(unsigned int *)(e->drawing->addr + pixel_offset) = 0x00FF0000;
+        else
+            *(unsigned int*)(e->drawing->addr + pixel_offset) = 0x00FFFF00;
         y--;
     }
 }
