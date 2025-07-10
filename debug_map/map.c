@@ -6,12 +6,27 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/09 14:37:36 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/07/10 10:08:08 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
 
+
+void    check_angle(char c)
+{
+    t_elements  *element;
+
+    element = getter();
+    if(c == 'N')
+        element->player->angle = 90;
+    if(c == 'S')
+        element->player->angle = 270;
+    if(c == 'O')
+        element->player->angle = 180;
+    if(c == 'E')
+        element->player->angle = 0;
+}
 
 void    set_up_player(void)
 {
@@ -30,7 +45,7 @@ void    set_up_player(void)
         j = 0;
         while (j < element->map->colomns)
         {
-            if (element->map->map[i][j] == 'N' || element->map->map[i][j] == 'S' || element->map->map[i][j] == 'O' || element->map->map[i][j] == 'e')
+            if (element->map->map[i][j] == 'N' || element->map->map[i][j] == 'S' || element->map->map[i][j] == 'O' || element->map->map[i][j] == 'E')
             {
                 if(element->player)
                     ft_error("one player\n");
@@ -47,6 +62,7 @@ void    set_up_player(void)
                 element->player->px = ((j * window_py) + (window_py / 2));
                 element->player->y = i;
                 element->player->py = ((i * window_py) + (window_px / 2));
+                check_angle(element->map->map[i][j]);
                 element->map->map[i][j] = '0';
             }
             j++;

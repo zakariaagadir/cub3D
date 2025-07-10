@@ -20,6 +20,9 @@
 #define MOVE_SPEED 4
 #define PI 3.14285714286
 #define alpha (PI/2 - PI/8)
+#define KEY_RIGHT 124
+#define KEY_LEFT 123
+#define ROTATION_SPEED 0.05
 
 
 typedef struct s_color
@@ -42,6 +45,7 @@ typedef struct s_player
 {
     int x;
     float px;
+    double angle;
     int y;
     float py;
     char    *direction;
