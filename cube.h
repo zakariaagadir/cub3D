@@ -13,6 +13,7 @@
 #include <math.h>
 
 #define window_px 16
+#define wall_size 16
 #define window_py 16
 #define wall_color 0x00FF0000
 #define player_color 0x00FFFF00

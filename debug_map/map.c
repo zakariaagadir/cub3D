@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/10 10:08:08 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/07/10 11:43:17 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,13 +110,17 @@ void draw_circle_in_big_image(t_elements *element, int center_x, int center_y, i
 void draw_wall_in_big_image(t_elements *element, int start_x, int start_y, int size, int color)
 {
     int x, y;
-    
-    for (y = start_y; y < start_y + size; y++)
+    y = start_y;
+    while(y < (start_y + size))
     {
-        for (x = start_x; x < start_x + size; x++)
+        x = start_x;
+
+        while (x < (start_x + size))
         {
             put_pixel_in_big_image(element, x, y, color);
+            x++;
         }
+        y++;
     }
 }
 
@@ -228,8 +232,8 @@ void    inisialise_dr(void)
     // element->drawing->player_img = mlx_xpm_file_to_image(element->drawing->mlx, "texture/player_deb.xpm", &(int){0}, &(int){0});
     // element->drawing->wall_img = mlx_xpm_file_to_image(element->drawing->mlx, "texture/wall_deb.xpm", &(int){0}, &(int){0});
     // element->drawing->wall_img = create_colored_image(element, window_py, window_px, wall_color);<---------------------------
-    element->drawing->win = mlx_new_window(element->drawing->mlx, element->map->colomns * 16, element->map->rows * 16, "Cub3D");
-    element->drawing->big_image = mlx_new_image(element->drawing->mlx, element->map->colomns * 16, element->map->rows * 16);
+    element->drawing->win = mlx_new_window(element->drawing->mlx, element->map->colomns * window_px, element->map->rows * window_py, "Cub3D");
+    element->drawing->big_image = mlx_new_image(element->drawing->mlx, element->map->colomns * window_px, element->map->rows * window_py);
     element->drawing->addr = mlx_get_data_addr(element->drawing->big_image, &element->drawing->bits_per_pixel, &element->drawing->line_length, &element->drawing->endian);
 }
 
@@ -266,24 +270,30 @@ void draw_oblique_ray(t_elements *e, double angle)
 
 void draw_up_ray(t_elements *e)
 {
-    int x = (int)e->player->px;
-    int y = (int)e->player->py;
-    int y_p = (int)e->player->py;
+    double x = e->player->px;
+    double y = e->player->py;
+    int y_p = sin(e->player->angle) * y;
     int pixel_offset;
+    // double speed = 1.0;
+    double dx = cos(e->player->angle) + sin(e->player->angle);
+    double dy = sin(e->player->angle);
 
-    while (y > 0)
+    while (1)
     {
+
         int grid_y = (y / window_py);
         int grid_x = (x / window_px);
 
         if (e->map->map[grid_y][grid_x] == '1')
             break;
         pixel_offset = (y * e->drawing->line_length) + ((x + (player_raduis / 2)) * (e->drawing->bits_per_pixel / 8));
-        if ((y_p - y) > window_px)
+        if ((y - y_p) > window_px)
             *(unsigned int *)(e->drawing->addr + pixel_offset) = 0x00FF0000;
         else
             *(unsigned int*)(e->drawing->addr + pixel_offset) = 0x00FFFF00;
-        y--;
+        x += dx;
+        y += dy;
+        y_p--;
     }
 }
 
@@ -303,7 +313,7 @@ void render_frame(void)
         {
             if (map[i][j] == '1')
             {
-                draw_wall_in_big_image(element, j * 16, i * 16, 16, wall_color);
+                draw_wall_in_big_image(element, j * window_px, i * window_px, wall_size, wall_color);
             }
             j++;
         }
