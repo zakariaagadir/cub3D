@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/12 05:29:53 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/07/12 05:46:28 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,7 +247,7 @@ void draw_oblique_ray(t_elements *e, double angle)
     while (1)
     {
         double ray_x = x + cos(angle) * step;
-        double ray_y = y - sin(angle) * step; // minus because up is y--
+        double ray_y = y - sin(angle) * step;
 
         int grid_x = (int)(ray_x / window_px);
         int grid_y = (int)(ray_y / window_py);
@@ -263,14 +263,13 @@ void draw_oblique_ray(t_elements *e, double angle)
             *(unsigned int*)(e->drawing->addr + pixel_offset) = 0x00FF0000;
         
 
-        step += 1; // increase step size (precision)
+        step += 1;
     }
 }
 
 
-void draw_up_ray(t_elements *e)
+void draw_up_ray(t_elements *e, double angle)
 {
-    double  angle = e->player->angle;
     double x = e->player->px + (player_raduis / 2);
     double y = e->player->py + (player_raduis / 2);
     double dx = cos(angle) * 0.05;
@@ -281,20 +280,16 @@ void draw_up_ray(t_elements *e)
         int map_x = (int)(x / window_px);
         int map_y = (int)(y / window_py);
 
-        // Stop if we go out of bounds
         if (map_y < 0 || map_y >= e->map->rows || map_x < 0 || map_x >= e->map->colomns)
             break;
 
-        // Stop if we hit a wall
         if (e->map->map[map_y][map_x] == '1')
             break;
 
-        // Draw pixel (make sure x and y are integers)
         int pixel_offset = ((int)y * e->drawing->line_length) + ((int)x * (e->drawing->bits_per_pixel / 8));
         if (pixel_offset >= 0 && pixel_offset < (e->drawing->line_length * window_py * e->map->rows))
             *(unsigned int*)(e->drawing->addr + pixel_offset) = 0x00FF00; // Green ray
 
-        // Move along the ray
         x += dx;
         y -= dy;
     }
@@ -304,7 +299,11 @@ void draw_up_ray(t_elements *e)
 void render_frame(void)
 {
     t_elements *element = getter();
+    double  angle = element->player->angle;
     char **map = element->map->map;
+    int num_rays = window_px;
+    double angle_step = (VIEW) / num_rays;
+     double start_angle = element->player->angle - ((VIEW) / 2);
     int i;
     int j;
     
@@ -324,7 +323,12 @@ void render_frame(void)
         i++;
     }
     draw_circle_in_big_image(element, element->player->px + (player_raduis / 2), element->player->py + (player_raduis / 2), player_raduis / 2, player_color);
-    draw_up_ray(element);
+    draw_up_ray(element, angle);
+    for (int i = 0; i < num_rays; i++)
+    {
+        double ray_angle = start_angle + i * angle_step;
+        draw_up_ray(element, ray_angle); // <-- Same function as before
+    }
     // i = 0;
     // while (i < 99)
     // {

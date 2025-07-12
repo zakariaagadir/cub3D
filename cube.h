@@ -20,6 +20,7 @@
 #define player_raduis 18
 #define MOVE_SPEED 4
 #define PI 3.14285714286
+#define VIEW PI/6
 #define alpha (PI/2 - PI/8)
 #define KEY_RIGHT 65363
 #define W 119
