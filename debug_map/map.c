@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/10 11:43:17 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/07/12 05:29:53 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void put_pixel_in_big_image(t_elements *element, int x, int y, int color)
     int pixel_offset;
     
     // Check bounds
-    if (x < 0 || x >= element->map->colomns * 16 || 
-        y < 0 || y >= element->map->rows * 16)
+    if (x < 0 || x >= element->map->colomns * window_px || 
+        y < 0 || y >= element->map->rows * window_py)
         return;
     
     // Calculate pixel position in big image
@@ -209,7 +209,7 @@ void draw_wall_in_big_image(t_elements *element, int start_x, int start_y, int s
 
 void clear_big_image(t_elements *element, int bg_color)
 {
-    int total_pixels = (element->map->colomns * 16) * (element->map->rows * 16);
+    int total_pixels = (element->map->colomns * window_px) * (element->map->rows * window_py);
     int i;
     
     for (i = 0; i < total_pixels; i++)
@@ -270,32 +270,36 @@ void draw_oblique_ray(t_elements *e, double angle)
 
 void draw_up_ray(t_elements *e)
 {
-    double x = e->player->px;
-    double y = e->player->py;
-    int y_p = sin(e->player->angle) * y;
-    int pixel_offset;
-    // double speed = 1.0;
-    double dx = cos(e->player->angle) + sin(e->player->angle);
-    double dy = sin(e->player->angle);
+    double  angle = e->player->angle;
+    double x = e->player->px + (player_raduis / 2);
+    double y = e->player->py + (player_raduis / 2);
+    double dx = cos(angle) * 0.05;
+    double dy = sin(angle) * 0.05;
 
     while (1)
     {
+        int map_x = (int)(x / window_px);
+        int map_y = (int)(y / window_py);
 
-        int grid_y = (y / window_py);
-        int grid_x = (x / window_px);
-
-        if (e->map->map[grid_y][grid_x] == '1')
+        // Stop if we go out of bounds
+        if (map_y < 0 || map_y >= e->map->rows || map_x < 0 || map_x >= e->map->colomns)
             break;
-        pixel_offset = (y * e->drawing->line_length) + ((x + (player_raduis / 2)) * (e->drawing->bits_per_pixel / 8));
-        if ((y - y_p) > window_px)
-            *(unsigned int *)(e->drawing->addr + pixel_offset) = 0x00FF0000;
-        else
-            *(unsigned int*)(e->drawing->addr + pixel_offset) = 0x00FFFF00;
+
+        // Stop if we hit a wall
+        if (e->map->map[map_y][map_x] == '1')
+            break;
+
+        // Draw pixel (make sure x and y are integers)
+        int pixel_offset = ((int)y * e->drawing->line_length) + ((int)x * (e->drawing->bits_per_pixel / 8));
+        if (pixel_offset >= 0 && pixel_offset < (e->drawing->line_length * window_py * e->map->rows))
+            *(unsigned int*)(e->drawing->addr + pixel_offset) = 0x00FF00; // Green ray
+
+        // Move along the ray
         x += dx;
-        y += dy;
-        y_p--;
+        y -= dy;
     }
 }
+
 
 void render_frame(void)
 {
@@ -321,12 +325,12 @@ void render_frame(void)
     }
     draw_circle_in_big_image(element, element->player->px + (player_raduis / 2), element->player->py + (player_raduis / 2), player_raduis / 2, player_color);
     draw_up_ray(element);
-    i = 0;
-    while (i < 99)
-    {
-        draw_oblique_ray(element, alpha - (alpha / (alpha + i)));
-        i++;
-    }
+    // i = 0;
+    // while (i < 99)
+    // {
+    //     draw_oblique_ray(element, alpha - (alpha / (alpha + i)));
+    //     i++;
+    // }
     mlx_put_image_to_window(element->drawing->mlx, element->drawing->win, element->drawing->big_image, 0, 0);
 }
 
@@ -339,18 +343,24 @@ int    handle_keypress(int key_press, t_elements *element)
     x = element->player->px;
     y = element->player->py;
     map = element->map->map;
-    if (key_press == 119 && map[(int)((y - MOVE_SPEED ) / window_py)][(x + player_raduis)/ window_px] !='1' && map[(int)((y - MOVE_SPEED) / window_py)][x / window_px] !='1')
+    if (key_press == W && map[(int)((y - MOVE_SPEED ) / window_py)][(x + player_raduis)/ window_px] !='1' && map[(int)((y - MOVE_SPEED) / window_py)][x / window_px] !='1')
     {
         element->player->py -=  MOVE_SPEED;
-    }else if (key_press == 97 &&  map[y / window_py][(int)((x - MOVE_SPEED) / window_px)] !='1' &&  map[(y + player_raduis) / window_py][(int)((x - MOVE_SPEED) / window_px)] !='1')
+    }else if (key_press == A &&  map[y / window_py][(int)((x - MOVE_SPEED) / window_px)] !='1' &&  map[(y + player_raduis) / window_py][(int)((x - MOVE_SPEED) / window_px)] !='1')
     {
         element->player->px -=  MOVE_SPEED;
-    }else if (key_press == 115 && map[(int)((y + MOVE_SPEED + player_raduis) / window_py)][x / window_px] !='1' && map[(int)((y) / window_py)][(x + player_raduis) / window_px] !='1' && map[(int)((y + MOVE_SPEED + player_raduis) / window_py)][(x + player_raduis) / window_px] !='1')
+    }else if (key_press == S && map[(int)((y + MOVE_SPEED + player_raduis) / window_py)][x / window_px] !='1' && map[(int)((y) / window_py)][(x + player_raduis) / window_px] !='1' && map[(int)((y + MOVE_SPEED + player_raduis) / window_py)][(x + player_raduis) / window_px] !='1')
     {
         element->player->py +=  MOVE_SPEED ;
-    }else if (key_press == 100 && map[(y)/ window_py][(int)((x + MOVE_SPEED) / window_px)] !='1' && map[(y + player_raduis)/ window_py][(int)((x + MOVE_SPEED) / window_px)] !='1'  && map[(y)/ window_py][(int)((x + MOVE_SPEED + player_raduis) / window_px)] !='1'  && map[(y + player_raduis)/ window_py][(int)((x + MOVE_SPEED + player_raduis) / window_px)] !='1')
+    }else if (key_press == D && map[(y)/ window_py][(int)((x + MOVE_SPEED) / window_px)] !='1' && map[(y + player_raduis)/ window_py][(int)((x + MOVE_SPEED) / window_px)] !='1'  && map[(y)/ window_py][(int)((x + MOVE_SPEED + player_raduis) / window_px)] !='1'  && map[(y + player_raduis)/ window_py][(int)((x + MOVE_SPEED + player_raduis) / window_px)] !='1')
     {
         element->player->px +=  MOVE_SPEED;
+    }else if (key_press == KEY_LEFT)
+    {
+        element->player->angle -= ROTATION_SPEED;
+    }else if (key_press == KEY_RIGHT)
+    {
+        element->player->angle += ROTATION_SPEED;
     }
     element->player->x = (int)(element->player->px / window_px);
     element->player->y = (int)(element->player->py / window_py);

@@ -12,17 +12,21 @@
 #include <sys/wait.h>
 #include <math.h>
 
-#define window_px 16
-#define wall_size 16
-#define window_py 16
+#define window_px 32
+#define wall_size 32
+#define window_py 32
 #define wall_color 0x00FF0000
 #define player_color 0x00FFFF00
-#define player_raduis 7
+#define player_raduis 18
 #define MOVE_SPEED 4
 #define PI 3.14285714286
 #define alpha (PI/2 - PI/8)
-#define KEY_RIGHT 124
-#define KEY_LEFT 123
+#define KEY_RIGHT 65363
+#define W 119
+#define A 97
+#define S 115
+#define D 100
+#define KEY_LEFT 65361
 #define ROTATION_SPEED 0.05
 
 
