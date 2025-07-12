@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/12 07:00:17 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/07/12 07:03:11 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -352,17 +352,17 @@ void draw_up_ray(t_elements *e, double angle)
 
         if (e->map->map[map_y][map_x] == '1')
             break;
-        if (ray_vertical(x, y, angle) == 1)
-        {
-            // printf("noo\n");
+        // if (ray_vertical(x, y, angle) == 1)
+        // {
+        //     // printf("noo\n");
             
-            break;
-        }
-        if (ray_horizental(x, y, angle) == 1)
-        {
-            // printf("yess\n");
-            break;
-        }
+        //     break;
+        // }
+        // if (ray_horizental(x, y, angle) == 1)
+        // {
+        //     // printf("yess\n");
+        //     break;
+        // }
         int pixel_offset = ((int)y * e->drawing->line_length) + ((int)x * (e->drawing->bits_per_pixel / 8));
         if (pixel_offset >= 0 && pixel_offset < (e->drawing->line_length * window_py * e->map->rows))
             *(unsigned int*)(e->drawing->addr + pixel_offset) = 0x00FF00; // Green ray
@@ -438,10 +438,10 @@ int    handle_keypress(int key_press, t_elements *element)
         element->player->px +=  MOVE_SPEED;
     }else if (key_press == KEY_LEFT)
     {
-        element->player->angle -= ROTATION_SPEED;
+        element->player->angle += ROTATION_SPEED;
     }else if (key_press == KEY_RIGHT)
     {
-        element->player->angle += ROTATION_SPEED;
+        element->player->angle -= ROTATION_SPEED;
     }
     element->player->x = (int)(element->player->px / window_px);
     element->player->y = (int)(element->player->py / window_py);
