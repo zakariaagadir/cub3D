@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/12 07:03:11 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/07/23 22:11:27 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,34 +275,46 @@ int ray_vertical(double x, double y, double angle)
     int     mapx;
     int     mapy;
     map = e->map->map;
+    if (fmod(fabs(angle), PI/2) == 0)
+        return (0);
     double dy = tan(angle);
-    double px = x - e->player->x;
+    double px = x - (e->player->x * window_px);
+    if (px < 0)
+    {
+        px = fabs(px);
+    }
     double sdy = (1-px)*tan(angle);
-    y+=sdy;
+    if (fmod(y , window_py) == 0)
+    {
+        if (sin(angle) < 0)
+        {
+
+            y+=dy;
+        } else
+        {
+            y-=dy;
+            
+        }
+
+    } else
+    {
+        if (sin(angle) < 0)
+        {
+            y+=sdy;
+        } else
+        {
+            y-=sdy;
+        }
+    }
     mapx = (int) x/window_px;
     mapy = (int) y/window_py;
     if (mapy < 0 || mapy >= e->map->rows || mapx < 0 || mapx >= e->map->colomns)
     {
-        printf("heyyyy\n");
         return (1);
     }
-    if (map[mapx][mapy] == '1')
+    if (map[mapy][mapx] == '1')
         return (1);
-    y-=sdy;
-    y+=dy;
-    mapx = (int) x/window_px;
-    mapy = (int) y/window_py;
-    if (mapy < 0 || mapy >= e->map->rows || mapx < 0 || mapx >= e->map->colomns)
-    {
-        return (1);
-    }
-    if (map[mapx][mapy] == '1')
-    {
-        // printf("heyyyy\n");
-        return (1);
-    }
-    return(0);
-    
+    return (0);
 }
 
 int ray_horizental(double x, double y, double angle)
@@ -313,26 +325,43 @@ int ray_horizental(double x, double y, double angle)
     int     mapx;
     int     mapy;
     map = e->map->map;
+    if (fmod(fabs(angle), PI) == 0)
+        return (0);
     double dx = 1/tan(angle);
-    double py = y - e->player->y;
+    double py = y - (e->player->y * window_py);
+    if (py < 0)
+    {
+        py = fabs(py);
+    }
     double sdx = ((1-py)/tan(angle));
-    x+=sdx;
+    if (fmod(x , window_px) == 0)
+    {
+        if (cos(angle) < 0)
+        {
+            x-=dx;
+        } else
+        {
+            x+=dx;
+        }
+
+    } else
+    {
+        if (cos(angle) < 0)
+        {
+            x-=sdx;
+        } else 
+        {
+            x+=sdx;
+
+        }
+    }
     mapx = (int) x/window_px;
     mapy = (int) y/window_py;
     if (mapy < 0 || mapy >= e->map->rows || mapx < 0 || mapx >= e->map->colomns)
         return (1);
-    if (map[mapx][mapy] == '1')
-        return (1);
-    x-=sdx;
-    x+=dx;
-    mapx = (int) x/window_px;
-    mapy = (int) y/window_py;
-    if (mapy < 0 || mapy >= e->map->rows || mapx < 0 || mapx >= e->map->colomns)
-        return (1);
-    if (map[mapx][mapy] == '1')
+    if (map[mapy][mapx] == '1')
         return (1);
     return(0);
-    
 }
 
 void draw_up_ray(t_elements *e, double angle)
@@ -352,21 +381,20 @@ void draw_up_ray(t_elements *e, double angle)
 
         if (e->map->map[map_y][map_x] == '1')
             break;
-        // if (ray_vertical(x, y, angle) == 1)
-        // {
-        //     // printf("noo\n");
+        if (ray_vertical(x, y, angle) == 1)
+        {
+            // printf("noo\n");
             
-        //     break;
-        // }
-        // if (ray_horizental(x, y, angle) == 1)
-        // {
-        //     // printf("yess\n");
-        //     break;
-        // }
+            break;
+        }
+        if (ray_horizental(x, y, angle) == 1)
+        {
+            // printf("yess\n");
+            break;
+        }
         int pixel_offset = ((int)y * e->drawing->line_length) + ((int)x * (e->drawing->bits_per_pixel / 8));
         if (pixel_offset >= 0 && pixel_offset < (e->drawing->line_length * window_py * e->map->rows))
             *(unsigned int*)(e->drawing->addr + pixel_offset) = 0x00FF00; // Green ray
-
         x += dx;
         y -= dy;
     }
