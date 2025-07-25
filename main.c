@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:40:21 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/20 11:17:18 by abifkirn         ###   ########.fr       */
+/*   Updated: 2025/07/25 16:10:15 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ void    print_map(t_elements *element)
         printf("%s\n", element->map->map[i]);
         i++;
     }
+    printf("hey---->%s\n", element->no);
+    printf("hey---->%s\n", element->so);
+    printf("hey---->%s\n", element->we);
+    printf("hey---->%s\n", element->ea);
     printf("end\n");
 }
 

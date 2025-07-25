@@ -161,5 +161,6 @@ int     event_handeler(int code, t_elements *elem);
 void    put_pixel_to_image(t_elements *elem, int x, int y, int color);
 int     is_free(double x, double y, char **map);
 void	draw_mini_map(t_elements *elem);
+char    *extruct_link(char *str);
 
 #endif
