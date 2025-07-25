@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 21:16:13 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/23 22:11:27 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/07/25 15:09:09 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -487,6 +487,7 @@ void    deb_map(void)
     if (!element->player)
         ft_error_el("player not exist\n");
     printf("player her --> x=%d , y=%d\n",element->player->x, element->player->y);
+    printf("zakaria --> %s\n", element->ea);
     inisialise_dr();
     render_frame();
     mlx_hook(element->drawing->win, 2, 1L<<0, handle_keypress, element);
