@@ -12,23 +12,19 @@
 #include <sys/wait.h>
 #include <math.h>
 
-#define window_px 32
-#define wall_size 32
-#define window_py 32
+// #define window_px 16
+// #define window_py 16
 #define wall_color 0x00FF0000
 #define player_color 0x00FFFF00
-#define player_raduis 18
-#define MOVE_SPEED 4
+#define player_raduis 7
+#define MOVE_SPEED 0.05
+#define ROT_SPEED 0.05
 #define PI 3.14285714286
-#define VIEW PI/6
 #define alpha (PI/2 - PI/8)
-#define KEY_RIGHT 65363
-#define W 119
-#define A 97
-#define S 115
-#define D 100
-#define KEY_LEFT 65361
-#define ROTATION_SPEED 0.05
+#define square_size 10
+#define fov PI / 3 //a FOV of 60° in radian
+#define screen_width 800
+#define screen_height 600
 
 
 typedef struct s_color
@@ -46,48 +42,74 @@ typedef struct s_map
     char **map;
 }t_map;
 
+typedef struct s_texture
+{
+	void	*img_ptr;
+	int		*addr;
+	int		width;
+	int		height;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}	t_texture;
+
 
 typedef struct s_player
 {
-    int x;
-    float px;
-    double angle;
-    int y;
-    float py;
-    char    *direction;
-}t_player;
+	double	x;
+	double	y;
+	// int		direction_x;
+	// int		direction_y;
+    // double  plane_x;
+    // double  plane_y;
+    double  angle;
+}	t_player;
 
 typedef struct s_draw
 {
-    void    *mlx;
-    void    *win;
-    char    *addr;
-    int     bits_per_pixel;
-    int     line_length;
-    int     endian;
-    void    *wall_img;
-    void    *big_image;
-    void    *player_img;
+    double  start_angle;
+    double  step_angle;
+    double  ray_angle;
+    double  ray_dir_x;
+    double  ray_dir_y;
+    double  delta_dist_x; // bach tchof bchehal ghatzid bach tfot tail
+    double  delta_dist_y;
+    int		step_x;
+    int		step_y;
+    double  side_dist_x;
+    double  side_dist_y;
+	int		map_x;
+	int		map_y;
+    int     side;
+    int		wall_height;
 }t_draw;
 
 typedef struct s_elements
 {
-    t_draw  *drawing;
+    // t_draw  *drawing;
     char    *no;
     char    *so;
     char    *ea;
     char    *we;
+    void    *mlx;
+    void    *wind;
+    void    *img;
+    char    *addr;
+    int     bits_per_px;
+    int     line_len;
+    int     endian;
+    t_texture   textures[4];
     t_color *f;
     t_color *c;
     t_map   *map;
     t_player    *player;
-}t_elements;
+}   t_elements;
 
 
 void        parcing_mn(int ac, char **argv);
-void        render_frame(void);
-void        inisialise_dr(void);
-void        clear_big_image(t_elements *element, int bg_color);
+// void        render_frame(void);
+// void        inisialise_dr(void);
+// void        clear_big_image(t_elements *element, int bg_color);
 void        map(char **argv);
 int         copy_map(char *line, int fd);
 int         upload_map(char **argv);
@@ -104,15 +126,15 @@ int         extruct_elements(char *line);
 int         extruct_them(char *line);
 void        cheack_map(void);
 void        print_map(t_elements *element);
-void        deb_map(void);
+// void        deb_map(void);
 
 
 //player
-void        set_up_player(void);
-void        deb_map(void);
-void        inisialise_dr(void);
-void        set_up_player(void);
-void        render_frame(void);
+// void        set_up_player(void);
+// void        deb_map(void);
+// void        inisialise_dr(void);
+// void        set_up_player(void);
+// void        render_frame(void);
 // get_next_line
 
 # ifndef BUFFER_SIZE
@@ -132,10 +154,12 @@ void	ft_memcpy(char *s1, char *s2, size_t i);
 // libft
 char	**ft_split(char const *s, char c);
 int     ft_atoi(const char *str);
-
-
-
-
-
+// aimad's part
+void	ray_casting(t_elements *elem);
+void	render(t_elements *elem);
+int     event_handeler(int code, t_elements *elem);
+void    put_pixel_to_image(t_elements *elem, int x, int y, int color);
+int     is_free(double x, double y, char **map);
+void	draw_mini_map(t_elements *elem);
 
 #endif
