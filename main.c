@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:40:21 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/25 16:10:15 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/07/26 16:45:27 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,42 @@ void    print_map(t_elements *element)
         printf("%s\n", element->map->map[i]);
         i++;
     }
-    printf("hey---->%s\n", element->no);
-    printf("hey---->%s\n", element->so);
-    printf("hey---->%s\n", element->we);
-    printf("hey---->%s\n", element->ea);
-    printf("end\n");
 }
 
+void    put_walls(t_elements  *element)
+{
+    char    **map;
+    int     i;
+    int     j;
+    
+    i = 0;
+    map = element->map->map;
+    while (map[i])
+    {
+        j = 0;
+        while (map[i][j])
+        {
+            if(map[i][j] == ' ' || map[i][j] == '0')
+            {
+                if(map[i+1] && map[i+1][j]=='1' && ((i-1) >= 0) && map[i-1][j]=='1')
+                {
+                    map[i][j]='D';
+                }
+                
+            }
+            if(map[i][j] == ' ' || map[i][j] == '0')
+            {
+                if(((j-1) >= 0) && map[i][j-1]=='1' && map[i][j+1] && map[i][j+1]=='1')
+                {
+                    map[i][j]='D';
+                }
+                
+            }
+            j++;
+        }
+        i++;
+    }
+}
 
 int main(int ac, char ** argv)
 {
@@ -50,6 +79,7 @@ int main(int ac, char ** argv)
 
     element = getter();
     parcing_mn(ac, argv);
+    put_walls(element);
     print_map(element);
     // deb_map();
     element->mlx = mlx_init();
