@@ -11,13 +11,13 @@ void	put_pixels(t_elements *elem, int x, int y)
 		color = 0xCCCCCC;
 	else
 		color = 0x333333;
-	while (pixel_y < square_size)
+	while (pixel_y < square_sizey)
 	{
 		pixel_x = 0;
-		while (pixel_x < square_size)
+		while (pixel_x < square_sizex)
 		{
-			put_pixel_to_image(elem, x * square_size + pixel_x,\
-			y *square_size + pixel_y, color);
+			put_pixel_to_image(elem, x * square_sizex + pixel_x,\
+			y *square_sizey + pixel_y, color);
 			pixel_x++;
 		}
 		pixel_y++;
@@ -51,8 +51,8 @@ void	draw_player(t_elements *elem)
 	int	real_y;
 
 	size = 3;
-	real_x = elem->player->x * square_size;
-	real_y = elem->player->y * square_size;
+	real_x = elem->player->x * square_sizex;
+	real_y = elem->player->y * square_sizey;
 	y = -size;
 	while (y <= size)
 	{
@@ -88,7 +88,7 @@ void	cast_multiple_rays(t_elements *elem)
 			ray_y += sin(angle) * step_size;
 			if (elem->map->map[(int)ray_y][(int)ray_x] == '1')
 				break ;
-			put_pixel_to_image(elem, ray_x * square_size, ray_y * square_size, 0x00FFFF);
+			put_pixel_to_image(elem, ray_x * square_sizex, ray_y * square_sizey, 0x00FFFF);
 		}
 		i++;
 	}

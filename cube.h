@@ -17,14 +17,15 @@
 #define wall_color 0x00FF0000
 #define player_color 0x00FFFF00
 #define player_raduis 7
-#define MOVE_SPEED 0.05
+#define MOVE_SPEED 0.5
 #define ROT_SPEED 0.05
 #define PI 3.14285714286
 #define alpha (PI/2 - PI/8)
-#define square_size 10
-#define fov PI / 3 //a FOV of 60° in radian
 #define screen_width 800
 #define screen_height 600
+#define square_sizex (screen_width/150)
+#define square_sizey (screen_height/150)
+#define fov PI / 3 //a FOV of 60° in radian
 
 
 typedef struct s_color
