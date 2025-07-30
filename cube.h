@@ -26,6 +26,14 @@
 #define screen_width 800
 #define screen_height 600
 
+// aimad : it is for drawing mini_map, need it cause of norminette :|
+typedef struct s_mini_map
+{
+    int	start_y;
+	int	start_x;
+	int	end_y;
+	int	end_x;
+}   t_m_map;
 
 typedef struct s_color
 {
