@@ -254,7 +254,7 @@ int	performing_dda(t_draw *draw, t_elements *elem)
 			draw->map_y += draw->step_y;
 			side = 1;
 		}
-		if (elem->map->map[draw->map_y][draw->map_x] == '1')
+		if (elem->map->map[draw->map_y][draw->map_x] == '1' || elem->map->map[draw->map_y][draw->map_x] == 'D')
 			no_wall = 1;
 	}
 	return (side);
@@ -359,7 +359,7 @@ void	start_3d_view(t_elements *elem)
 		drawing(elem, dist, i, draw);
 		i++;
 	}
-}
+} 
 
 void	render(t_elements *elem)
 {
