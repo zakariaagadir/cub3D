@@ -68,6 +68,7 @@ typedef struct s_player
 
 typedef struct s_draw
 {
+    int     door;
     double  start_angle;
     double  step_angle;
     double  ray_angle;
@@ -99,7 +100,7 @@ typedef struct s_elements
     int     bits_per_px;
     int     line_len;
     int     endian;
-    t_texture   textures[4];
+    t_texture   textures[5];
     t_color *f;
     t_color *c;
     t_map   *map;

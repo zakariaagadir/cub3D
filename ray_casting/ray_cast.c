@@ -255,13 +255,23 @@ int	performing_dda(t_draw *draw, t_elements *elem)
 			side = 1;
 		}
 		if (elem->map->map[draw->map_y][draw->map_x] == '1' || elem->map->map[draw->map_y][draw->map_x] == 'D')
+		{
+			if (elem->map->map[draw->map_y][draw->map_x] == 'D')
+				draw->door = 1;
+			else
+				draw->door = 0;
 			no_wall = 1;
+		}
 	}
 	return (side);
 }
 
 t_texture	*get_texture(t_elements *elem, t_draw draw)
 {
+	if(draw.door == 1)
+	{
+		return (&elem->textures[4]);
+	}
 	if (draw.side == 0) // Hit a vertical wall (East or West)
 	{
 		if (draw.ray_dir_x > 0)
@@ -391,8 +401,10 @@ void	load_textures(t_elements *elem)
 		"textures/wall_3.xpm", &elem->textures[2].width, &elem->textures[2].height);
 	elem->textures[3].img_ptr = mlx_xpm_file_to_image(elem->mlx,
 		"textures/wall_4.xpm", &elem->textures[3].width, &elem->textures[3].height);
+	elem->textures[4].img_ptr = mlx_xpm_file_to_image(elem->mlx,
+		"textures/door.xpm", &elem->textures[4].width, &elem->textures[4].height);
 
-	while (i < 4)
+	while (i < 5)
 	{
 		if (!elem->textures[i].img_ptr)
 		{
