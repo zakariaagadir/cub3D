@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:40:21 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/30 12:32:49 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/07/31 15:03:31 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void    put_walls(t_elements  *element)
         {
             if(map[i][j] == '0')
             {
-                if(map[i+1] && map[i+1][j]=='1' && ((i-1) >= 0) && map[i-1][j]=='1' && i != 0 && i != element->map->colomns && j != 0 && j != element->map->colomns && map[i][j+1] != ' ' && (j-1) >= 0 && map[i][j-1] != ' ')
+                if(map[i+1] && map[i+1][j]=='1' && ((i-1) >= 0) && map[i-1][j]=='1' && i != 0 && i != element->map->colomns && j != 0 && j != element->map->colomns && map[i][j+1] != '1' && (j-1) >= 0 && map[i][j-1] != '1')
                 {
                     map[i][j]='D';
                 }
@@ -61,7 +61,7 @@ void    put_walls(t_elements  *element)
             }
             if(map[i][j] == '0')
             {
-                if(((j-1) >= 0) && map[i][j-1]=='1' && map[i][j+1] && map[i][j+1]=='1' && i != 0 && i != element->map->colomns && j != 0 && j != element->map->colomns && map[i+1] && map[i+1][j] != ' ' && (i-1) >= 0 && map[i-1][j] != ' ' )
+                if(((j-1) >= 0) && map[i][j-1]=='1' && map[i][j+1] && map[i][j+1]=='1' && i != 0 && i != element->map->colomns && j != 0 && j != element->map->colomns && map[i+1] && map[i+1][j] != '1' && (i-1) >= 0 && map[i-1][j] != '1' )
                 {
                     map[i][j]='D';
                 }
