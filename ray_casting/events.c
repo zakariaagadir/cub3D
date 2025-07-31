@@ -16,11 +16,10 @@ void	move_forward(t_elements *elem)
 	double new_x = elem->player->x + cos(elem->player->angle) * MOVE_SPEED;
 	double new_y = elem->player->y + sin(elem->player->angle) * MOVE_SPEED;
 
-	if (is_free(new_x, new_y, elem->map->map))
-	{
+	if (is_free(new_x, elem->player->y, elem->map->map))
 		elem->player->x = new_x;
+	if (is_free(elem->player->x, new_y, elem->map->map))
 		elem->player->y = new_y;
-	}
 }
 
 void	move_backward(t_elements *elem)
@@ -28,11 +27,10 @@ void	move_backward(t_elements *elem)
 	double new_x = elem->player->x - cos(elem->player->angle) * MOVE_SPEED;
 	double new_y = elem->player->y - sin(elem->player->angle) * MOVE_SPEED;
 
-	if (is_free(new_x, new_y, elem->map->map))
-	{
+	if (is_free(new_x, elem->player->y, elem->map->map))
 		elem->player->x = new_x;
+	if (is_free(elem->player->x, new_y, elem->map->map))
 		elem->player->y = new_y;
-	}
 }
 
 void	move_left(t_elements *elem)
@@ -41,11 +39,10 @@ void	move_left(t_elements *elem)
 	double new_x = elem->player->x + cos(angle) * MOVE_SPEED;
 	double new_y = elem->player->y + sin(angle) * MOVE_SPEED;
 
-	if (is_free(new_x, new_y, elem->map->map))
-	{
+	if (is_free(new_x, elem->player->y, elem->map->map))
 		elem->player->x = new_x;
+	if (is_free(elem->player->x, new_y, elem->map->map))
 		elem->player->y = new_y;
-	}
 }
 
 void	move_right(t_elements *elem)
@@ -54,11 +51,10 @@ void	move_right(t_elements *elem)
 	double new_x = elem->player->x + cos(angle) * MOVE_SPEED;
 	double new_y = elem->player->y + sin(angle) * MOVE_SPEED;
 
-	if (is_free(new_x, new_y, elem->map->map))
-	{
+	if (is_free(new_x, elem->player->y, elem->map->map))
 		elem->player->x = new_x;
+	if (is_free(elem->player->x, new_y, elem->map->map))
 		elem->player->y = new_y;
-	}
 }
 
 void	rotate_left(t_elements *elem)
@@ -78,7 +74,6 @@ void	rotate_right(t_elements *elem)
 
 int	event_handeler(int code, t_elements *elem)
 {
-	(void) code;
 	if (code == 65361) // Left arrow
 		rotate_left(elem);
 	else if (code == 65363) // Right arrow
