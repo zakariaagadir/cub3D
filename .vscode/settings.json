@@ -1,7 +1,12 @@
 {
+<<<<<<< HEAD
     "files.associations": {
         "bit": "c",
         "map": "c",
         "format": "c"
     }
+=======
+	"C_Cpp.errorSquiggles": "enabled"
+	
+>>>>>>> abifkirn
 }
