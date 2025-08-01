@@ -25,6 +25,14 @@ t_elements *getter(void)
     return (&elements);
 }
 
+
+t_draw	*getter_draw(void)
+{
+    static t_draw	draw;
+
+    return (&draw);
+}
+
 void    print_map(t_elements *element)
 {
     int i;

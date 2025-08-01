@@ -58,7 +58,7 @@ int    upload_map(char **argv)
     int         ismap;
     int         number;
     char        *line;
-    t_elements  *elements;
+    // t_elements  *elements;
 
     fd = open (argv[1], O_RDONLY,0644);
     if (fd < 0)
@@ -67,7 +67,7 @@ int    upload_map(char **argv)
     line = get_next_line(fd);
     number = 0;
     ismap = 0;
-    elements = getter();
+    // elements = getter();
     while (line && (number < 6))
     {
         // printf(" ------> %s \n", line);

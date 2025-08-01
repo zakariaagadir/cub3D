@@ -2,6 +2,7 @@
     "files.associations": {
         "bit": "c",
         "map": "c",
-        "format": "c"
+        "format": "c",
+        "mlx.h": "c"
     }
 }

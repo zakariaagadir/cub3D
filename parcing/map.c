@@ -177,12 +177,12 @@ int extruct_them(char *line)
 {
     int             i;
     char            *str;
-    t_elements      *element;
+    // t_elements      *element;
     
     // printf("start \n");
     i = 0;
     str = NULL;
-    element = getter();
+    // element = getter();
     str = ft_strnext(line, "NO");
     if (!str)
     {
@@ -223,9 +223,9 @@ void    map(char **argv)
     int     fd;
     int     number;
     char    *line;
-    t_elements  *element;
+    // t_elements  *element;
 
-    element = getter();
+    // element = getter();
 
     fd = open (argv[1], O_RDONLY,0644);
     line = NULL;

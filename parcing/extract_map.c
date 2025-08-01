@@ -19,9 +19,9 @@ int start_map(char *line, int fd)
 {
     int             i;
     int             ismap;
-    t_elements      *element;
+    // t_elements      *element;
 
-    element = getter();
+    // element = getter();
     ismap = 0;
    while (line)
    {

@@ -71,6 +71,19 @@ void	rotate_right(t_elements *elem)
 		elem->player->angle -= 2 * PI;
 }
 
+void	oupen_door(t_elements *elem)
+{
+	t_draw	*draw;
+	char	**map;
+
+	draw = getter_draw();
+	map = elem->map->map;
+	if(map[(int)(elem->player->y + draw->step_y)][(int)(elem->player->x)] == 'D')
+		map[(int)(elem->player->y + draw->step_y)][(int)(elem->player->x)] = '0';
+	if(map[(int)(elem->player->y)][(int)(elem->player->x + draw->step_x)] == 'D')
+		map[(int)(elem->player->y) ][(int)(elem->player->x + draw->step_x)] = '0';
+
+}
 
 int	event_handeler(int code, t_elements *elem)
 {
@@ -86,6 +99,8 @@ int	event_handeler(int code, t_elements *elem)
 		move_left(elem);
 	else if (code == 'd')
 		move_right(elem);
+	else if (code == 'o')
+		oupen_door(elem);
 	render(elem);
 	return (0);
 }
