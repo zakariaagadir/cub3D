@@ -27,7 +27,7 @@
 void	put_pixel_to_image(t_elements *elem, int x, int y, int color)
 {
 	char	*dst;
-	if (x < 0 || y < 0 || x >= 800 || y >= 600)
+	if (x < 0 || y < 0 || x >= screen_width || y >= screen_height)
 		return ;
 
 	dst = elem->addr + (y * elem->line_len + x * (elem->bits_per_px / 8));
@@ -262,6 +262,8 @@ int	performing_dda(t_draw *draw, t_elements *elem)
 				draw->door = 0;
 			no_wall = 1;
 		}
+		if (elem->map->map[draw->map_y][draw->map_x] == '1')
+			no_wall = 1;
 	}
 	return (side);
 }
@@ -308,19 +310,35 @@ long get_color(t_elements *elem, t_draw *draw, double dist, int y)
 	double		wallx;
 	int			tex_x;
 	int			tex_y;
-	int			h;
+	int			wall_top, wall_bottom;
+	double		tex_pos;
 
 	textu = get_texture(elem, draw);
+
+	// Find where exactly the wall was hit (fractional position)
 	if (draw->side == 0)
 		wallx = elem->player->y + dist * draw->ray_dir_y;
 	else
 		wallx = elem->player->x + dist * draw->ray_dir_x;
-	wallx -= floor(wallx); // keep only fractional part
+	wallx -= floor(wallx);
+
+	// Compute tex_x based on wall hit location
 	tex_x = (int)(wallx * textu->width);
 	if ((draw->side == 0 && draw->ray_dir_x > 0) || (draw->side == 1 && draw->ray_dir_y < 0))
 		tex_x = textu->width - tex_x - 1;
-	h = y * 256 - screen_height * 128 + draw->wall_height * 128;
-	tex_y = ((h * textu->height) / draw->wall_height) / 256;
+
+	// Compute where we are between wall_top and wall_bottom
+	int wall_height = draw->wall_height;
+	wall_top = (screen_height / 2) - (wall_height / 2);
+	wall_bottom = wall_top + wall_height;
+
+	if (wall_bottom - wall_top != 0)
+	{
+		tex_pos = (double)(y - wall_top) / (wall_bottom - wall_top);
+		tex_y = (int)(tex_pos * textu->height);
+	}
+	else
+		tex_y = 0;
 
 	return (get_texture_pixel(textu, tex_x, tex_y));
 }
@@ -333,13 +351,16 @@ void	drawing(t_elements *elem, double dist, int i, t_draw *draw)
 	long	color;
 
 	draw->wall_height = (int)(screen_height / dist);
+
 	wall_top = (screen_height / 2) - (draw->wall_height / 2);
-	wall_bottom = (screen_height / 2) + (draw->wall_height / 2);
-	y = wall_top;
+	wall_bottom = wall_top + draw->wall_height;
+
 	if (wall_top < 0)
 		wall_top = 0;
 	if (wall_bottom > screen_height)
 		wall_bottom = screen_height;
+
+	y = wall_top;
 	while (y < wall_bottom)
 	{
 		color = get_color(elem, draw, dist, y);
@@ -352,6 +373,7 @@ void	start_3d_view(t_elements *elem)
 {
 	int		i;
 	double	dist;
+	double	dist2;
 	t_draw	*draw;
 
 	draw = getter_draw();
@@ -366,8 +388,9 @@ void	start_3d_view(t_elements *elem)
 			dist = (draw->map_x - elem->player->x + (1 - draw->step_x) / 2.0) / draw->ray_dir_x;
 		else
 			dist = (draw->map_y - elem->player->y + (1 - draw->step_y) / 2.0) / draw->ray_dir_y;
+		dist2 = dist;
 		dist *= cos(draw->ray_angle - elem->player->angle); // fixing fish-eye effect.
-		drawing(elem, dist, i, draw);
+		drawing(elem, dist2, i, draw);
 		i++;
 	}
 } 
@@ -377,11 +400,17 @@ void	render(t_elements *elem)
 	int ceiling_color = (elem->c->a << 16) | (elem->c->b << 8) | elem->c->c;
 	int floor_color = (elem->f->a << 16) | (elem->f->b << 8) | elem->f->c;
 
-	for (int y = 0; y < 600; y++)
+	int y = 0;
+	while (y < screen_height)
 	{
-		int color = (y < 600 / 2) ? ceiling_color : floor_color;
-		for (int x = 0; x < 800; x++)
+		int color = (y < screen_height / 2) ? ceiling_color : floor_color;
+		int x = 0;
+		while (x < screen_width)
+		{
 			put_pixel_to_image(elem, x, y, color);
+			x++;
+		}
+		y++;
 	}
 	start_3d_view(elem);
 	draw_mini_map(elem);
