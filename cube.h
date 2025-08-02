@@ -8,7 +8,8 @@
 #include <stdio.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
-# include "minilibx-linux/mlx.h"
+// # include "minilibx-linux/mlx.h"
+# include <mlx.h>
 #include <sys/wait.h>
 #include <math.h>
 

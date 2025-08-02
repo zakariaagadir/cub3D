@@ -6,7 +6,11 @@ int is_free(double x, double y, char **map)
 	if (map[(int)(y - PLAYER_RADIUS)][(int)(x - PLAYER_RADIUS)] == '1' ||
 		map[(int)(y - PLAYER_RADIUS)][(int)(x + PLAYER_RADIUS)] == '1' ||
 		map[(int)(y + PLAYER_RADIUS)][(int)(x - PLAYER_RADIUS)] == '1' ||
-		map[(int)(y + PLAYER_RADIUS)][(int)(x + PLAYER_RADIUS)] == '1')
+		map[(int)(y + PLAYER_RADIUS)][(int)(x + PLAYER_RADIUS)] == '1' ||
+		map[(int)(y - PLAYER_RADIUS)][(int)(x - PLAYER_RADIUS)] == 'D' ||
+		map[(int)(y - PLAYER_RADIUS)][(int)(x + PLAYER_RADIUS)] == 'D' ||
+		map[(int)(y + PLAYER_RADIUS)][(int)(x - PLAYER_RADIUS)] == 'D' ||
+		map[(int)(y + PLAYER_RADIUS)][(int)(x + PLAYER_RADIUS)] == 'D')
 		return (0);
 	return (1);
 }
