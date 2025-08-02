@@ -18,16 +18,22 @@
 #define wall_color 0x00FF0000
 #define player_color 0x00FFFF00
 #define player_raduis 7
-#define MOVE_SPEED 0.5
+#define MOVE_SPEED 0.05
 #define ROT_SPEED 0.05
 #define PI 3.14285714286
 #define alpha (PI/2 - PI/8)
-#define screen_width 800
-#define screen_height 600
-#define square_sizex (screen_width/150)
-#define square_sizey (screen_height/150)
+#define square_size 10
 #define fov PI / 3 //a FOV of 60° in radian
-
+#define screen_width 1200
+#define screen_height 1000
+// aimad : it is for drawing mini_map, need it cause of norminette :|
+typedef struct s_mini_map
+{
+    int	start_y;
+	int	start_x;
+	int	end_y;
+	int	end_x;
+}   t_m_map;
 
 typedef struct s_color
 {
@@ -166,5 +172,7 @@ void    put_pixel_to_image(t_elements *elem, int x, int y, int color);
 int     is_free(double x, double y, char **map);
 void	draw_mini_map(t_elements *elem);
 char    *extruct_link(char *str);
+void	initalize_draw_elems(t_draw *darw, int i, t_elements *elem);
+int     mouse_move_handler(int x, int y, t_elements *elem);
 
 #endif
