@@ -23,9 +23,8 @@
 #define alpha (PI/2 - PI/8)
 #define square_size 10
 #define fov PI / 3 //a FOV of 60° in radian
-#define screen_width 800
-#define screen_height 600
-
+#define screen_width 1200
+#define screen_height 1000
 // aimad : it is for drawing mini_map, need it cause of norminette :|
 typedef struct s_mini_map
 {
@@ -169,5 +168,7 @@ int     event_handeler(int code, t_elements *elem);
 void    put_pixel_to_image(t_elements *elem, int x, int y, int color);
 int     is_free(double x, double y, char **map);
 void	draw_mini_map(t_elements *elem);
+void	initalize_draw_elems(t_draw *darw, int i, t_elements *elem);
+int     mouse_move_handler(int x, int y, t_elements *elem);
 
 #endif
