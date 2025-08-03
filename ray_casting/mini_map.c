@@ -18,6 +18,7 @@ void put_pixels(t_elements *elem, int x, int y)
 	draw_y = (offset_y * MINIMAP_TILE_SIZE) + MINIMAP_SIZE / 2;
 
 	color = (elem->map->map[y][x] == '1') ? 0xCCCCCC : 0x333333;
+	color = (elem->map->map[y][x] == 'D') ? 0xAAAAAA : color;
 
 	while (pixel_y < MINIMAP_TILE_SIZE)
 	{
