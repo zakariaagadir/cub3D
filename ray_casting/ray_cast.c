@@ -373,7 +373,6 @@ void	start_3d_view(t_elements *elem)
 {
 	int		i;
 	double	dist;
-	double	dist2;
 	t_draw	*draw;
 
 	draw = getter_draw();
@@ -388,9 +387,8 @@ void	start_3d_view(t_elements *elem)
 			dist = (draw->map_x - elem->player->x + (1 - draw->step_x) / 2.0) / draw->ray_dir_x;
 		else
 			dist = (draw->map_y - elem->player->y + (1 - draw->step_y) / 2.0) / draw->ray_dir_y;
-		dist2 = dist;
 		dist *= cos(draw->ray_angle - elem->player->angle); // fixing fish-eye effect.
-		drawing(elem, dist2, i, draw);
+		drawing(elem, dist, i, draw);
 		i++;
 	}
 } 

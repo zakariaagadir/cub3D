@@ -115,6 +115,16 @@ int	check_bounds(t_elements *elem, double ray_x, double ray_y)
 		return (1);
 	if (elem->map->map[(int)(ray_y - MOVE_SPEED)][(int)(ray_x + MOVE_SPEED)] == '1')
 		return (1);
+	if (elem->map->map[(int)ray_y][(int)ray_x] == 'D')
+		return (1);
+	if (elem->map->map[(int)(ray_y - MOVE_SPEED)][(int)(ray_x - MOVE_SPEED)] == 'D')
+		return (1);
+	if (elem->map->map[(int)(ray_y + MOVE_SPEED)][(int)(ray_x + MOVE_SPEED)] == 'D')
+		return (1);
+	if (elem->map->map[(int)(ray_y + MOVE_SPEED)][(int)(ray_x - MOVE_SPEED)] == 'D')
+		return (1);
+	if (elem->map->map[(int)(ray_y - MOVE_SPEED)][(int)(ray_x + MOVE_SPEED)] == 'D')
+		return (1);
 	return (0);
 }
 
