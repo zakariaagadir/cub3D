@@ -83,9 +83,9 @@ void	oupen_door(t_elements *elem)
 	draw = getter_draw();
 	map = elem->map->map;
 	if(map[(int)(elem->player->y + draw->step_y)][(int)(elem->player->x)] == 'D')
-		map[(int)(elem->player->y + draw->step_y)][(int)(elem->player->x)] = '0';
+		map[(int)(elem->player->y + draw->step_y)][(int)(elem->player->x)] = 'd';
 	if(map[(int)(elem->player->y)][(int)(elem->player->x + draw->step_x)] == 'D')
-		map[(int)(elem->player->y) ][(int)(elem->player->x + draw->step_x)] = '0';
+		map[(int)(elem->player->y) ][(int)(elem->player->x + draw->step_x)] = 'd';
 
 }
 
