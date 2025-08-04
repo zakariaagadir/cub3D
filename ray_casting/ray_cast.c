@@ -304,7 +304,7 @@ long get_texture_pixel(t_texture *tex, int x, int y)
 
 
 
-long get_color(t_elements *elem, t_draw *draw, double dist, int y)
+long get_color(t_elements *elem, t_draw draw, int y)
 {
 	t_texture	*textu;
 	double		wallx;
@@ -312,39 +312,39 @@ long get_color(t_elements *elem, t_draw *draw, double dist, int y)
 	int			tex_y;
 	int			h;
 
-	textu = get_texture(elem, draw);
-	if (draw->side == 0)
-		wallx = elem->player->y + dist * draw->ray_dir_y;
+	textu = get_texture(elem, &draw);
+	if (draw.side == 0)
+		wallx = elem->player->y + draw.dist_to_wall * draw.ray_dir_y;
 	else
-		wallx = elem->player->x + dist * draw->ray_dir_x;
+		wallx = elem->player->x + draw.dist_to_wall * draw.ray_dir_x;
 	wallx -= floor(wallx); // keep only fractional part
 	tex_x = (int)(wallx * textu->width);
-	if ((draw->side == 0 && draw->ray_dir_x > 0) || (draw->side == 1 && draw->ray_dir_y < 0))
+	if ((draw.side == 0 && draw.ray_dir_x > 0) || (draw.side == 1 && draw.ray_dir_y < 0))
 		tex_x = textu->width - tex_x - 1;
-	h = y * 256 - screen_height * 128 + draw->wall_height * 128;
-	tex_y = ((h * textu->height) / draw->wall_height) / 256;
+	h = y * 256 - screen_height * 128 + draw.wall_height * 128;
+	tex_y = ((h * textu->height) / draw.wall_height) / 256;
 
 	return (get_texture_pixel(textu, tex_x, tex_y));
 }
 
-void	drawing(t_elements *elem, double dist, int i, t_draw *draw)
+void	drawing(t_elements *elem, double dist, int i, t_draw draw)
 {
 	int		wall_top;
 	int		wall_bottom;
 	int		y;
 	long	color;
 
-	draw->wall_height = (int)(screen_height / dist);
-	wall_top = (screen_height / 2) - (draw->wall_height / 2);
-	wall_bottom = (screen_height / 2) + (draw->wall_height / 2);
-	y = wall_top;
+	draw.wall_height = (int)(screen_height / dist);
+	wall_top = (screen_height / 2) - (draw.wall_height / 2);
+	wall_bottom = (screen_height / 2) + (draw.wall_height / 2);
 	if (wall_top < 0)
 		wall_top = 0;
 	if (wall_bottom > screen_height)
 		wall_bottom = screen_height;
+	y = wall_top;
 	while (y < wall_bottom)
 	{
-		color = get_color(elem, draw, dist, y);
+		color = get_color(elem, draw, y);
 		put_pixel_to_image(elem, i, y, color);
 		y++;
 	}
@@ -353,26 +353,31 @@ void	drawing(t_elements *elem, double dist, int i, t_draw *draw)
 void	start_3d_view(t_elements *elem)
 {
 	int		i;
-	double	dist;
-	t_draw	*draw;
+	// double	dist;
+	t_draw	draw;
 
-	draw = getter_draw();
 	i = 0;
-	draw->start_angle = elem->player->angle - (fov / 2.0);
-	draw->step_angle = fov / screen_width;
+	draw.start_angle = elem->player->angle - (fov / 2.0);
+	draw.step_angle = fov / screen_width;
 	while (i < screen_width)
 	{
-		initalize_draw_elems(draw, i, elem);
-		draw->side = performing_dda(draw, elem);
-		if (!draw->side)
-			dist = (draw->map_x - elem->player->x + (1 - draw->step_x) / 2.0) / draw->ray_dir_x;
+		initalize_draw_elems(&draw, i, elem);
+		draw.side = performing_dda(&draw, elem);
+	
+		double dist_for_height;
+		double dist_for_tex;
+		if (!draw.side)
+			dist_for_tex = (draw.map_x - elem->player->x + (1 - draw.step_x) / 2.0) / draw.ray_dir_x;
 		else
-			dist = (draw->map_y - elem->player->y + (1 - draw->step_y) / 2.0) / draw->ray_dir_y;
-		dist *= cos(draw->ray_angle - elem->player->angle); // fixing fish-eye effect.
-		drawing(elem, dist, i, draw);
+			dist_for_tex = (draw.map_y - elem->player->y + (1 - draw.step_y) / 2.0) / draw.ray_dir_y;
+		dist_for_height = dist_for_tex * cos(draw.ray_angle - elem->player->angle);
+
+		draw.dist_to_wall = dist_for_tex;
+		drawing(elem, dist_for_height, i, draw);
+		// drawing(elem, dist, i, draw);
 		i++;
 	}
-} 
+}
 
 void	render(t_elements *elem)
 {

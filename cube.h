@@ -91,7 +91,8 @@ typedef struct s_draw
 	int		map_y;
     int     side;
     int		wall_height;
-}t_draw;
+    double  dist_to_wall;
+}	t_draw;
 
 typedef struct s_elements
 {
