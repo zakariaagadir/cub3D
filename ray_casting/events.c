@@ -77,16 +77,27 @@ void	rotate_right(t_elements *elem)
 
 void	oupen_door(t_elements *elem)
 {
-	t_draw	*draw;
-	char	**map;
+	char	**map = elem->map->map;
 
-	draw = getter_draw();
-	map = elem->map->map;
-	if(map[(int)(elem->player->y + draw->step_y)][(int)(elem->player->x)] == 'D')
-		map[(int)(elem->player->y + draw->step_y)][(int)(elem->player->x)] = 'd';
-	if(map[(int)(elem->player->y)][(int)(elem->player->x + draw->step_x)] == 'D')
-		map[(int)(elem->player->y) ][(int)(elem->player->x + draw->step_x)] = 'd';
+	int px = (int)(elem->player->x);
+	int py = (int)(elem->player->y);
 
+	// Calculate the direction the player is facing
+	int dx = (int)round(cos(elem->player->angle));
+	int dy = (int)round(sin(elem->player->angle));
+
+	int tx = px + dx;
+	int ty = py + dy;
+
+	// Check map bounds
+	if (ty >= 0 && ty < elem->map->rows && tx >= 0 && tx < elem->map->colomns)
+	{
+		if (map[ty][tx] == 'D')
+		{
+			map[ty][tx] = 'd'; // Open the door
+			printf("Opened door at [%d][%d]\n", ty, tx);
+		}
+	}
 }
 
 int	event_handeler(int code, t_elements *elem)
