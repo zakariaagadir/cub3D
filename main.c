@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:40:21 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/02 21:50:06 by abifkirn         ###   ########.fr       */
+/*   Updated: 2025/08/03 16:31:25 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void    print_map(t_elements *element)
     }
 }
 
-void    put_walls(t_elements  *element)
+void    put_doors(t_elements  *element)
 {
     char    **map;
     int     i;
@@ -81,11 +81,44 @@ void    put_walls(t_elements  *element)
     }
 }
 
+void	close_doors(t_elements *elem)
+{
+	t_draw	*draw = getter_draw();
+	char	**map = elem->map->map;
+
+	int px = (int)(elem->player->x);
+	int py = (int)(elem->player->y);
+
+	int back_x = px - 2 * draw->step_x;
+	int back_y = py - 2 * draw->step_y;
+
+	int map_height = elem->map->rows; // store this during parsing
+	int map_width = elem->map->colomns;   // same
+
+	// Close door vertically (y direction)
+	if (back_y >= 0 && back_y < map_height &&
+		px >= 0 && px < map_width &&
+		map[back_y][px] == 'd' && py != back_y)
+	{
+		map[back_y][px] = 'D';
+	}
+
+	// Close door horizontally (x direction)
+	if (back_x >= 0 && back_x < map_width &&
+		py >= 0 && py < map_height &&
+		map[py][back_x] == 'd' && px != back_x)
+	{
+		map[py][back_x] = 'D';
+	}
+}
+
+
 int	loop_work(void *elem)
 {
 	t_elements	*arg;
 
 	arg = elem;
+    close_doors(arg);
 	render(arg);
     return (0);
 }
@@ -96,7 +129,7 @@ int main(int ac, char ** argv)
 
     element = getter();
     parcing_mn(ac, argv);
-    put_walls(element);
+    put_doors(element);
     print_map(element);
     // deb_map();
     element->mlx = mlx_init();

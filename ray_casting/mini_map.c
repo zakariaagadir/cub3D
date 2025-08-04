@@ -18,6 +18,7 @@ void put_pixels(t_elements *elem, int x, int y)
 	draw_y = (offset_y * MINIMAP_TILE_SIZE) + MINIMAP_SIZE / 2;
 
 	color = (elem->map->map[y][x] == '1') ? 0xCCCCCC : 0x333333;
+	color = (elem->map->map[y][x] == 'D') ? 0xAAAAAA : color;
 
 	while (pixel_y < MINIMAP_TILE_SIZE)
 	{
@@ -113,6 +114,16 @@ int	check_bounds(t_elements *elem, double ray_x, double ray_y)
 	if (elem->map->map[(int)(ray_y + MOVE_SPEED)][(int)(ray_x - MOVE_SPEED)] == '1')
 		return (1);
 	if (elem->map->map[(int)(ray_y - MOVE_SPEED)][(int)(ray_x + MOVE_SPEED)] == '1')
+		return (1);
+	if (elem->map->map[(int)ray_y][(int)ray_x] == 'D')
+		return (1);
+	if (elem->map->map[(int)(ray_y - MOVE_SPEED)][(int)(ray_x - MOVE_SPEED)] == 'D')
+		return (1);
+	if (elem->map->map[(int)(ray_y + MOVE_SPEED)][(int)(ray_x + MOVE_SPEED)] == 'D')
+		return (1);
+	if (elem->map->map[(int)(ray_y + MOVE_SPEED)][(int)(ray_x - MOVE_SPEED)] == 'D')
+		return (1);
+	if (elem->map->map[(int)(ray_y - MOVE_SPEED)][(int)(ray_x + MOVE_SPEED)] == 'D')
 		return (1);
 	return (0);
 }

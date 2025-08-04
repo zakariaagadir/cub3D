@@ -1,29 +1,5 @@
 #include "../cube.h"
 
-// void	cast_single_ray(t_elements *elem)
-// {
-// 	double	ray_x = elem->player->x;
-// 	double	ray_y = elem->player->y;
-// 	double	dir_x = elem->player->direction_x;
-// 	double	dir_y = elem->player->direction_y;
-// 	double	step_size = 0.05;
-
-// 	while (1)
-// 	{
-// 		ray_x += dir_x * step_size;
-// 		ray_y += dir_y * step_size;
-
-// 		int map_x = (int)ray_x;
-// 		int map_y = (int)ray_y;
-
-// 		if (elem->map->map[map_y][map_x] == '1')
-// 			break ;
-// 		int pixel_x = ray_x * square_size;
-// 		int pixel_y = ray_y * square_size;
-// 		mlx_pixel_put(elem->mlx, elem->wind, pixel_x, pixel_y, 0xFF00FF);
-// 	}
-// }
-
 void	put_pixel_to_image(t_elements *elem, int x, int y, int color)
 {
 	char	*dst;
@@ -34,26 +10,6 @@ void	put_pixel_to_image(t_elements *elem, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-// void	draw_direction_line(t_elements *elem)
-// {
-// 	int		line_lenght;
-// 	int		i;
-// 	double	x;
-// 	double	y;
-
-// 	line_lenght = 20;
-// 	i = 0;
-// 	while (i < line_lenght)
-// 	{
-// 		x = (elem->player->x * square_size - 0.5) + (elem->player->direction_x * i);
-// 		y = (elem->player->y * square_size - 0.5) + (elem->player->direction_y * i);
-// 		put_pixel_to_image(elem, x, y, 0xFFFF00);
-// 		i++;
-// 	}
-// }
-
-
-
 void	get_player_direction(t_elements *elem)
 {
 	int	p_x;
@@ -62,29 +18,13 @@ void	get_player_direction(t_elements *elem)
 	p_x = (int)(elem->player->x);
 	p_y = (int)(elem->player->y);
 	if (elem->map->map[p_y][p_x] == 'N')
-	{
-		// elem->player->direction_x = 0;
-		// elem->player->direction_y = -1;
 		elem->player->angle = -(PI / 2);
-	}
 	else if (elem->map->map[p_y][p_x] == 'S')
-	{
-		// elem->player->direction_x = 0;
-		// elem->player->direction_y = 1;
 		elem->player->angle = (PI / 2);
-	}
 	else if (elem->map->map[p_y][p_x] == 'E')
-	{
-		// elem->player->direction_x = 1;
-		// elem->player->direction_y = 0;
 		elem->player->angle = 0;
-	}
 	else if (elem->map->map[p_y][p_x] == 'W')
-	{
-		// elem->player->direction_x = -1;
-		// elem->player->direction_y = 0;
 		elem->player->angle = PI;
-	}
 }
 
 void	get_player_pos(t_elements *elem)
@@ -111,97 +51,6 @@ void	get_player_pos(t_elements *elem)
 		y++;
 	}
 }
-
-
-// void	cast_multiple_rays(t_elements *elem)
-// {
-// 	int		num_rays = screen_width;
-// 	double	start_angle = elem->player->angle - (fov / 2.0);
-// 	double	step_angle = fov / num_rays;
-// 	int i = 0;
-
-// 	while (i < num_rays)
-// 	{
-// 		double angle = start_angle + i * step_angle;
-// 		// Direction of ray
-// 		double ray_dir_x = cos(angle);
-// 		double ray_dir_y = sin(angle);
-// 		// Which square in the map the player is in
-// 		int map_x = (int)elem->player->x;
-// 		int map_y = (int)elem->player->y;
-// 		// Length of ray from one x or y side to next x or y side
-// 		double delta_dist_x = fabs(1 / ray_dir_x);
-// 		double delta_dist_y = fabs(1 / ray_dir_y);
-// 		// Calculate step and initial sideDist
-// 		double side_dist_x;
-// 		double side_dist_y;
-// 		int step_x;
-// 		int step_y;
-// 		if (ray_dir_x < 0)
-// 		{
-// 			step_x = -1;
-// 			side_dist_x = (elem->player->x - map_x) * delta_dist_x;
-// 		}
-// 		else
-// 		{
-// 			step_x = 1;
-// 			side_dist_x = (map_x + 1.0 - elem->player->x) * delta_dist_x;
-// 		}
-// 		if (ray_dir_y < 0)
-// 		{
-// 			step_y = -1;
-// 			side_dist_y = (elem->player->y - map_y) * delta_dist_y;
-// 		}
-// 		else
-// 		{
-// 			step_y = 1;
-// 			side_dist_y = (map_y + 1.0 - elem->player->y) * delta_dist_y;
-// 		}
-// 		// Perform DDA
-// 		int hit = 0;
-// 		int side;
-// 		while (!hit)
-// 		{
-// 			if (side_dist_x < side_dist_y)
-// 			{
-// 				side_dist_x += delta_dist_x;
-// 				map_x += step_x;
-// 				side = 0;
-// 			}
-// 			else
-// 			{
-// 				side_dist_y += delta_dist_y;
-// 				map_y += step_y;
-// 				side = 1;
-// 			}
-// 			if (elem->map->map[map_y][map_x] == '1')
-// 				hit = 1;
-// 		}
-// 		// Calculate distance to wall
-// 		double distance;
-// 		if (side == 0)
-// 			distance = (map_x - elem->player->x + (1 - step_x) / 2.0) / ray_dir_x;
-// 		else
-// 			distance = (map_y - elem->player->y + (1 - step_y) / 2.0) / ray_dir_y;
-// 		// Fix fish-eye distortion
-// 		distance *= cos(angle - elem->player->angle);
-// 		// Calculate projected wall height
-// 		int wall_height = (int)(screen_height / distance);
-// 		int wall_top = (screen_height / 2) - (wall_height / 2);
-// 		int wall_bottom = (screen_height / 2) + (wall_height / 2);
-// 		// Clamp to screen
-// 		if (wall_top < 0)
-// 			wall_top = 0;
-// 		if (wall_bottom > screen_height)
-// 			wall_bottom = screen_height;
-// 		// Shade depending on wall side
-// 		int color = (side == 0) ? 0xCCCCCC : 0x888888;
-// 		// Draw vertical line
-// 		for (int y = wall_top; y < wall_bottom; y++)
-// 			put_pixel_to_image(elem, i, y, color);
-// 		i++;
-// 	}
-// }
 
 void	initalize_draw_elems(t_draw *darw, int i, t_elements *elem)
 {
@@ -437,7 +286,5 @@ void	ray_casting(t_elements *elem)
 	elem->player = malloc(sizeof(t_player));
 	get_player_pos(elem);
 	load_textures(elem);
-	// elem->player->plane_x = -elem->player->direction_y * fov;
-	// elem->player->plane_y =  elem->player->direction_x * fov;
 	render(elem);
 }
