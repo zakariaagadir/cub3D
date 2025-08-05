@@ -46,6 +46,34 @@ void    print_map(t_elements *element)
     }
 }
 
+void    put_enemy(t_elements  *element)
+{
+    char    **map;
+    int     i;
+    int     j;
+    
+    i = 0;
+    map = element->map->map;
+    while (map[i])
+    {
+        j = 0;
+        while (map[i][j])
+        {
+            if(map[i][j] == '0' && map[i][j+1] == '0' && (j - 1) > 0 &&  map[i][j - 1] == '0')
+            {
+                element->enemy = malloc(sizeof(t_enemy));
+                if (!element->enemy)
+                    ft_error_el("ERROR \n");
+                element->enemy->x = j;
+                element->enemy->y = i;
+                return ;
+            }
+            j++;
+        }
+        i++;
+    }
+}
+
 void    put_doors(t_elements  *element)
 {
     char    **map;
@@ -134,6 +162,7 @@ int main(int ac, char ** argv)
     element = getter();
     parcing_mn(ac, argv);
     put_doors(element);
+    put_enemy(element);
     print_map(element);
     // deb_map();
     element->mlx = mlx_init();

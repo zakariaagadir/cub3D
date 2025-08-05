@@ -24,6 +24,19 @@
 // 	}
 // }
 
+void	put_pixel_to_image2(t_elements *elem, int x, int y, int color)
+{
+	char	*dst;
+	if (x < 0 || y < 0 || x >= screen_width || y >= screen_height)
+		return ;
+	if(color != 0x000000)
+	{
+		dst = elem->addr + (y * elem->line_len + x * (elem->bits_per_px / 8));
+		*(unsigned int *)dst = color;
+
+	}
+}
+
 void	put_pixel_to_image(t_elements *elem, int x, int y, int color)
 {
 	char	*dst;
@@ -254,13 +267,13 @@ int	performing_dda(t_draw *draw, t_elements *elem)
 			draw->map_y += draw->step_y;
 			side = 1;
 		}
-		if (elem->map->map[draw->map_y][draw->map_x] == '1' || elem->map->map[draw->map_y][draw->map_x] == 'D' || elem->map->map[draw->map_y][draw->map_x] == 'E')
+		if (elem->map->map[draw->map_y][draw->map_x] == '1' || elem->map->map[draw->map_y][draw->map_x] == 'D' || (draw->map_y == elem->enemy->y && draw->map_x == elem->enemy->x))
 		{
 			if (elem->map->map[draw->map_y][draw->map_x] == 'D')
 				draw->door = 1;
 			else
 				draw->door = 0;
-			if (elem->map->map[draw->map_y][draw->map_x] == 'E')
+			if (draw->map_y == elem->enemy->y && draw->map_x == elem->enemy->x)
 				draw->enemy = 1;
 			else
 				draw->enemy = 0;
@@ -272,12 +285,34 @@ int	performing_dda(t_draw *draw, t_elements *elem)
 	return (side);
 }
 
-t_texture	*get_texture(t_elements *elem, t_draw *draw)
+t_texture	*get_texture2(t_elements *elem, t_draw *draw)
 {
 	if(draw->enemy == 1)
 	{
 		return (&elem->textures[5]);
 	}
+	if(draw->door == 1)
+	{
+		return (&elem->textures[4]);
+	}
+	if (draw->side == 0) // Hit a vertical wall (East or West)
+	{
+		if (draw->ray_dir_x > 0)
+			return (&elem->textures[0]);
+		else
+			return (&elem->textures[1]);
+	}
+	else // Hit a horizontal wall (North or South)
+	{
+		if (draw->ray_dir_y > 0)
+			return (&elem->textures[2]);
+		else
+			return (&elem->textures[3]);
+	}
+}
+
+t_texture	*get_texture(t_elements *elem, t_draw *draw)
+{
 	if(draw->door == 1)
 	{
 		return (&elem->textures[4]);
@@ -310,7 +345,30 @@ long get_texture_pixel(t_texture *tex, int x, int y)
 }
 
 
+long get_color2(t_elements *elem, t_draw draw, int y)
+{
+	t_texture	*textu;
+	double		wallx;
+	int			tex_x;
+	int			tex_y;
+	int			h;
+	// int			wall_top, wall_bottom;
+	// double		tex_pos;
 
+	textu = get_texture2(elem, &draw);
+	if (draw.side == 0)
+		wallx = elem->player->y + draw.dist_to_wall * draw.ray_dir_y;
+	else
+		wallx = elem->player->x + draw.dist_to_wall * draw.ray_dir_x;
+	wallx -= floor(wallx); // keep only fractional part
+	tex_x = (int)(wallx * textu->width);
+	if ((draw.side == 0 && draw.ray_dir_x > 0) || (draw.side == 1 && draw.ray_dir_y < 0))
+		tex_x = textu->width - tex_x - 1;
+	h = y * 256 - screen_height * 128 + draw.wall_height * 128;
+	tex_y = ((h * textu->height) / draw.wall_height) / 256;
+
+	return (get_texture_pixel(textu, tex_x, tex_y));
+}
 
 long get_color(t_elements *elem, t_draw draw, int y)
 {
@@ -356,6 +414,8 @@ void	drawing(t_elements *elem, double dist, int i, t_draw draw)
 	{
 		color = get_color(elem, draw, y);
 		put_pixel_to_image(elem, i, y, color);
+		color = get_color2(elem, draw, y);
+		put_pixel_to_image2(elem, i, y, color);
 		y++;
 	}
 }

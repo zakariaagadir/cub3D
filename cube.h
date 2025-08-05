@@ -95,6 +95,14 @@ typedef struct s_draw
     double  dist_to_wall;
 }	t_draw;
 
+typedef struct s_enemy
+{
+    int x;
+    int y;
+    float   xf;
+    float   yf;
+}t_enemy;
+
 typedef struct s_elements
 {
     // t_draw  *drawing;
@@ -114,6 +122,7 @@ typedef struct s_elements
     t_color *c;
     t_map   *map;
     t_player    *player;
+    t_enemy    *enemy;
 }   t_elements;
 
 
@@ -136,6 +145,7 @@ char        *ft_strnext( char *haystack, const char *needle);
 int         extruct_elements(char *line);
 int         extruct_them(char *line);
 void        cheack_map(void);
+void        valid_character(t_elements *elem);
 void        print_map(t_elements *element);
 // void        deb_map(void);
 

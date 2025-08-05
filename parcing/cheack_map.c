@@ -152,10 +152,33 @@ void check_surronded(t_elements *element)
     }
 }
 
+void    valid_character(t_elements *elem)
+{
+    char    **map;
+    int     i;
+    int     j;
+
+    map = elem->map->map;
+    i = 0;
+    while (map[i])
+    {
+        j = 0;
+        while (map[i][j])
+        {
+            if(map[i][j] !='0' && map[i][j] !='1' && map[i][j] !=' ' && map[i][j] !='N' && map[i][j] !='S' && map[i][j] !='E' && map[i][j] !='W')
+                ft_error_el("error\n");
+            j++;
+        }
+
+        i++;
+    }
+}
+
 void    cheack_map(void)
 {
     t_elements *element;
 
     element = getter();
     check_surronded(element);
+    valid_character(element);
 }
