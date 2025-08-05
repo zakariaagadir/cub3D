@@ -279,7 +279,7 @@ int	performing_dda(t_draw *draw, t_elements *elem)
 				draw->enemy = 0;
 			no_wall = 1;
 		}
-		if (elem->map->map[draw->map_y][draw->map_x] == '1')
+		if (elem->map->map[draw->map_y][draw->map_x] == '1' )
 			no_wall = 1;
 	}
 	return (side);
