@@ -8,8 +8,8 @@
 #include <stdio.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
-// # include "minilibx-linux/mlx.h"
-# include <mlx.h>
+# include "minilibx-linux/mlx.h"
+// # include <mlx.h>
 #include <sys/wait.h>
 #include <math.h>
 
@@ -76,6 +76,7 @@ typedef struct s_player
 typedef struct s_draw
 {
     int     door;
+    int     enemy;
     double  start_angle;
     double  step_angle;
     double  ray_angle;
@@ -108,7 +109,7 @@ typedef struct s_elements
     int     bits_per_px;
     int     line_len;
     int     endian;
-    t_texture   textures[5];
+    t_texture   textures[6];
     t_color *f;
     t_color *c;
     t_map   *map;

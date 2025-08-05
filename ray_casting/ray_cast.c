@@ -254,12 +254,16 @@ int	performing_dda(t_draw *draw, t_elements *elem)
 			draw->map_y += draw->step_y;
 			side = 1;
 		}
-		if (elem->map->map[draw->map_y][draw->map_x] == '1' || elem->map->map[draw->map_y][draw->map_x] == 'D')
+		if (elem->map->map[draw->map_y][draw->map_x] == '1' || elem->map->map[draw->map_y][draw->map_x] == 'D' || elem->map->map[draw->map_y][draw->map_x] == 'E')
 		{
 			if (elem->map->map[draw->map_y][draw->map_x] == 'D')
 				draw->door = 1;
 			else
 				draw->door = 0;
+			if (elem->map->map[draw->map_y][draw->map_x] == 'E')
+				draw->enemy = 1;
+			else
+				draw->enemy = 0;
 			no_wall = 1;
 		}
 		if (elem->map->map[draw->map_y][draw->map_x] == '1')
@@ -270,6 +274,10 @@ int	performing_dda(t_draw *draw, t_elements *elem)
 
 t_texture	*get_texture(t_elements *elem, t_draw *draw)
 {
+	if(draw->enemy == 1)
+	{
+		return (&elem->textures[5]);
+	}
 	if(draw->door == 1)
 	{
 		return (&elem->textures[4]);
@@ -419,8 +427,10 @@ void	load_textures(t_elements *elem)
 		"textures/wall_4.xpm", &elem->textures[3].width, &elem->textures[3].height);
 	elem->textures[4].img_ptr = mlx_xpm_file_to_image(elem->mlx,
 		"textures/door.xpm", &elem->textures[4].width, &elem->textures[4].height);
+	elem->textures[5].img_ptr = mlx_xpm_file_to_image(elem->mlx,
+		"textures/enemy/161.xpm", &elem->textures[5].width, &elem->textures[5].height);
 
-	while (i < 5)
+	while (i < 6)
 	{
 		if (!elem->textures[i].img_ptr)
 		{
