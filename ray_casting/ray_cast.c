@@ -249,11 +249,10 @@ void	initalize_draw_elems(t_draw *darw, int i, t_elements *elem)
 
 int	performing_dda(t_draw *draw, t_elements *elem)
 {
-	int	no_wall;
 	int	side;
+	char **map = elem->map->map;
 
-	no_wall  = 0;
-	while (!no_wall)
+	while (1)
 	{
 		if (draw->side_dist_x < draw->side_dist_y)
 		{
@@ -267,22 +266,16 @@ int	performing_dda(t_draw *draw, t_elements *elem)
 			draw->map_y += draw->step_y;
 			side = 1;
 		}
-		if (elem->map->map[draw->map_y][draw->map_x] == '1' || elem->map->map[draw->map_y][draw->map_x] == 'D' || (draw->map_y == elem->enemy->y && draw->map_x == elem->enemy->x))
+
+		char tile = map[draw->map_y][draw->map_x];
+
+		if (tile == '1' || tile == 'D') // Stop only on wall or door
 		{
-			if (elem->map->map[draw->map_y][draw->map_x] == 'D')
-				draw->door = 1;
-			else
-				draw->door = 0;
-			if (draw->map_y == elem->enemy->y && draw->map_x == elem->enemy->x)
-				draw->enemy = 1;
-			else
-				draw->enemy = 0;
-			no_wall = 1;
+			draw->door = (tile == 'D');
+			return side;
 		}
-		if (elem->map->map[draw->map_y][draw->map_x] == '1' )
-			no_wall = 1;
+		// Do not stop on enemy
 	}
-	return (side);
 }
 
 t_texture	*get_texture2(t_elements *elem, t_draw *draw)
@@ -414,8 +407,8 @@ void	drawing(t_elements *elem, double dist, int i, t_draw draw)
 	{
 		color = get_color(elem, draw, y);
 		put_pixel_to_image(elem, i, y, color);
-		color = get_color2(elem, draw, y);
-		put_pixel_to_image2(elem, i, y, color);
+		// color = get_color2(elem, draw, y);
+		// put_pixel_to_image2(elem, i, y, color);
 		y++;
 	}
 }
@@ -447,7 +440,72 @@ void	start_3d_view(t_elements *elem)
 		// drawing(elem, dist, i, draw);
 		i++;
 	}
+	draw_enemies(elem);
 }
+
+int calculate_enemy_sprite_size(double distance)
+{
+	if (distance == 0)
+		return screen_height;
+	return (int)(screen_height / distance); // 64 can be your enemy’s sprite height or a scaling constant
+}
+
+void draw_sprite(t_elements *elem, t_texture *tex, int screen_x, int screen_y, int size)
+{
+	int x, y;
+	for (y = 0; y < size; y++)
+	{
+		for (x = 0; x < size; x++)
+		{
+			int tex_x = (x * tex->width) / size;
+			int tex_y = (y * tex->height) / size;
+			int color = get_texture_pixel(tex, tex_x, tex_y);
+
+			// skip transparent pixels (black or magenta or alpha-check)
+			if ((color & 0x00FFFFFF) == 0x000000) // if pure black
+				continue;
+
+			int draw_x = screen_x - size / 2 + x;
+			int draw_y = screen_y - size / 2 + y;
+
+			if (draw_x >= 0 && draw_x < screen_width &&
+				draw_y >= 0 && draw_y < screen_height)
+			{
+				put_pixel_to_image(elem, draw_x, draw_y, color);
+			}
+		}
+	}
+}
+
+void draw_enemies(t_elements *elem)
+{
+	t_enemy *enemy = elem->enemy;
+
+	double dx = enemy->x - elem->player->x;
+	double dy = enemy->y - elem->player->y;
+	double distance = sqrt(dx * dx + dy * dy);
+
+	if (distance < 0.2 || distance > MAX_DRAW_DISTANCE)
+		return;
+
+	// double angle = atan2(dy, dx) - elem->player->angle;
+	// if (fabs(angle) > (fov / 2)) // out of FOV
+	// 	return;
+
+	double angle_diff = atan2(dy, dx) - elem->player->angle;
+	while (angle_diff > PI) angle_diff -= 2 * PI;
+	while (angle_diff < -PI) angle_diff += 2 * PI;
+
+	if (fabs(angle_diff) > (fov / 2))
+		return;
+
+	int screen_x = (int)((angle_diff / (fov / 2)) * (screen_width / 2)) + (screen_width / 2);
+	int screen_y = screen_height / 2;
+	int size = calculate_enemy_sprite_size(distance);
+
+	draw_sprite(elem, &enemy->textures, screen_x, screen_y, size);
+}
+
 
 void	render(t_elements *elem)
 {
@@ -487,10 +545,10 @@ void	load_textures(t_elements *elem)
 		"textures/wall_4.xpm", &elem->textures[3].width, &elem->textures[3].height);
 	elem->textures[4].img_ptr = mlx_xpm_file_to_image(elem->mlx,
 		"textures/door.xpm", &elem->textures[4].width, &elem->textures[4].height);
-	elem->textures[5].img_ptr = mlx_xpm_file_to_image(elem->mlx,
-		"textures/enemy/161.xpm", &elem->textures[5].width, &elem->textures[5].height);
+	elem->enemy->textures.img_ptr = mlx_xpm_file_to_image(elem->mlx,
+		"textures/enemy/161.xpm", &elem->enemy->textures.width, &elem->enemy->textures.height);
 
-	while (i < 6)
+	while (i < 5)
 	{
 		if (!elem->textures[i].img_ptr)
 		{
@@ -501,6 +559,13 @@ void	load_textures(t_elements *elem)
 			&elem->textures[i].bpp, &elem->textures[i].line_len, &elem->textures[i].endian);
 		i++;
 	}
+	if (!elem->enemy->textures.img_ptr)
+	{
+		printf ("Failed to load texture n : %d\n", i);
+		exit (1);//need to free all the memory before exiting, attention |:
+	}
+	elem->enemy->textures.addr = (int *)mlx_get_data_addr(elem->enemy->textures.img_ptr,
+		&elem->enemy->textures.bpp, &elem->enemy->textures.line_len, &elem->enemy->textures.endian);
 }
 
 

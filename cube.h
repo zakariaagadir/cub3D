@@ -9,7 +9,7 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 // # include "minilibx-linux/mlx.h"
-# include <mlx.h>
+#include <mlx.h>
 #include <sys/wait.h>
 #include <math.h>
 
@@ -17,6 +17,7 @@
 // #define window_py 16
 #define wall_color 0x00FF0000
 #define player_color 0x00FFFF00
+#define MAX_DRAW_DISTANCE 20.0
 #define player_raduis 7
 #define MOVE_SPEED 0.05
 #define ROT_SPEED 0.05
@@ -99,6 +100,7 @@ typedef struct s_enemy
 {
     int x;
     int y;
+    t_texture   textures;
     float   xf;
     float   yf;
 }t_enemy;
@@ -147,6 +149,7 @@ int         extruct_them(char *line);
 void        cheack_map(void);
 void        valid_character(t_elements *elem);
 void        print_map(t_elements *element);
+void        draw_enemies(t_elements *elem);
 // void        deb_map(void);
 
 
