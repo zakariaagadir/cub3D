@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 20:26:41 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/27 21:34:21 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/06 05:41:36 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,12 @@ void    valid_character(t_elements *elem)
         {
             if(map[i][j] !='0' && map[i][j] !='1' && map[i][j] !=' ' && map[i][j] !='N' && map[i][j] !='S' && map[i][j] !='E' && map[i][j] !='W')
                 ft_error_el("error\n");
+            if(map[i][j] =='N' || map[i][j] =='S' || map[i][j] =='E' || map[i][j] =='W')
+            {
+                if (elem->player)
+                    ft_error_el("just one player\n");
+                elem->player = malloc(sizeof(t_player));
+            }
             j++;
         }
 
