@@ -26,7 +26,7 @@
 #define square_size 10
 #define fov PI / 3 //a FOV of 60° in radian
 #define screen_width 1200
-#define screen_height 1000
+#define screen_height 720
 // aimad : it is for drawing mini_map, need it cause of norminette :|
 typedef struct s_mini_map
 {
@@ -150,6 +150,7 @@ void        cheack_map(void);
 void        valid_character(t_elements *elem);
 void        print_map(t_elements *element);
 void        draw_enemies(t_elements *elem);
+void        draw_sprite(t_elements *elem, t_texture *tex, int screen_x, int screen_y, int size);
 // void        deb_map(void);
 
 

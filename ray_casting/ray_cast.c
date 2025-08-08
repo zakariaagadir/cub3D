@@ -413,6 +413,12 @@ void	drawing(t_elements *elem, double dist, int i, t_draw draw)
 	}
 }
 
+void draw_pistol(t_elements *elem)
+{
+
+    draw_sprite(elem, &elem->enemy->textures, (int) screen_width / 2, (int) screen_height - 100, 400);
+}
+
 void	start_3d_view(t_elements *elem)
 {
 	int		i;
@@ -440,7 +446,7 @@ void	start_3d_view(t_elements *elem)
 		// drawing(elem, dist, i, draw);
 		i++;
 	}
-	draw_enemies(elem);
+	draw_pistol(elem);
 }
 
 int calculate_enemy_sprite_size(double distance)
@@ -452,29 +458,46 @@ int calculate_enemy_sprite_size(double distance)
 
 void draw_sprite(t_elements *elem, t_texture *tex, int screen_x, int screen_y, int size)
 {
-	int x, y;
-	for (y = 0; y < size; y++)
-	{
-		for (x = 0; x < size; x++)
-		{
-			int tex_x = (x * tex->width) / size;
-			int tex_y = (y * tex->height) / size;
-			int color = get_texture_pixel(tex, tex_x, tex_y);
+    int first_pixel_y = tex->height;
+    int last_pixel_y = 0;
 
-			// skip transparent pixels (black or magenta or alpha-check)
-			if ((color & 0x00FFFFFF) == 0x000000) // if pure black
-				continue;
+    // Find top and bottom bounds of non-transparent pixels
+    for (int y = 0; y < tex->height; y++)
+    {
+        for (int x = 0; x < tex->width; x++)
+        {
+            int color = get_texture_pixel(tex, x, y);
+            if ((color & 0x00FFFFFF) != 0x00000000) // not transparent
+            {
+                if (y < first_pixel_y) first_pixel_y = y;
+                if (y > last_pixel_y)  last_pixel_y = y;
+            }
+        }
+    }
 
-			int draw_x = screen_x - size / 2 + x;
-			int draw_y = screen_y - size / 2 + y;
+    int cropped_height = last_pixel_y - first_pixel_y + 1;
 
-			if (draw_x >= 0 && draw_x < screen_width &&
-				draw_y >= 0 && draw_y < screen_height)
-			{
-				put_pixel_to_image(elem, draw_x, draw_y, color);
-			}
-		}
-	}
+    for (int y = 0; y < size; y++)
+    {
+        for (int x = 0; x < size; x++)
+        {
+            int tex_x = (x * tex->width) / size;
+            int tex_y = first_pixel_y + ((y * cropped_height) / size);
+            int color = get_texture_pixel(tex, tex_x, tex_y);
+
+            if ((color & 0x00FFFFFF) == 0x00000000) 
+                continue;
+
+            int draw_x = screen_x - size / 2 + x;
+            int draw_y = screen_y - size / 2 + y;
+
+            if (draw_x >= 0 && draw_x < screen_width &&
+                draw_y >= 0 && draw_y < screen_height)
+            {
+                put_pixel_to_image(elem, draw_x, draw_y, color);
+            }
+        }
+    }
 }
 
 void draw_enemies(t_elements *elem)
@@ -488,14 +511,14 @@ void draw_enemies(t_elements *elem)
 	if (distance < 0.2 || distance > MAX_DRAW_DISTANCE)
 		return;
 
-	// double angle = atan2(dy, dx) - elem->player->angle;
-	// if (fabs(angle) > (fov / 2)) // out of FOV
-	// 	return;
-
+	double angle = atan2(dy, dx) - elem->player->angle;
+	if (fabs(angle) > (fov / 2)) // out of FOV
+		return;
+	
 	double angle_diff = atan2(dy, dx) - elem->player->angle;
 	while (angle_diff > PI) angle_diff -= 2 * PI;
 	while (angle_diff < -PI) angle_diff += 2 * PI;
-
+		
 	if (fabs(angle_diff) > (fov / 2))
 		return;
 
