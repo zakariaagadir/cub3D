@@ -100,7 +100,7 @@ typedef struct s_enemy
 {
     int x;
     int y;
-    t_texture   textures;
+    t_texture   textures[10];
     float   xf;
     float   yf;
 }t_enemy;
@@ -125,6 +125,7 @@ typedef struct s_elements
     t_map   *map;
     t_player    *player;
     t_enemy    *enemy;
+    int         j;
 }   t_elements;
 
 
@@ -190,5 +191,6 @@ void	draw_mini_map(t_elements *elem);
 char    *extruct_link(char *str);
 void	initalize_draw_elems(t_draw *darw, int i, t_elements *elem);
 int     mouse_move_handler(int x, int y, t_elements *elem);
+int     check_button(int code, int x, int y, void *elem);
 
 #endif

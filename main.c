@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:40:21 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/06 08:35:45 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/08 22:48:25 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,9 +169,11 @@ int main(int ac, char ** argv)
     element->wind = mlx_new_window(element->mlx, screen_width, screen_height, "Cube3D");
     element->img = mlx_new_image(element->mlx, screen_width, screen_height);
     element->addr = mlx_get_data_addr(element->img, &element->bits_per_px, &element->line_len, &element->endian);
+    element->j = 0;
     ray_casting(element);
     mlx_hook(element->wind, 6, 1L << 6, mouse_move_handler, element);
     mlx_hook(element->wind, 2, 1L<<0, event_handeler, element);
+    mlx_hook(element->wind, 4, 1L<<2, check_button, element);
     mlx_loop_hook(element->mlx, loop_work, element);
     mlx_loop(element->mlx);
     return (0);

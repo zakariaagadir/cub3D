@@ -415,8 +415,7 @@ void	drawing(t_elements *elem, double dist, int i, t_draw draw)
 
 void draw_pistol(t_elements *elem)
 {
-
-    draw_sprite(elem, &elem->enemy->textures, (int) screen_width / 2, (int) screen_height - 100, 400);
+    	draw_sprite(elem, &elem->enemy->textures[elem->j], (int) screen_width / 2, (int) screen_height - 100, 400);
 }
 
 void	start_3d_view(t_elements *elem)
@@ -500,34 +499,34 @@ void draw_sprite(t_elements *elem, t_texture *tex, int screen_x, int screen_y, i
     }
 }
 
-void draw_enemies(t_elements *elem)
-{
-	t_enemy *enemy = elem->enemy;
+// void draw_enemies(t_elements *elem)
+// {
+// 	t_enemy *enemy = elem->enemy;
 
-	double dx = enemy->x - elem->player->x;
-	double dy = enemy->y - elem->player->y;
-	double distance = sqrt(dx * dx + dy * dy);
+// 	double dx = enemy->x - elem->player->x;
+// 	double dy = enemy->y - elem->player->y;
+// 	double distance = sqrt(dx * dx + dy * dy);
 
-	if (distance < 0.2 || distance > MAX_DRAW_DISTANCE)
-		return;
+// 	if (distance < 0.2 || distance > MAX_DRAW_DISTANCE)
+// 		return;
 
-	double angle = atan2(dy, dx) - elem->player->angle;
-	if (fabs(angle) > (fov / 2)) // out of FOV
-		return;
+// 	double angle = atan2(dy, dx) - elem->player->angle;
+// 	if (fabs(angle) > (fov / 2)) // out of FOV
+// 		return;
 	
-	double angle_diff = atan2(dy, dx) - elem->player->angle;
-	while (angle_diff > PI) angle_diff -= 2 * PI;
-	while (angle_diff < -PI) angle_diff += 2 * PI;
+// 	double angle_diff = atan2(dy, dx) - elem->player->angle;
+// 	while (angle_diff > PI) angle_diff -= 2 * PI;
+// 	while (angle_diff < -PI) angle_diff += 2 * PI;
 		
-	if (fabs(angle_diff) > (fov / 2))
-		return;
+// 	if (fabs(angle_diff) > (fov / 2))
+// 		return;
 
-	int screen_x = (int)((angle_diff / (fov / 2)) * (screen_width / 2)) + (screen_width / 2);
-	int screen_y = screen_height / 2;
-	int size = calculate_enemy_sprite_size(distance);
+// 	int screen_x = (int)((angle_diff / (fov / 2)) * (screen_width / 2)) + (screen_width / 2);
+// 	int screen_y = screen_height / 2;
+// 	int size = calculate_enemy_sprite_size(distance);
 
-	draw_sprite(elem, &enemy->textures, screen_x, screen_y, size);
-}
+// 	draw_sprite(elem, &enemy->textures, screen_x, screen_y, size);
+// }
 
 
 void	render(t_elements *elem)
@@ -568,8 +567,26 @@ void	load_textures(t_elements *elem)
 		"textures/wall_4.xpm", &elem->textures[3].width, &elem->textures[3].height);
 	elem->textures[4].img_ptr = mlx_xpm_file_to_image(elem->mlx,
 		"textures/door.xpm", &elem->textures[4].width, &elem->textures[4].height);
-	elem->enemy->textures.img_ptr = mlx_xpm_file_to_image(elem->mlx,
-		"textures/enemy/161.xpm", &elem->enemy->textures.width, &elem->enemy->textures.height);
+	elem->enemy->textures[0].img_ptr = mlx_xpm_file_to_image(elem->mlx,
+		"textures/enemy/frame07.xpm", &elem->enemy->textures[0].width, &elem->enemy->textures[0].height);
+	elem->enemy->textures[1].img_ptr = mlx_xpm_file_to_image(elem->mlx,
+		"textures/enemy/frame08.xpm", &elem->enemy->textures[1].width, &elem->enemy->textures[1].height);
+	elem->enemy->textures[2].img_ptr = mlx_xpm_file_to_image(elem->mlx,
+		"textures/enemy/frame09.xpm", &elem->enemy->textures[2].width, &elem->enemy->textures[2].height);
+	elem->enemy->textures[3].img_ptr = mlx_xpm_file_to_image(elem->mlx,
+		"textures/enemy/frame10.xpm", &elem->enemy->textures[3].width, &elem->enemy->textures[3].height);
+	elem->enemy->textures[4].img_ptr = mlx_xpm_file_to_image(elem->mlx,
+		"textures/enemy/frame11.xpm", &elem->enemy->textures[4].width, &elem->enemy->textures[4].height);
+	elem->enemy->textures[5].img_ptr = mlx_xpm_file_to_image(elem->mlx,
+		"textures/enemy/frame12.xpm", &elem->enemy->textures[5].width, &elem->enemy->textures[5].height);
+	elem->enemy->textures[6].img_ptr = mlx_xpm_file_to_image(elem->mlx,
+		"textures/enemy/frame13.xpm", &elem->enemy->textures[6].width, &elem->enemy->textures[6].height);
+	elem->enemy->textures[7].img_ptr = mlx_xpm_file_to_image(elem->mlx,
+		"textures/enemy/frame14.xpm", &elem->enemy->textures[7].width, &elem->enemy->textures[7].height);
+	elem->enemy->textures[8].img_ptr = mlx_xpm_file_to_image(elem->mlx,
+		"textures/enemy/frame15.xpm", &elem->enemy->textures[8].width, &elem->enemy->textures[8].height);
+	elem->enemy->textures[9].img_ptr = mlx_xpm_file_to_image(elem->mlx,
+		"textures/enemy/frame16.xpm", &elem->enemy->textures[9].width, &elem->enemy->textures[9].height);
 
 	while (i < 5)
 	{
@@ -582,13 +599,18 @@ void	load_textures(t_elements *elem)
 			&elem->textures[i].bpp, &elem->textures[i].line_len, &elem->textures[i].endian);
 		i++;
 	}
-	if (!elem->enemy->textures.img_ptr)
+	i = 0;
+	while (i < 10)
 	{
-		printf ("Failed to load texture n : %d\n", i);
-		exit (1);//need to free all the memory before exiting, attention |:
+		if (!elem->enemy->textures[i].img_ptr)
+		{
+			printf ("Failed to load texture n : %d\n", i);
+			exit (1);//need to free all the memory before exiting, attention |:
+		}
+		elem->enemy->textures[i].addr = (int *)mlx_get_data_addr(elem->enemy->textures[i].img_ptr,
+			&elem->enemy->textures[i].bpp, &elem->enemy->textures[i].line_len, &elem->enemy->textures[i].endian);
+		i++;
 	}
-	elem->enemy->textures.addr = (int *)mlx_get_data_addr(elem->enemy->textures.img_ptr,
-		&elem->enemy->textures.bpp, &elem->enemy->textures.line_len, &elem->enemy->textures.endian);
 }
 
 

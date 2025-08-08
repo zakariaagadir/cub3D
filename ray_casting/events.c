@@ -100,6 +100,25 @@ void	oupen_door(t_elements *elem)
 	}
 }
 
+void	shooting(t_elements *elem)
+{
+	static int i;
+
+	if (i < 1)
+		i++;
+	else if (elem->j < 9)
+	{
+		i = 0;
+		elem->j++;
+	}
+	else
+	{
+		i = 0;
+		elem->j = 0;
+	}
+	// i = 0;
+}
+
 int	event_handeler(int code, t_elements *elem)
 {
 	if (code == 65361) // Left arrow
@@ -116,6 +135,18 @@ int	event_handeler(int code, t_elements *elem)
 		move_right(elem);
 	else if (code == 'o')
 		oupen_door(elem);
+	return (0);
+}
+
+int	check_button(int code, int x, int y, void *element)
+{
+	t_elements *elem;
+	(void) x; // if you don’t use x and y, avoid unused parameter warnings
+    (void) y;
+	elem = (t_elements *) element;
+	if (code == 1)
+		shooting(elem);
+
 	return (0);
 }
 
