@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:40:21 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/03 16:31:25 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/09 10:06:03 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,34 @@ void    print_map(t_elements *element)
     while(i < element->map->rows)
     {
         printf("%s\n", element->map->map[i]);
+        i++;
+    }
+}
+
+void    put_enemy(t_elements  *element)
+{
+    char    **map;
+    int     i;
+    int     j;
+    
+    i = 0;
+    map = element->map->map;
+    while (map[i])
+    {
+        j = 0;
+        while (map[i][j])
+        {
+            if(map[i][j] == '0' && map[i][j+1] == '0' && (j - 1) > 0 &&  map[i][j - 1] == '0')
+            {
+                element->enemy = malloc(sizeof(t_enemy));
+                if (!element->enemy)
+                    ft_error_el("ERROR \n");
+                element->enemy->x = j;
+                element->enemy->y = i;
+                return ;
+            }
+            j++;
+        }
         i++;
     }
 }
@@ -83,19 +111,23 @@ void    put_doors(t_elements  *element)
 
 void	close_doors(t_elements *elem)
 {
-	t_draw	*draw = getter_draw();
 	char	**map = elem->map->map;
 
 	int px = (int)(elem->player->x);
 	int py = (int)(elem->player->y);
 
-	int back_x = px - 2 * draw->step_x;
-	int back_y = py - 2 * draw->step_y;
+	// Calculate the direction the player is facing
+	int dx = (int)round(cos(elem->player->angle));
+	int dy = (int)round(sin(elem->player->angle));
 
-	int map_height = elem->map->rows; // store this during parsing
-	int map_width = elem->map->colomns;   // same
+	// Check two steps *behind* the player
+	int back_x = px - 2 * dx;
+	int back_y = py - 2 * dy;
 
-	// Close door vertically (y direction)
+	int map_height = elem->map->rows;
+	int map_width = elem->map->colomns;
+
+	// Check vertical (Y)
 	if (back_y >= 0 && back_y < map_height &&
 		px >= 0 && px < map_width &&
 		map[back_y][px] == 'd' && py != back_y)
@@ -103,7 +135,7 @@ void	close_doors(t_elements *elem)
 		map[back_y][px] = 'D';
 	}
 
-	// Close door horizontally (x direction)
+	// Check horizontal (X)
 	if (back_x >= 0 && back_x < map_width &&
 		py >= 0 && py < map_height &&
 		map[py][back_x] == 'd' && px != back_x)
@@ -118,8 +150,23 @@ int	loop_work(void *elem)
 	t_elements	*arg;
 
 	arg = elem;
-    close_doors(arg);
-	render(arg);
+    if (arg->shooting)
+    {
+        
+        close_doors(arg);
+        render(arg);
+        arg->j++;
+        if(arg->j > 9)
+        {
+            arg->j = 0;
+            arg->shooting = 0;
+            
+        }
+    } else 
+    {
+        close_doors(arg);
+        render(arg);
+    }
     return (0);
 }
 
@@ -130,15 +177,19 @@ int main(int ac, char ** argv)
     element = getter();
     parcing_mn(ac, argv);
     put_doors(element);
+    put_enemy(element);
     print_map(element);
     // deb_map();
     element->mlx = mlx_init();
     element->wind = mlx_new_window(element->mlx, screen_width, screen_height, "Cube3D");
     element->img = mlx_new_image(element->mlx, screen_width, screen_height);
     element->addr = mlx_get_data_addr(element->img, &element->bits_per_px, &element->line_len, &element->endian);
+    element->j = 0;
+    element->shooting = 0;
     ray_casting(element);
     mlx_hook(element->wind, 6, 1L << 6, mouse_move_handler, element);
     mlx_hook(element->wind, 2, 1L<<0, event_handeler, element);
+    mlx_hook(element->wind, 4, 1L<<2, check_button, element);
     mlx_loop_hook(element->mlx, loop_work, element);
     mlx_loop(element->mlx);
     return (0);

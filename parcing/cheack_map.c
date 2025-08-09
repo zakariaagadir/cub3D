@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 20:26:41 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/27 21:34:21 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/06 05:42:48 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,10 +152,39 @@ void check_surronded(t_elements *element)
     }
 }
 
+void    valid_character(t_elements *elem)
+{
+    char    **map;
+    int     i;
+    int     j;
+
+    map = elem->map->map;
+    i = 0;
+    while (map[i])
+    {
+        j = 0;
+        while (map[i][j])
+        {
+            if(map[i][j] !='0' && map[i][j] !='1' && map[i][j] !=' ' && map[i][j] !='N' && map[i][j] !='S' && map[i][j] !='E' && map[i][j] !='W')
+                ft_error_el("error\n");
+            if(map[i][j] =='N' || map[i][j] =='S' || map[i][j] =='E' || map[i][j] =='W')
+            {
+                if (elem->player)
+                    ft_error_el("Just one player\n");
+                elem->player = malloc(sizeof(t_player));
+            }
+            j++;
+        }
+
+        i++;
+    }
+}
+
 void    cheack_map(void)
 {
     t_elements *element;
 
     element = getter();
     check_surronded(element);
+    valid_character(element);
 }
