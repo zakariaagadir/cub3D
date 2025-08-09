@@ -616,7 +616,8 @@ void	load_textures(t_elements *elem)
 
 void	ray_casting(t_elements *elem)
 {
-
+	if (!elem->player)
+		elem->player = malloc (sizeof(t_player));
 	get_player_pos(elem);
 	load_textures(elem);
 	// elem->player->plane_x = -elem->player->direction_y * fov;
