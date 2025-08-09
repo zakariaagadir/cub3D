@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:40:21 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/09 12:12:59 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/09 15:39:21 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,8 @@ int	loop_work(void *elem)
 		move_right(arg);
     if (arg->shooting)
     {
-        if (arg->j == 0)
-            system("aplay sound/sound12.wav &");
+        // if (arg->j == 0)
+        //     system("aplay sound/sound12.wav &");
         close_doors(arg);
         render(arg);
         arg->j++;
