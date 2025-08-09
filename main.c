@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:40:21 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/09 10:48:25 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/09 11:43:25 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ int main(int ac, char ** argv)
     element = getter();
     parcing_mn(ac, argv);
     put_doors(element);
-    put_enemy(element);
+    // put_enemy(element);
     print_map(element);
     // deb_map();
     element->mlx = mlx_init();

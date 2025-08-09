@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 20:26:41 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/06 05:42:48 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/09 11:43:11 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,4 +187,6 @@ void    cheack_map(void)
     element = getter();
     check_surronded(element);
     valid_character(element);
+    if (!element->player)
+		ft_error_el("No player here \n");
 }
