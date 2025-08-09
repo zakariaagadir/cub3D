@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:40:21 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/08 22:48:25 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/09 10:06:03 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,23 @@ int	loop_work(void *elem)
 	t_elements	*arg;
 
 	arg = elem;
-    close_doors(arg);
-	render(arg);
+    if (arg->shooting)
+    {
+        
+        close_doors(arg);
+        render(arg);
+        arg->j++;
+        if(arg->j > 9)
+        {
+            arg->j = 0;
+            arg->shooting = 0;
+            
+        }
+    } else 
+    {
+        close_doors(arg);
+        render(arg);
+    }
     return (0);
 }
 
@@ -170,6 +185,7 @@ int main(int ac, char ** argv)
     element->img = mlx_new_image(element->mlx, screen_width, screen_height);
     element->addr = mlx_get_data_addr(element->img, &element->bits_per_px, &element->line_len, &element->endian);
     element->j = 0;
+    element->shooting = 0;
     ray_casting(element);
     mlx_hook(element->wind, 6, 1L << 6, mouse_move_handler, element);
     mlx_hook(element->wind, 2, 1L<<0, event_handeler, element);

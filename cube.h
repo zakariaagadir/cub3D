@@ -119,6 +119,7 @@ typedef struct s_elements
     int     bits_per_px;
     int     line_len;
     int     endian;
+    int     shooting;
     t_texture   textures[6];
     t_color *f;
     t_color *c;

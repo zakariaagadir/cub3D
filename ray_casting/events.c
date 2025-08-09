@@ -102,21 +102,7 @@ void	oupen_door(t_elements *elem)
 
 void	shooting(t_elements *elem)
 {
-	static int i;
-
-	if (i < 1)
-		i++;
-	else if (elem->j < 9)
-	{
-		i = 0;
-		elem->j++;
-	}
-	else
-	{
-		i = 0;
-		elem->j = 0;
-	}
-	// i = 0;
+	elem->shooting = 1;
 }
 
 int	event_handeler(int code, t_elements *elem)
