@@ -345,8 +345,7 @@ long get_color2(t_elements *elem, t_draw draw, int y)
 	int			tex_x;
 	int			tex_y;
 	int			h;
-	// int			wall_top, wall_bottom;
-	// double		tex_pos;
+
 
 	textu = get_texture2(elem, &draw);
 	if (draw.side == 0)
@@ -370,8 +369,6 @@ long get_color(t_elements *elem, t_draw draw, int y)
 	int			tex_x;
 	int			tex_y;
 	int			h;
-	// int			wall_top, wall_bottom;
-	// double		tex_pos;
 
 	textu = get_texture(elem, &draw);
 	if (draw.side == 0)
