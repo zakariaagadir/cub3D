@@ -439,7 +439,6 @@ void	start_3d_view(t_elements *elem)
 
 		draw.dist_to_wall = dist_for_tex;
 		drawing(elem, dist_for_height, i, draw);
-		// drawing(elem, dist, i, draw);
 		i++;
 	}
 	draw_pistol(elem);
