@@ -404,8 +404,6 @@ void	drawing(t_elements *elem, double dist, int i, t_draw draw)
 	{
 		color = get_color(elem, draw, y);
 		put_pixel_to_image(elem, i, y, color);
-		// color = get_color2(elem, draw, y);
-		// put_pixel_to_image2(elem, i, y, color);
 		y++;
 	}
 }

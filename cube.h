@@ -67,10 +67,6 @@ typedef struct s_player
 {
 	double	x;
 	double	y;
-	// int		direction_x;
-	// int		direction_y;
-    // double  plane_x;
-    // double  plane_y;
     double  angle;
 }	t_player;
 
@@ -211,6 +207,20 @@ void	move_right(t_elements *elem);
 void	move_left(t_elements *elem);
 void	move_backward(t_elements *elem);
 void	move_forward(t_elements *elem);
+char    *get_c(t_elements *element, char *line, char *str);
+char    *get_f(t_elements *element, char *line, char *str);
+char    *get_no(t_elements *element, char *line, char *str);
+char    *get_so(t_elements *element, char *line, char *str);
+char    *get_we(t_elements *element, char *line, char *str);
+char    *get_ea(t_elements *element, char *line, char *str);
+void	ft_esc(const char *str);
+int     close_window(void *param);
+
+
+
+
+
+
 
 
 

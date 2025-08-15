@@ -136,20 +136,18 @@ int	event_handeler(int code, t_elements *elem)
 		elem->keys.a = 1;
 	if (code == 'd')
 		elem->keys.d = 1;
-	// if (code == 65361) // Left arrow
-	// 	rotate_left(elem);
-	// if (code == 65363) // Right arrow
-	// 	rotate_right(elem);
-	// if (code == 'w')
-	// 	move_forward(elem);
-	// if (code == 's')
-	// 	move_backward(elem);
-	// if (code == 'a')
-	// 	move_left(elem);
-	// if (code == 'd')
-	// 	move_right(elem);
 	if (code == 'o')
 		oupen_door(elem);
+	if (code == 65307)
+		ft_esc("ESC\n");
+	return (0);
+}
+
+int	close_window(void *param)
+{
+	(void)param;
+	// leack truck
+	exit (0);
 	return (0);
 }
 

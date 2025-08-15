@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:43:48 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/30 15:41:40 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/15 19:09:03 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,9 @@ int extruct_map(char *line, int fd)
     while(line)
     {
         i = 0;
-        // printf(" ----------------------------%d: %s \n", element->map->rows, line);
         while(line && line[i])
         {
-            if (line[i] != ' ' && line[i] != '1' && line[i] != '0' && line[i] != '\0' && line[i] != 'N' && line[i] != 'E' && line[i] != 'O' && line[i] != 'S')
+            if (line[i] != ' ' && line[i] != '1' && line[i] != '0' && line[i] != '\0' && line[i] != 'W' && line[i] != 'N' && line[i] != 'E' && line[i] != 'O' && line[i] != 'S')
             {
                 ft_error_el("invalid character \n");
             }

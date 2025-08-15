@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:28:16 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/30 14:53:40 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/15 18:46:21 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int copy_map(char *line, int fd)
         i = 0;
         while(line && line[i])
         {
-            if (line && line[i] && line[i] != ' ' && line[i] != '1' && line[i] != '0' && line[i] != '\0' && line[i] != 'N' && line[i] != 'E' && line[i] != 'O' && line[i] != 'S')
+            if (line && line[i] && line[i] != ' ' && line[i] != '1' && line[i] != '0' && line[i] != '\0' && line[i] != 'W' && line[i] != 'N' && line[i] != 'E' && line[i] != 'O' && line[i] != 'S')
             {
                 ft_error_el("invalid character NOO \n");
             }
