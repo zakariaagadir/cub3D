@@ -68,8 +68,8 @@ void	get_player_pos(t_elements *elem)
 void	initalize_draw_elems(t_draw *darw, int i, t_elements *elem)
 {
 	darw->ray_angle = darw->start_angle + i *  darw->step_angle;
-	darw->ray_dir_x = cos(darw->ray_angle); // draw.start_angle + i *  draw.step_angle = ray_angle
-	darw->ray_dir_y = sin(darw->start_angle + i *  darw->step_angle);
+	darw->ray_dir_x = cos(darw->ray_angle);
+	darw->ray_dir_y = sin(darw->ray_angle);
 	darw->delta_dist_x = fabs(1 / darw->ray_dir_x);
 	darw->delta_dist_y = fabs(1 / darw->ray_dir_y);
 	darw->map_x = (int)elem->player->x;
@@ -121,7 +121,7 @@ int	performing_dda(t_draw *draw, t_elements *elem)
 		if (tile == '1' || tile == 'D') // Stop only on wall or door
 		{
 			draw->door = (tile == 'D');
-			return side;
+			return (side);
 		}
 		// Do not stop on enemy
 	}
@@ -280,7 +280,6 @@ void	start_3d_view(t_elements *elem)
 	{
 		initalize_draw_elems(&draw, i, elem);
 		draw.side = performing_dda(&draw, elem);
-	
 		double dist_for_height;
 		double dist_for_tex;
 		if (!draw.side)
@@ -380,18 +379,25 @@ void draw_sprite(t_elements *elem, t_texture *tex, int screen_x, int screen_y, i
 
 void	render(t_elements *elem)
 {
-	int ceiling_color = (elem->c->a << 16) | (elem->c->b << 8) | elem->c->c;
-	int floor_color = (elem->f->a << 16) | (elem->f->b << 8) | elem->f->c;
+	int	ceiling_color;
+	int	floor_color;
+	int	color;
+	int	y;
+	int	x;
 
-	int y = 0;
+	ceiling_color = (elem->c->a << 16) | (elem->c->b << 8) | elem->c->c;
+	floor_color = (elem->f->a << 16) | (elem->f->b << 8) | elem->f->c;
+	y = 0;
 	while (y < screen_height)
 	{
-		int color = (y < screen_height / 2) ? ceiling_color : floor_color;
-		int x = 0;
-		while (x < screen_width)
+		if (y < screen_height / 2)
+			color = ceiling_color;
+		else
+			color = floor_color;
+		x = -1;
+		while (++x < screen_width)
 		{
 			put_pixel_to_image(elem, x, y, color);
-			x++;
 		}
 		y++;
 	}
@@ -403,7 +409,7 @@ void	render(t_elements *elem)
 
 void	load_textures(t_elements *elem)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	elem->textures[0].img_ptr = mlx_xpm_file_to_image(elem->mlx,
