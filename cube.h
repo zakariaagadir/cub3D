@@ -19,8 +19,8 @@
 #define player_color 0x00FFFF00
 #define MAX_DRAW_DISTANCE 20.0
 #define player_raduis 7
-#define MOVE_SPEED 0.05
-#define ROT_SPEED 0.05
+#define MOVE_SPEED 0.01
+#define ROT_SPEED 0.01
 #define PI 3.14285714286
 #define alpha (PI/2 - PI/8)
 #define square_size 10
@@ -67,10 +67,6 @@ typedef struct s_player
 {
 	double	x;
 	double	y;
-	// int		direction_x;
-	// int		direction_y;
-    // double  plane_x;
-    // double  plane_y;
     double  angle;
 }	t_player;
 
@@ -105,10 +101,21 @@ typedef struct s_enemy
     float   yf;
 }t_enemy;
 
+typedef struct s_keys
+{
+    int w;
+    int a;
+    int s;
+    int d;
+    int left;
+    int right;
+}t_keys;
+
 typedef struct s_elements
 {
     // t_draw  *drawing;
     char    *no;
+    t_keys  keys;
     char    *so;
     char    *ea;
     char    *we;
@@ -193,5 +200,29 @@ char    *extruct_link(char *str);
 void	initalize_draw_elems(t_draw *darw, int i, t_elements *elem);
 int     mouse_move_handler(int x, int y, t_elements *elem);
 int     check_button(int code, int x, int y, void *elem);
+int     key_release(int code, t_elements *elem);
+void	rotate_right(t_elements *elem);
+void	rotate_left(t_elements *elem);
+void	move_right(t_elements *elem);
+void	move_left(t_elements *elem);
+void	move_backward(t_elements *elem);
+void	move_forward(t_elements *elem);
+char    *get_c(t_elements *element, char *line, char *str);
+char    *get_f(t_elements *element, char *line, char *str);
+char    *get_no(t_elements *element, char *line, char *str);
+char    *get_so(t_elements *element, char *line, char *str);
+char    *get_we(t_elements *element, char *line, char *str);
+char    *get_ea(t_elements *element, char *line, char *str);
+void	ft_esc(const char *str);
+int     close_window(void *param);
+
+
+
+
+
+
+
+
+
 
 #endif

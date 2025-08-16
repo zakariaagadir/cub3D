@@ -105,22 +105,49 @@ void	shooting(t_elements *elem)
 	elem->shooting = 1;
 }
 
+int	key_release(int code, t_elements *elem)
+{
+	if (code == 65361) // Left arrow
+		elem->keys.left = 0;
+	if (code == 65363) // Right arrow
+		elem->keys.right = 0;
+	if (code == 'w')
+		elem->keys.w = 0;
+	if (code == 's')
+		elem->keys.s = 0;
+	if (code == 'a')
+		elem->keys.a = 0;
+	if (code == 'd')
+		elem->keys.d = 0;
+	return (0);
+}
+
 int	event_handeler(int code, t_elements *elem)
 {
 	if (code == 65361) // Left arrow
-		rotate_left(elem);
-	else if (code == 65363) // Right arrow
-		rotate_right(elem);
-	else if (code == 'w')
-		move_forward(elem);
-	else if (code == 's')
-		move_backward(elem);
-	else if (code == 'a')
-		move_left(elem);
-	else if (code == 'd')
-		move_right(elem);
-	else if (code == 'o')
+		elem->keys.left = 1;
+	if (code == 65363) // Right arrow
+		elem->keys.right = 1;
+	if (code == 'w')
+		elem->keys.w = 1;
+	if (code == 's')
+		elem->keys.s = 1;
+	if (code == 'a')
+		elem->keys.a = 1;
+	if (code == 'd')
+		elem->keys.d = 1;
+	if (code == 'o')
 		oupen_door(elem);
+	if (code == 65307)
+		ft_esc("ESC\n");
+	return (0);
+}
+
+int	close_window(void *param)
+{
+	(void)param;
+	// leack truck
+	exit (0);
 	return (0);
 }
 

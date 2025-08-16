@@ -6,7 +6,7 @@
 /*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 20:26:41 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/14 15:41:48 by abifkirn         ###   ########.fr       */
+/*   Updated: 2025/08/16 11:59:22 by abifkirn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,4 +187,8 @@ void    cheack_map(void)
     element = getter();
     check_surronded(element);
     valid_character(element);
+    if (!element->player)
+		ft_error_el("No player here \n");
+    if (!element->enemy)
+        element->enemy = malloc(sizeof(t_enemy));
 }

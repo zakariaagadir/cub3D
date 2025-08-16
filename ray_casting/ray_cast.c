@@ -194,8 +194,7 @@ long get_color2(t_elements *elem, t_draw draw, int y)
 	int			tex_x;
 	int			tex_y;
 	int			h;
-	// int			wall_top, wall_bottom;
-	// double		tex_pos;
+
 
 	textu = get_texture2(elem, &draw);
 	if (draw.side == 0)
@@ -219,8 +218,6 @@ long get_color(t_elements *elem, t_draw draw, int y)
 	int			tex_x;
 	int			tex_y;
 	int			h;
-	// int			wall_top, wall_bottom;
-	// double		tex_pos;
 
 	textu = get_texture(elem, &draw);
 	if (draw.side == 0)
@@ -256,8 +253,6 @@ void	drawing(t_elements *elem, double dist, int i, t_draw draw)
 	{
 		color = get_color(elem, draw, y);
 		put_pixel_to_image(elem, i, y, color);
-		// color = get_color2(elem, draw, y);
-		// put_pixel_to_image2(elem, i, y, color);
 		y++;
 	}
 }
@@ -290,7 +285,6 @@ void	start_3d_view(t_elements *elem)
 
 		draw.dist_to_wall = dist_for_tex;
 		drawing(elem, dist_for_height, i, draw);
-		// drawing(elem, dist, i, draw);
 		i++;
 	}
 	draw_pistol(elem);
@@ -472,7 +466,7 @@ void	load_textures(t_elements *elem)
 void	ray_casting(t_elements *elem)
 {
 	if (!elem->player)
-		elem->player = malloc(sizeof(t_player));
+		elem->player = malloc (sizeof(t_player));
 	get_player_pos(elem);
 	load_textures(elem);
 	render(elem);
