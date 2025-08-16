@@ -6,13 +6,30 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:28:16 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/16 15:26:06 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/16 18:08:38 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../cube.h"
 
+
+int    help_copy(t_elements *element, char *line, int *j)
+{
+    int i;
+
+    i = 0;
+    while(line && line[i])
+    {
+        if (line && line[i] && line[i] != ' ' && line[i] != '1' && line[i] != '0' && line[i] != '\0' && line[i] != 'W' && line[i] != 'N' && line[i] != 'E' && line[i] != 'O' && line[i] != 'S')
+        {
+            ft_error_el("invalid character NOO \n");
+        }
+        element->map->map[*j][i] = line[i];
+        i++;
+    }
+    return (i);
+}
 
 
 int copy_map(char *line, int fd)
@@ -25,16 +42,7 @@ int copy_map(char *line, int fd)
     j = 0;
     while(line)
     {
-        i = 0;
-        while(line && line[i])
-        {
-            if (line && line[i] && line[i] != ' ' && line[i] != '1' && line[i] != '0' && line[i] != '\0' && line[i] != 'W' && line[i] != 'N' && line[i] != 'E' && line[i] != 'O' && line[i] != 'S')
-            {
-                ft_error_el("invalid character NOO \n");
-            }
-            element->map->map[j][i] = line[i];
-            i++;
-        }
+        i = help_copy(element, line, &j);
         while (i < element->map->colomns)
         {
             element->map->map[j][i] = ' ';

@@ -217,7 +217,7 @@ void	ft_esc(const char *str);
 int     close_window(void *param);
 char    *extruct_tex_col(char *line, int fd);
 int     extruct_mmp(char *line, int fd, int i, int ismap);
-
+int     help_copy(t_elements *element, char *line, int *j);
 
 
 
