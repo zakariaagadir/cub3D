@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:28:16 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/15 18:46:21 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/16 15:26:06 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,31 +46,17 @@ int copy_map(char *line, int fd)
         line = NULL;
         line = get_next_line(fd);
     }
-    printf("bay was uploded\n");
     close (fd);
     return (1);
 }
 
-int    upload_map(char **argv)
+char *extruct_tex_col(char *line, int fd)
 {
-    int         fd;
-    int         i;
-    int         ismap;
-    int         number;
-    char        *line;
-    // t_elements  *elements;
+    int number;
 
-    fd = open (argv[1], O_RDONLY,0644);
-    if (fd < 0)
-        ft_error_el("failed fd\n");
-    line = NULL;
-    line = get_next_line(fd);
     number = 0;
-    ismap = 0;
-    // elements = getter();
     while (line && (number < 6))
     {
-        // printf(" ------> %s \n", line);
         if (ft_strnext(line, "NO") || ft_strnext(line, "SO") || ft_strnext(line, "WE") || ft_strnext(line, "EA") || ft_strnext(line, "F") || ft_strnext(line, "C"))
         {
             number += extruct_them(line);
@@ -84,8 +70,13 @@ int    upload_map(char **argv)
     }
     if (number < 6)
         ft_error_el("element or more are absents");
+    return (line);
+}
+
+int extruct_mmp(char *line, int fd, int i, int ismap)
+{
     while (line)
-   {
+    {
         i = 0;
         while(line[i])
         {
@@ -106,6 +97,24 @@ int    upload_map(char **argv)
             line = NULL;
         }
         line = get_next_line(fd);
-   }
-   return (1);
+    }
+    return (1);
+}
+
+int    upload_map(char **argv)
+{
+    int         fd;
+    char        *line;
+    int         i;
+    int         ismap;
+
+    ismap = 0;
+    i = 0;
+    fd = open (argv[1], O_RDONLY,0644);
+    if (fd < 0)
+        ft_error_el("failed fd\n");
+    line = NULL;
+    line = get_next_line(fd);
+    line = extruct_tex_col(line, fd);
+   return (extruct_mmp(line, fd, i, ismap));
 }

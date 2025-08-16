@@ -215,8 +215,8 @@ char    *get_we(t_elements *element, char *line, char *str);
 char    *get_ea(t_elements *element, char *line, char *str);
 void	ft_esc(const char *str);
 int     close_window(void *param);
-
-
+char    *extruct_tex_col(char *line, int fd);
+int     extruct_mmp(char *line, int fd, int i, int ismap);
 
 
 

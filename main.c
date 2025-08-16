@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:40:21 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/15 19:46:17 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/16 14:23:40 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,9 +190,6 @@ int main(int ac, char ** argv)
     element = getter();
     parcing_mn(ac, argv);
     put_doors(element);
-    // put_enemy(element);
-    // print_map(element);
-    // deb_map();
     element->mlx = mlx_init();
     element->wind = mlx_new_window(element->mlx, screen_width, screen_height, "Cube3D");
     element->img = mlx_new_image(element->mlx, screen_width, screen_height);

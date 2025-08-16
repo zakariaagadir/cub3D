@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:13:34 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/15 19:39:42 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/16 14:25:21 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ char *get_f(t_elements *element, char *line, char *str)
     str = ft_strnext(line, "F");
     if (str && element->f)
     {
-        printf("--> %s :---> %zu", str, ft_strlen(str));
         ft_error_el ("elements was duplicated ************\n");
     }
     if (str)
@@ -170,9 +169,6 @@ int extruct_elements(char *line)
     str = get_so(element, line, str);
     str = get_we(element, line, str);
     str = get_ea(element, line, str);
-
-
-
     if (!str)
         str = get_f(element, line, str);
     if (!str)
