@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:40:21 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/16 14:23:40 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/17 13:35:14 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_elements *getter(void)
     static t_elements elements;
     if (elements.map == NULL)
     {
-        elements.map = malloc(sizeof(t_map));
+        elements.map = ft_malloc(sizeof(t_map));
         if (!elements.map)
             return (NULL);
         ft_bzero(elements.map, sizeof(t_map));
@@ -31,6 +31,13 @@ t_draw	*getter_draw(void)
     static t_draw	draw;
 
     return (&draw);
+}
+
+t_collecter	*getter_garbage(void)
+{
+    static t_collecter	*garbage;
+
+    return (garbage);
 }
 
 void    print_map(t_elements *element)
@@ -61,7 +68,7 @@ void    put_enemy(t_elements  *element)
         {
             if(map[i][j] == '0' && map[i][j+1] == '0' && (j - 1) > 0 &&  map[i][j - 1] == '0')
             {
-                element->enemy = malloc(sizeof(t_enemy));
+                element->enemy = ft_malloc(sizeof(t_enemy));
                 if (!element->enemy)
                     ft_error_el("ERROR \n");
                 element->enemy->x = j;

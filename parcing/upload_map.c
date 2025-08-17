@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:28:16 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/16 18:08:38 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/17 11:26:28 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int copy_map(char *line, int fd)
         }
         element->map->map[j][i] = '\0';
         j++;
-        free (line);
+        ft_free (line);
         line = NULL;
         line = get_next_line(fd);
     }
@@ -71,7 +71,7 @@ char *extruct_tex_col(char *line, int fd)
         }
         if (line)
         {
-            free (line);
+            ft_free (line);
             line = NULL;
         }
         line = get_next_line(fd);
@@ -101,7 +101,7 @@ int extruct_mmp(char *line, int fd, int i, int ismap)
         }
         if (line)
         {
-            free (line);
+            ft_free (line);
             line = NULL;
         }
         line = get_next_line(fd);

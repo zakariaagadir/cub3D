@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:43:48 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/16 14:22:33 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/17 11:26:02 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int start_map(char *line, int fd)
         }
         if (ismap == 1)
             return (extruct_map(line, fd));
-        free (line);
+        ft_free (line);
         line = NULL;
         line = get_next_line(fd);
    }
@@ -90,19 +90,19 @@ int extruct_map(char *line, int fd)
         col = ft_strlen(line);
         if (element->map->colomns < col)
             element->map->colomns = col;
-        free (line);
+        ft_free (line);
         line = NULL;
         line = get_next_line(fd);
     }
 
     close (fd);
-    element->map->map = malloc(sizeof(char *) * (element->map->rows + 1));
+    element->map->map = ft_malloc(sizeof(char *) * (element->map->rows + 1));
     if (!element)
         ft_error_el("ellocation failed \n");
     i = 0;
     while(i < element->map->rows)
     {
-        element->map->map[i] = malloc(sizeof(char) * (element->map->colomns + 1));
+        element->map->map[i] = ft_malloc(sizeof(char) * (element->map->colomns + 1));
         if (!element->map->map[i])
             ft_error_el("allocation failed \n");
         element->map->map[i][element->map->colomns] = '\0';

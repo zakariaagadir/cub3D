@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 20:26:41 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/09 11:59:35 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/17 11:20:00 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,51 +94,51 @@
 //     }
 // }
 
+void    check_space(t_elements *element, int i, int j)
+{
+    char **map;
+    map = element->map->map;
+                    // check UP
+    if (map[i + 1] && map[i + 1][j] && map[i + 1][j] != ' ' && map[i + 1][j] != '1')
+    {
+        ft_error_el("Map not surrounded by walls (down)");
+    }
+                    // down
+    if ( i > 0 && map[i - 1][j] && map[i - 1][j] != ' ' && map[i - 1][j] != '1')
+    {
+        ft_error_el("Map not surrounded by walls (down)");
+    }
+                // check LEFT
+    if (j > 0 && map[i][j - 1] != ' ' && map[i][j - 1] != '1')
+    {
+        ft_error_el("Map not surrounded by walls (left)");
+                    
+    }
+
+    // check RIGHT
+    if ( j < element->map->colomns && map[i][j + 1] && map[i][j + 1] != ' ' && map[i][j + 1] != '1')
+    {
+                    ft_error_el("Map not surrounded by walls (right)");
+        
+    }
+}
 
 void check_surronded(t_elements *element)
 {
     int i;
-    int check[4];
     int j;
     char **map = element->map->map;
-    char map2 [2][element->map->colomns];
-    char map3 [2][element->map->rows];
 
     i = 0;
-    ft_bzero(check,4 * sizeof(int));
-    ft_bzero(map2,2 * (element->map->colomns + 1) * sizeof(char));
-    ft_bzero(map3,2 * (element->map->rows + 1) * sizeof(char));
     while (i < element->map->rows)
     {
         j = 0;
         while (j < element->map->colomns)
         {
             if (map[i][j] == ' ')
-            {
-                // check UP
-                if (map[i + 1] && map[i + 1][j] && map[i + 1][j] != ' ' && map[i + 1][j] != '1')
-                {
-                    printf ("->%s\n",map[i]);
-                    printf ("->%d\n",i);
-                    ft_error_el("Map not surrounded by walls (down)");
-                }
-                // check LEFT
-                if (j > 0 && map[i][j - 1] != ' ' && map[i][j - 1] != '1')
-                {
-                    ft_error_el("Map not surrounded by walls (left)");
-                    
-                }
-
-                // check RIGHT
-                if ( j < element->map->colomns && map[i][j + 1] && map[i][j + 1] != ' ' && map[i][j + 1] != '1')
-                {
-                    ft_error_el("Map not surrounded by walls (right)");
-                    
-                }
-            }
+                check_space(element, i, j);
             if (map[i][j] == '0')
             {
-                // check UP
                 if (((i - 1) < 0) || !map[i][j+1] || j == 0)
                 {
                     printf ("->%s\n",map[i]);
@@ -171,7 +171,7 @@ void    valid_character(t_elements *elem)
             {
                 if (elem->player)
                     ft_error_el("Just one player\n");
-                elem->player = malloc(sizeof(t_player));
+                elem->player = ft_malloc(sizeof(t_player));
             }
             j++;
         }
@@ -190,5 +190,5 @@ void    cheack_map(void)
     if (!element->player)
 		ft_error_el("No player here \n");
     if (!element->enemy)
-        element->enemy = malloc(sizeof(t_enemy));
+        element->enemy = ft_malloc(sizeof(t_enemy));
 }

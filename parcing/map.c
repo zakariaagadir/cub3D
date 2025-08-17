@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:13:34 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/16 14:25:21 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/17 11:31:48 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ void	ft_error_el(const char *str)
 {
 	write(2, "Error\n", 7);
 	write(2, str, ff_strlen(str));
-    // leack truck
+    ft_free_all();// leack truck
 	exit (1);
 }
 
 void	ft_esc(const char *str)
 {
 	write(2, str, ff_strlen(str));
-    // leack truck
+    ft_free_all();// leack truck
 	exit (42);
 }
 
@@ -61,7 +61,7 @@ char *get_c(t_elements *element, char *line, char *str)
         ft_error_el ("elements was duplicated  -------\n");
     if (str)
     {
-        element->c = malloc(sizeof(t_color));
+        element->c = ft_malloc(sizeof(t_color));
         if (!element->c)
             ft_error_el("can not allocat");
         ft_bzero(element->c, sizeof(t_color));
@@ -90,7 +90,7 @@ char *get_f(t_elements *element, char *line, char *str)
     }
     if (str)
     {
-        element->f = malloc(sizeof(t_color));
+        element->f = ft_malloc(sizeof(t_color));
         if (!element->f)
             ft_error_el("can not allocat");
         ft_bzero(element->f, sizeof(t_color));
@@ -198,7 +198,7 @@ char    *extruct_link(char *str)
     j = i;
     while (str[i] && str[i] != ' ' && str[i] != '\t')
         i++;
-    link = malloc (i - j + 1);
+    link = ft_malloc (i - j + 1);
     if (!link)
         return (NULL);
     link[i - j] = '\0';
@@ -266,7 +266,7 @@ void    map(char **argv)
     while (line && (number < 6))
     {
         number += extruct_elements(line);
-        free (line);
+        ft_free (line);
         line = NULL;
         line = get_next_line(fd);
     }

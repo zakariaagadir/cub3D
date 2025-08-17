@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 20:18:30 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/30 15:26:02 by abifkirn         ###   ########.fr       */
+/*   Updated: 2025/08/17 11:25:24 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*reset_res(char *reserve)
 		i++;
 	if (reserve[i] == '\n')
 		i++;
-	newres = malloc((ft_strlen(reserve) - i) + 1);
+	newres = ft_malloc((ft_strlen(reserve) - i) + 1);
 	if (!newres)
 		return (NULL);
 	while (reserve[i])
@@ -34,7 +34,7 @@ char	*reset_res(char *reserve)
 		i++;
 	}
 	newres[j] = '\0';
-	free (reserve);
+	ft_free (reserve);
 	reserve = NULL;
 	return (newres);
 }
@@ -45,13 +45,13 @@ char	*read_mine(int fd)
 	ssize_t	i;
 
 	i = 0;
-	r = malloc((size_t)(BUFFER_SIZE + 1));
+	r = ft_malloc((size_t)(BUFFER_SIZE + 1));
 	if (!r)
 		return (NULL);
 	i = read(fd, r, BUFFER_SIZE);
 	if (i <= 0)
 	{
-		free (r);
+		ft_free (r);
 		r = NULL;
 		return (NULL);
 	}
@@ -67,7 +67,7 @@ char	*get_line(char *reserve)
 	i = 0;
 	while (reserve[i] && reserve[i] != '\n')
 		i++;
-	line = malloc(i + 1);
+	line = ft_malloc(i + 1);
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -101,7 +101,7 @@ char	*get_next_line(int fd)
 	reserve = reset_res(reserve);
 	if (!*reserve)
 	{
-		free (reserve);
+		ft_free (reserve);
 		reserve = NULL;
 	}
 	return (line);

@@ -146,7 +146,7 @@ int	event_handeler(int code, t_elements *elem)
 int	close_window(void *param)
 {
 	(void)param;
-	// leack truck
+	ft_free_all();// leack truck
 	exit (0);
 	return (0);
 }

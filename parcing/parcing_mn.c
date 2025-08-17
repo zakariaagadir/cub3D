@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 14:22:08 by zmounji           #+#    #+#             */
-/*   Updated: 2025/07/25 15:43:13 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/17 11:30:54 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 void	strlen_exit(void)
 {
 	write (2, "saving contre overflowing\n", 27);
+	ft_free_all();
 	exit (1);
 }
 
@@ -60,6 +61,7 @@ void	ft_error(const char *str)
 {
 	write(2, "Error\n", 7);
 	write(2, str, ff_strlen(str));
+	ft_free_all();
 	exit (1);
 }
 

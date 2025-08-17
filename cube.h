@@ -101,6 +101,12 @@ typedef struct s_enemy
     float   yf;
 }t_enemy;
 
+typedef struct s_collecter
+{
+	void				*single1;
+	struct s_collecter	*next;
+}	t_collecter;
+
 typedef struct s_keys
 {
     int w;
@@ -218,6 +224,13 @@ int     close_window(void *param);
 char    *extruct_tex_col(char *line, int fd);
 int     extruct_mmp(char *line, int fd, int i, int ismap);
 int     help_copy(t_elements *element, char *line, int *j);
+void    check_space(t_elements *element, int i, int j);
+t_collecter *getter_garbage(void);
+void	add_back(t_collecter *new_node);
+void	*ft_malloc(size_t size);
+void	ft_free_all(void);
+void	ft_free(void *pointer);
+
 
 
 

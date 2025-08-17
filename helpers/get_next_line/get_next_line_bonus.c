@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 06:44:09 by zmounji           #+#    #+#             */
-/*   Updated: 2025/06/30 14:54:01 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/17 11:24:58 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*reset_res(char *reserve)
 		i++;
 	if (reserve[i] == '\n')
 		i++;
-	newres = malloc((ft_strlen(reserve) - i) + 1);
+	newres = ft_malloc((ft_strlen(reserve) - i) + 1);
 	if (!newres)
 		return (NULL);
 	while (reserve[i])
@@ -34,7 +34,7 @@ char	*reset_res(char *reserve)
 		i++;
 	}
 	newres[j] = '\0';
-	free (reserve);
+	ft_free (reserve);
 	return (newres);
 }
 
@@ -44,13 +44,13 @@ char	*read_mine(int fd)
 	ssize_t	i;
 
 	i = 0;
-	r = malloc((size_t)(BUFFER_SIZE + 1));
+	r = ft_malloc((size_t)(BUFFER_SIZE + 1));
 	if (!r)
 		return (NULL);
 	i = read(fd, r, BUFFER_SIZE);
 	if (i <= 0)
 	{
-		free (r);
+		ft_free (r);
 		return (NULL);
 	}
 	r[i] = '\0';
@@ -66,9 +66,9 @@ char	*get_line(char *reserve)
 	while (reserve[i] && reserve[i] != '\n')
 		i++;
 	if (reserve[i] == '\n')
-		line = malloc(i + 2);
+		line = ft_malloc(i + 2);
 	else
-		line = malloc(i + 1);
+		line = ft_malloc(i + 1);
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -107,7 +107,7 @@ char	*get_next_line(int fd)
 	stash[fd] = reset_res(stash[fd]);
 	if (!*stash[fd])
 	{
-		free (stash[fd]);
+		ft_free (stash[fd]);
 		stash[fd] = NULL;
 	}
 	return (line);
