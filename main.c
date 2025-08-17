@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:40:21 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/17 13:35:14 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/17 15:00:19 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ t_draw	*getter_draw(void)
     return (&draw);
 }
 
-t_collecter	*getter_garbage(void)
+t_collecter	**getter_garbage(void)
 {
     static t_collecter	*garbage;
 
-    return (garbage);
+    return (&garbage);
 }
 
 void    print_map(t_elements *element)

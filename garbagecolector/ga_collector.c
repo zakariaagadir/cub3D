@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 18:38:30 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/17 14:06:25 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/17 15:05:44 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@
 void	add_back(t_collecter *new_node)
 {
 	t_collecter	*tmp;
-	t_collecter	*alloc_head;
+	t_collecter	**alloc_head;
 
 
     alloc_head = getter_garbage();
     
-	if (!alloc_head)
+	if (!alloc_head || !*alloc_head)
 	{
-		alloc_head = new_node;
+		*alloc_head = new_node;
 		return ;
 	}
-	tmp = alloc_head;
+	tmp = *alloc_head;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new_node;
@@ -92,14 +92,14 @@ void	free_images(void)
 void	ft_free_all(void)
 {
 	t_collecter	*tmp;
-	t_collecter	*alloc_head;
+	t_collecter	**alloc_head;
 
     alloc_head = getter_garbage();
 	free_images();
-	while (alloc_head)
+	while (alloc_head && *alloc_head)
 	{
-		tmp = alloc_head;
-		alloc_head = alloc_head->next;
+		tmp = *alloc_head;
+		*alloc_head = (*alloc_head)->next;
 		free(tmp->single1);
 		free(tmp);
 	}
@@ -109,11 +109,11 @@ void	ft_free(void *pointer)
 {
 	t_collecter	*current;
 	t_collecter	*prev;
-	t_collecter	*alloc_head;
+	t_collecter	**alloc_head;
 
     alloc_head = getter_garbage();
 	prev = NULL;
-	current = alloc_head;
+	current = *alloc_head;
 	while (current)
 	{
 		if (current->single1 == pointer)
@@ -121,7 +121,7 @@ void	ft_free(void *pointer)
 			if (prev)
 				prev->next = current->next;
 			else
-				alloc_head = current->next;
+				*alloc_head = current->next;
 			free(current->single1);
 			free(current);
 			return ;
