@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 18:38:30 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/17 15:23:23 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/17 15:45:16 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,13 @@ void	free_images(void)
 		
 		i++;
 	}
-	if (element && element->wind)
+	if (element->wind)
     	mlx_destroy_window(element->mlx, element->wind);
 	if (element->mlx)
+	{
 		mlx_destroy_display(element->mlx);
+		free (element->mlx);
+	}
 }
 
 void	ft_free_all(void)
