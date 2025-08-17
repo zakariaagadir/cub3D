@@ -95,7 +95,6 @@ void	oupen_door(t_elements *elem)
 		if (map[ty][tx] == 'D')
 		{
 			map[ty][tx] = 'd'; // Open the door
-			printf("Opened door at [%d][%d]\n", ty, tx);
 		}
 	}
 }
@@ -146,7 +145,7 @@ int	event_handeler(int code, t_elements *elem)
 int	close_window(void *param)
 {
 	(void)param;
-	// leack truck
+	ft_free_all();// leack truck
 	exit (0);
 	return (0);
 }

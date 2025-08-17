@@ -449,6 +449,7 @@ void	load_textures(t_elements *elem)
 		if (!elem->textures[i].img_ptr)
 		{
 			printf ("Failed to load texture n : %d\n", i);
+			ft_free_all();
 			exit (1);//need to free all the memory before exiting, attention |:
 		}
 		elem->textures[i].addr = (int *)mlx_get_data_addr(elem->textures[i].img_ptr,
@@ -461,6 +462,7 @@ void	load_textures(t_elements *elem)
 		if (!elem->enemy->textures[i].img_ptr)
 		{
 			printf ("Failed to load texture n : %d\n", i);
+			ft_free_all();
 			exit (1);//need to free all the memory before exiting, attention |:
 		}
 		elem->enemy->textures[i].addr = (int *)mlx_get_data_addr(elem->enemy->textures[i].img_ptr,
@@ -473,7 +475,7 @@ void	load_textures(t_elements *elem)
 void	ray_casting(t_elements *elem)
 {
 	if (!elem->player)
-		elem->player = malloc(sizeof(t_player));
+		elem->player = ft_malloc (sizeof(t_player));
 	get_player_pos(elem);
 	load_textures(elem);
 	render(elem);
