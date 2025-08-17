@@ -95,7 +95,6 @@ void	oupen_door(t_elements *elem)
 		if (map[ty][tx] == 'D')
 		{
 			map[ty][tx] = 'd'; // Open the door
-			printf("Opened door at [%d][%d]\n", ty, tx);
 		}
 	}
 }
