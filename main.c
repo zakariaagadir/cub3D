@@ -6,73 +6,72 @@
 /*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:40:21 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/16 13:44:08 by abifkirn         ###   ########.fr       */
+/*   Updated: 2025/08/16 14:02:22 by abifkirn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 
-t_elements	*getter(void)
+t_elements *getter(void)
 {
-	static t_elements	elements;
-
-	if (elements.map == NULL)
-	{
-		elements.map = malloc(sizeof(t_map));
-		if (!elements.map)
-			return (NULL);
-		ft_bzero(elements.map, sizeof(t_map));
-	}
-	return (&elements);
+    static t_elements elements;
+    if (elements.map == NULL)
+    {
+        elements.map = malloc(sizeof(t_map));
+        if (!elements.map)
+            return (NULL);
+        ft_bzero(elements.map, sizeof(t_map));
+    }
+    return (&elements);
 }
 
 
 t_draw	*getter_draw(void)
 {
-	static t_draw	draw;
+    static t_draw	draw;
 
-	return (&draw);
+    return (&draw);
 }
 
-void	print_map(t_elements *element)
+void    print_map(t_elements *element)
 {
-	int	i;
+    int i;
 
-	i = 0;
-	printf("start\n");
-	while(i < element->map->rows)
-	{
-		printf("%s\n", element->map->map[i]);
-		i++;
-	}
+    i = 0;
+    printf("start\n");
+    while(i < element->map->rows)
+    {
+        printf("%s\n", element->map->map[i]);
+        i++;
+    }
 }
 
-void	put_enemy(t_elements  *element)
+void    put_enemy(t_elements  *element)
 {
-	char	**map;
-	int		i;
-	int		j;
-
-	i = 0;
-	map = element->map->map;
-	while (map[i])
-	{
-		j = 0;
-		while (map[i][j])
-		{
-			if(map[i][j] == '0' && map[i][j+1] == '0' && (j - 1) > 0 &&  map[i][j - 1] == '0')
-			{
-				element->enemy = malloc(sizeof(t_enemy));
-				if (!element->enemy)
-					ft_error_el("ERROR \n");
-				element->enemy->x = j;
-				element->enemy->y = i;
-				return ;
-			}
-			j++;
-		}
-		i++;
-	}
+    char    **map;
+    int     i;
+    int     j;
+    
+    i = 0;
+    map = element->map->map;
+    while (map[i])
+    {
+        j = 0;
+        while (map[i][j])
+        {
+            if(map[i][j] == '0' && map[i][j+1] == '0' && (j - 1) > 0 &&  map[i][j - 1] == '0')
+            {
+                element->enemy = malloc(sizeof(t_enemy));
+                if (!element->enemy)
+                    ft_error_el("ERROR \n");
+                element->enemy->x = j;
+                element->enemy->y = i;
+                return ;
+            }
+            j++;
+        }
+        i++;
+    }
 }
 
 void    put_doors(t_elements  *element)
@@ -94,13 +93,15 @@ void    put_doors(t_elements  *element)
                 {
                     map[i][j]='D';
                 }
+                
             }
             if(map[i][j] == '0')
             {
                 if(((j-1) >= 0) && map[i][j-1]=='1' && map[i][j+1] && map[i][j+1]=='1' && i != 0 && i != element->map->colomns && j != 0 && j != element->map->colomns && map[i+1] && map[i+1][j] != '1' && (i-1) >= 0 && map[i-1][j] != '1' )
                 {
                     map[i][j]='D';
-                }          
+                }
+                
             }
             j++;
         }

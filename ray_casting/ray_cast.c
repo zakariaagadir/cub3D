@@ -99,9 +99,8 @@ void	initalize_draw_elems(t_draw *darw, int i, t_elements *elem)
 int	performing_dda(t_draw *draw, t_elements *elem)
 {
 	int	side;
-	char **map;
+	char **map = elem->map->map;
 
-	map = elem->map->map;
 	while (1)
 	{
 		if (draw->side_dist_x < draw->side_dist_y)
@@ -116,12 +115,15 @@ int	performing_dda(t_draw *draw, t_elements *elem)
 			draw->map_y += draw->step_y;
 			side = 1;
 		}
+
 		char tile = map[draw->map_y][draw->map_x];
+
 		if (tile == '1' || tile == 'D') // Stop only on wall or door
 		{
 			draw->door = (tile == 'D');
 			return (side);
 		}
+		// Do not stop on enemy
 	}
 }
 
@@ -154,7 +156,9 @@ t_texture	*get_texture2(t_elements *elem, t_draw *draw)
 t_texture	*get_texture(t_elements *elem, t_draw *draw)
 {
 	if(draw->door == 1)
+	{
 		return (&elem->textures[4]);
+	}
 	if (draw->side == 0) // Hit a vertical wall (East or West)
 	{
 		if (draw->ray_dir_x > 0)
@@ -171,15 +175,14 @@ t_texture	*get_texture(t_elements *elem, t_draw *draw)
 	}
 }
 
-long	get_texture_pixel(t_texture *tex, int x, int y)
+long get_texture_pixel(t_texture *tex, int x, int y)
 {
-	int	pixels_per_line;
-	int	color;
-
 	if (x < 0 || x >= tex->width || y < 0 || y >= tex->height)
 		return (0); // prevent out-of-bounds access
-	pixels_per_line = tex->line_len / 4; // since each pixel is 4 bytes
-	color = tex->addr[y * pixels_per_line + x];
+
+	int pixels_per_line = tex->line_len / 4; // since each pixel is 4 bytes
+	int color = tex->addr[y * pixels_per_line + x];
+
 	return (color & 0xFFFFFF); // remove alpha if present
 }
 
@@ -191,7 +194,8 @@ long get_color2(t_elements *elem, t_draw draw, int y)
 	int			tex_x;
 	int			tex_y;
 	int			h;
-
+	// int			wall_top, wall_bottom;
+	// double		tex_pos;
 
 	textu = get_texture2(elem, &draw);
 	if (draw.side == 0)
@@ -208,13 +212,15 @@ long get_color2(t_elements *elem, t_draw draw, int y)
 	return (get_texture_pixel(textu, tex_x, tex_y));
 }
 
-long	get_color(t_elements *elem, t_draw draw, int y)
+long get_color(t_elements *elem, t_draw draw, int y)
 {
 	t_texture	*textu;
 	double		wallx;
 	int			tex_x;
 	int			tex_y;
 	int			h;
+	// int			wall_top, wall_bottom;
+	// double		tex_pos;
 
 	textu = get_texture(elem, &draw);
 	if (draw.side == 0)
@@ -250,18 +256,21 @@ void	drawing(t_elements *elem, double dist, int i, t_draw draw)
 	{
 		color = get_color(elem, draw, y);
 		put_pixel_to_image(elem, i, y, color);
+		// color = get_color2(elem, draw, y);
+		// put_pixel_to_image2(elem, i, y, color);
 		y++;
 	}
 }
 
-void	draw_pistol(t_elements *elem)
+void draw_pistol(t_elements *elem)
 {
-	draw_sprite(elem, &elem->enemy->textures[elem->j], (int) screen_width / 2, (int) screen_height - 100, 400);
+    	draw_sprite(elem, &elem->enemy->textures[elem->j], (int) screen_width / 2, (int) screen_height - 100, 400);
 }
 
 void	start_3d_view(t_elements *elem)
 {
 	int		i;
+	// double	dist;
 	t_draw	draw;
 
 	i = 0;
@@ -271,6 +280,7 @@ void	start_3d_view(t_elements *elem)
 	{
 		initalize_draw_elems(&draw, i, elem);
 		draw.side = performing_dda(&draw, elem);
+
 		double dist_for_height;
 		double dist_for_tex;
 		if (!draw.side)
@@ -281,6 +291,7 @@ void	start_3d_view(t_elements *elem)
 
 		draw.dist_to_wall = dist_for_tex;
 		drawing(elem, dist_for_height, i, draw);
+		// drawing(elem, dist, i, draw);
 		i++;
 	}
 	draw_pistol(elem);
@@ -396,8 +407,22 @@ void	render(t_elements *elem)
 	mlx_put_image_to_window(elem->mlx, elem->wind, elem->img, 0, 0);
 }
 
-void	load_enemy_textures(t_elements *elem)
+
+void	load_textures(t_elements *elem)
 {
+	int	i;
+
+	i = 0;
+	elem->textures[0].img_ptr = mlx_xpm_file_to_image(elem->mlx,
+		"textures/wall_1.xpm", &elem->textures[0].width, &elem->textures[0].height);
+	elem->textures[1].img_ptr = mlx_xpm_file_to_image(elem->mlx,
+		"textures/wall_2.xpm", &elem->textures[1].width, &elem->textures[1].height);
+	elem->textures[2].img_ptr = mlx_xpm_file_to_image(elem->mlx,
+		"textures/wall_3.xpm", &elem->textures[2].width, &elem->textures[2].height);
+	elem->textures[3].img_ptr = mlx_xpm_file_to_image(elem->mlx,
+		"textures/wall_4.xpm", &elem->textures[3].width, &elem->textures[3].height);
+	elem->textures[4].img_ptr = mlx_xpm_file_to_image(elem->mlx,
+		"textures/door.xpm", &elem->textures[4].width, &elem->textures[4].height);
 	elem->enemy->textures[0].img_ptr = mlx_xpm_file_to_image(elem->mlx,
 		"textures/enemy/frame07.xpm", &elem->enemy->textures[0].width, &elem->enemy->textures[0].height);
 	elem->enemy->textures[1].img_ptr = mlx_xpm_file_to_image(elem->mlx,
@@ -418,14 +443,8 @@ void	load_enemy_textures(t_elements *elem)
 		"textures/enemy/frame15.xpm", &elem->enemy->textures[8].width, &elem->enemy->textures[8].height);
 	elem->enemy->textures[9].img_ptr = mlx_xpm_file_to_image(elem->mlx,
 		"textures/enemy/frame16.xpm", &elem->enemy->textures[9].width, &elem->enemy->textures[9].height);
-}
 
-void	fill_addr(t_elements *elem)
-{
-	int	i;
-
-	i = -1;
-	while (++i < 5)
+	while (i < 5)
 	{
 		if (!elem->textures[i].img_ptr)
 		{
@@ -434,9 +453,10 @@ void	fill_addr(t_elements *elem)
 		}
 		elem->textures[i].addr = (int *)mlx_get_data_addr(elem->textures[i].img_ptr,
 			&elem->textures[i].bpp, &elem->textures[i].line_len, &elem->textures[i].endian);
+		i++;
 	}
-	i = -1;
-	while (++i < 10)
+	i = 0;
+	while (i < 10)
 	{
 		if (!elem->enemy->textures[i].img_ptr)
 		{
@@ -449,30 +469,11 @@ void	fill_addr(t_elements *elem)
 	}
 }
 
-void	load_textures(t_elements *elem)
-{
-	int	i;
-
-	i = 0;
-	elem->textures[0].img_ptr = mlx_xpm_file_to_image(elem->mlx,
-		"textures/wall_1.xpm", &elem->textures[0].width, &elem->textures[0].height);
-	elem->textures[1].img_ptr = mlx_xpm_file_to_image(elem->mlx,
-		"textures/wall_2.xpm", &elem->textures[1].width, &elem->textures[1].height);
-	elem->textures[2].img_ptr = mlx_xpm_file_to_image(elem->mlx,
-		"textures/wall_3.xpm", &elem->textures[2].width, &elem->textures[2].height);
-	elem->textures[3].img_ptr = mlx_xpm_file_to_image(elem->mlx,
-		"textures/wall_4.xpm", &elem->textures[3].width, &elem->textures[3].height);
-	elem->textures[4].img_ptr = mlx_xpm_file_to_image(elem->mlx,
-		"textures/door.xpm", &elem->textures[4].width, &elem->textures[4].height);
-	load_enemy_textures(elem);
-	fill_addr(elem);
-}
-
 
 void	ray_casting(t_elements *elem)
 {
 	if (!elem->player)
-		elem->player = malloc (sizeof(t_player));
+		elem->player = malloc(sizeof(t_player));
 	get_player_pos(elem);
 	load_textures(elem);
 	render(elem);
