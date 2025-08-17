@@ -230,12 +230,10 @@ void	add_back(t_collecter *new_node);
 void	*ft_malloc(size_t size);
 void	ft_free_all(void);
 void	ft_free(void *pointer);
-
-
-
-
-
-
-
+t_collecter	**getter_garbage(void);
+t_elements	*getter(void);
+void	put_enemy(t_elements  *element);
+void	put_doors(t_elements  *element);
+void	close_doors(t_elements *elem);
 
 #endif
