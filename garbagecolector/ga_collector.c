@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 18:38:30 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/17 15:05:44 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/17 15:23:23 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,20 +73,21 @@ void	free_images(void)
 		element->textures[i].img_ptr = NULL;
 		i++;
 	}
-	mlx_destroy_image(element->mlx, element->img);
+	if (element->img )
+		mlx_destroy_image(element->mlx, element->img);
 	i = 0;
 	while (i < 10)
 	{
-		if (element->enemy->textures[i].img_ptr)
+		if (element->enemy && element->enemy->textures[i].img_ptr)
 			mlx_destroy_image(element->mlx, element->enemy->textures[i].img_ptr);
 		element->textures[i].img_ptr = NULL;
 		
 		i++;
 	}
-	if (element->wind)
+	if (element && element->wind)
     	mlx_destroy_window(element->mlx, element->wind);
-	mlx_destroy_display(element->mlx);
-	free(element->mlx);
+	if (element->mlx)
+		mlx_destroy_display(element->mlx);
 }
 
 void	ft_free_all(void)
