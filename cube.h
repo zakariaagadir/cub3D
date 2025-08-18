@@ -13,12 +13,9 @@
 #include <sys/wait.h>
 #include <math.h>
 
-// #define window_px 16
-// #define window_py 16
 #define wall_color 0x00FF0000
 #define player_color 0x00FFFF00
 #define MAX_DRAW_DISTANCE 20.0
-#define player_raduis 7
 #define MOVE_SPEED 0.01
 #define ROT_SPEED 0.01
 #define PI 3.14285714286
@@ -27,7 +24,10 @@
 #define fov PI / 3 //a FOV of 60° in radian
 #define screen_width 1200
 #define screen_height 720
-// aimad : it is for drawing mini_map, need it cause of norminette :|
+#define MINIMAP_TILE_SIZE 8
+#define MINIMAP_RADIUS 10
+#define MINIMAP_SIZE (2 * MINIMAP_RADIUS * MINIMAP_TILE_SIZE)
+
 typedef struct s_mini_map
 {
     int	start_y;
@@ -235,5 +235,13 @@ t_elements	*getter(void);
 void	put_enemy(t_elements  *element);
 void	put_doors(t_elements  *element);
 void	close_doors(t_elements *elem);
+void	draw_pistol(t_elements *elem);
+void	initalize_draw_elems(t_draw *draw, int i, t_elements *elem);
+void	drawing(t_elements *elem, double dist, int i, t_draw draw);
+long	get_texture_pixel(t_texture *tex, int x, int y);
+long	get_color(t_elements *elem, t_draw draw, int y);
+void	load_textures(t_elements *elem);
+t_texture	*get_texture(t_elements *elem, t_draw *draw);
+void	get_player_direction(t_elements *elem);
 
 #endif
