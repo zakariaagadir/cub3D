@@ -6,7 +6,7 @@
 /*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 10:31:04 by abifkirn          #+#    #+#             */
-/*   Updated: 2025/08/18 11:28:20 by abifkirn         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:47:56 by abifkirn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	draw_sprite(t_elements *elem, t_texture *tex, int screen_x, int screen_y, i
             int draw_x = screen_x - size / 2 + x;
             int draw_y = screen_y - size / 2 + y;
 
-            if (draw_x >= 0 && draw_x < screen_width &&
-                draw_y >= 0 && draw_y < screen_height)
+            if (draw_x >= 0 && draw_x < SCREEN_WIDTH &&
+                draw_y >= 0 && draw_y < SCREEN_HEIGHT)
             {
                 put_pixel_to_image(elem, draw_x, draw_y, color);
             }
@@ -59,7 +59,7 @@ void	draw_sprite(t_elements *elem, t_texture *tex, int screen_x, int screen_y, i
 void	draw_pistol(t_elements *elem)
 {
 	draw_sprite(elem, &elem->enemy->textures[elem->j], \
-	(int) screen_width / 2, (int) screen_height - 100, 400);
+	(int) SCREEN_WIDTH / 2, (int) SCREEN_HEIGHT - 100, 400);
 }
 
 void	step_and_side_dist(t_draw *draw, t_elements *elem)
@@ -109,13 +109,13 @@ void	drawing(t_elements *elem, double dist, int i, t_draw draw)
 	int		y;
 	long	color;
 
-	draw.wall_height = (int)(screen_height / dist);
-	wall_top = (screen_height / 2) - (draw.wall_height / 2);
-	wall_bottom = (screen_height / 2) + (draw.wall_height / 2);
+	draw.wall_height = (int)(SCREEN_HEIGHT / dist);
+	wall_top = (SCREEN_HEIGHT / 2) - (draw.wall_height / 2);
+	wall_bottom = (SCREEN_HEIGHT / 2) + (draw.wall_height / 2);
 	if (wall_top < 0)
 		wall_top = 0;
-	if (wall_bottom > screen_height)
-		wall_bottom = screen_height;
+	if (wall_bottom > SCREEN_HEIGHT)
+		wall_bottom = SCREEN_HEIGHT;
 	y = wall_top;
 	while (y < wall_bottom)
 	{

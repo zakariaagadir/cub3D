@@ -6,7 +6,7 @@
 /*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:40:21 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/17 21:52:47 by abifkirn         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:47:56 by abifkirn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ int	main(int ac, char **argv)
 	parcing_mn(ac, argv);
 	put_doors(element);
 	element->mlx = mlx_init();
-	element->wind = mlx_new_window(element->mlx, screen_width, \
-	screen_height, "Cube3D");
-	element->img = mlx_new_image(element->mlx, screen_width, screen_height);
+	element->wind = mlx_new_window(element->mlx, SCREEN_WIDTH, \
+	SCREEN_HEIGHT, "Cube3D");
+	element->img = mlx_new_image(element->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	element->addr = mlx_get_data_addr(element->img, \
 	&element->bits_per_px, &element->line_len, &element->endian);
 	ray_casting(element);

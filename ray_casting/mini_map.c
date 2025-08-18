@@ -6,97 +6,11 @@
 /*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 12:29:02 by abifkirn          #+#    #+#             */
-/*   Updated: 2025/08/18 12:47:42 by abifkirn         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:46:17 by abifkirn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
-
-void	put_pixels(t_elements *elem, int x, int y)
-{
-	int	pixel_y;
-	int	pixel_x;
-	int	color;
-	int	draw_x;
-	int	draw_y;
-
-	draw_x = ((x - elem->player->x) * MINIMAP_TILE_SIZE) + MINIMAP_SIZE / 2;
-	draw_y = ((y - elem->player->y) * MINIMAP_TILE_SIZE) + MINIMAP_SIZE / 2;
-	if (elem->map->map[y][x] == '1')
-		color = 0xCCCCCC;
-	else if (elem->map->map[y][x] == 'D')
-		color = 0xAAAAAA;
-	else
-		color = 0x333333;
-	pixel_y = 0;
-	while (pixel_y < MINIMAP_TILE_SIZE)
-	{
-		pixel_x = 0;
-		while (pixel_x < MINIMAP_TILE_SIZE)
-		{
-			put_pixel_to_image(elem, draw_x + pixel_x, draw_y + pixel_y, color);
-			pixel_x++;
-		}
-		pixel_y++;
-	}
-}
-
-t_m_map	init_elements(t_elements *elem)
-{
-	t_m_map	res;
-
-	res.start_x = (int)(elem->player->x) - MINIMAP_RADIUS;
-	res.end_x = (int)(elem->player->x) + MINIMAP_RADIUS;
-	res.start_y = (int)(elem->player->y) - MINIMAP_RADIUS;
-	res.end_y = (int)(elem->player->y) + MINIMAP_RADIUS;
-	if (res.start_x < 0)
-		res.start_x = 0;
-	if (res.start_y < 0)
-		res.start_y = 0;
-	if (res.end_x >= elem->map->colomns)
-		res.end_x = elem->map->colomns;
-	if (res.end_y >= elem->map->rows)
-		res.end_y = elem->map->rows;
-	return (res);
-}
-
-void	draw_background(t_elements *elem)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < MINIMAP_SIZE)
-	{
-		x = 0;
-		while (x < MINIMAP_SIZE)
-		{
-			put_pixel_to_image(elem, x, y, 0x111111);
-			x++;
-		}
-		y++;
-	}
-}
-
-void	draw_map(t_elements *elem)
-{
-	t_m_map	mini_m;
-	int		y;
-	int		x;
-
-	mini_m = init_elements(elem);
-	y = mini_m.start_y;
-	while (y < mini_m.end_y && y < 80)
-	{
-		x = mini_m.start_x;
-		while (x < mini_m.end_x && x < 80)
-		{
-			put_pixels(elem, x, y);
-			x++;
-		}
-		y++;
-	}
-}
 
 void	draw_player(t_elements *elem)
 {
@@ -115,7 +29,8 @@ void	draw_player(t_elements *elem)
 		x = -size;
 		while (x <= size)
 		{
-			put_pixel_to_image(elem, mini_p_x + (x - 0.5), mini_p_y + (y - 0.5), 0x0000FF);
+			put_pixel_to_image(elem, mini_p_x \
+			+ (x - 0.5), mini_p_y + (y - 0.5), 0x0000FF);
 			x++;
 		}
 		y++;
@@ -124,25 +39,28 @@ void	draw_player(t_elements *elem)
 
 int	check_bounds(t_elements *elem, double ray_x, double ray_y)
 {
+	double	m_s;
+
+	m_s = MOVE_SPEED;
 	if (elem->map->map[(int)ray_y][(int)ray_x] == '1')
 		return (1);
-	if (elem->map->map[(int)(ray_y - MOVE_SPEED)][(int)(ray_x - MOVE_SPEED)] == '1')
+	if (elem->map->map[(int)(ray_y - m_s)][(int)(ray_x - m_s)] == '1')
 		return (1);
-	if (elem->map->map[(int)(ray_y + MOVE_SPEED)][(int)(ray_x + MOVE_SPEED)] == '1')
+	if (elem->map->map[(int)(ray_y + m_s)][(int)(ray_x + m_s)] == '1')
 		return (1);
-	if (elem->map->map[(int)(ray_y + MOVE_SPEED)][(int)(ray_x - MOVE_SPEED)] == '1')
+	if (elem->map->map[(int)(ray_y + m_s)][(int)(ray_x - m_s)] == '1')
 		return (1);
-	if (elem->map->map[(int)(ray_y - MOVE_SPEED)][(int)(ray_x + MOVE_SPEED)] == '1')
+	if (elem->map->map[(int)(ray_y - m_s)][(int)(ray_x + m_s)] == '1')
 		return (1);
 	if (elem->map->map[(int)ray_y][(int)ray_x] == 'D')
 		return (1);
-	if (elem->map->map[(int)(ray_y - MOVE_SPEED)][(int)(ray_x - MOVE_SPEED)] == 'D')
+	if (elem->map->map[(int)(ray_y - m_s)][(int)(ray_x - m_s)] == 'D')
 		return (1);
-	if (elem->map->map[(int)(ray_y + MOVE_SPEED)][(int)(ray_x + MOVE_SPEED)] == 'D')
+	if (elem->map->map[(int)(ray_y + m_s)][(int)(ray_x + m_s)] == 'D')
 		return (1);
-	if (elem->map->map[(int)(ray_y + MOVE_SPEED)][(int)(ray_x - MOVE_SPEED)] == 'D')
+	if (elem->map->map[(int)(ray_y + m_s)][(int)(ray_x - m_s)] == 'D')
 		return (1);
-	if (elem->map->map[(int)(ray_y - MOVE_SPEED)][(int)(ray_x + MOVE_SPEED)] == 'D')
+	if (elem->map->map[(int)(ray_y - m_s)][(int)(ray_x + m_s)] == 'D')
 		return (1);
 	return (0);
 }
@@ -162,9 +80,12 @@ void	cast_m_rays_helper(double angle, t_elements *elem)
 		ray_y += sin(angle) * MOVE_SPEED;
 		if (check_bounds(elem, ray_x, ray_y))
 			break ;
-		pixel_x = (ray_x - elem->player->x) * MINIMAP_TILE_SIZE + MINIMAP_SIZE / 2;
-		pixel_y = (ray_y - elem->player->y) * MINIMAP_TILE_SIZE + MINIMAP_SIZE / 2;
-		if (pixel_x < 0 || pixel_y < 0 || pixel_x >= MINIMAP_SIZE || pixel_y >= MINIMAP_SIZE)
+		pixel_x = (ray_x - elem->player->x) \
+		* MINIMAP_TILE_SIZE + MINIMAP_SIZE / 2;
+		pixel_y = (ray_y - elem->player->y) \
+		* MINIMAP_TILE_SIZE + MINIMAP_SIZE / 2;
+		if (pixel_x < 0 || pixel_y < 0 \
+		|| pixel_x >= MINIMAP_SIZE || pixel_y >= MINIMAP_SIZE)
 			break ;
 		put_pixel_to_image(elem, pixel_x, pixel_y, 0x00FFFF);
 	}
@@ -177,8 +98,8 @@ void	cast_multiple_rays(t_elements *elem)
 	double	angle;
 	int		i;
 
-	start_angle = elem->player->angle - fov / 2;
-	step_angle = fov / 10;
+	start_angle = elem->player->angle - FOV / 2;
+	step_angle = FOV / 10;
 	i = 0;
 	while (i < 10)
 	{

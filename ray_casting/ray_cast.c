@@ -6,7 +6,7 @@
 /*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 09:53:01 by abifkirn          #+#    #+#             */
-/*   Updated: 2025/08/18 11:34:23 by abifkirn         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:47:56 by abifkirn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ void	start_3d_view(t_elements *elem)
 	double	dist_for_tex;
 
 	i = 0;
-	draw.start_angle = elem->player->angle - (fov / 2.0);
-	draw.step_angle = fov / screen_width;
-	while (i < screen_width)
+	draw.start_angle = elem->player->angle - (FOV / 2.0);
+	draw.step_angle = FOV / SCREEN_WIDTH;
+	while (i < SCREEN_WIDTH)
 	{
 		initalize_draw_elems(&draw, i, elem);
 		draw.side = performing_dda(&draw, elem);
@@ -95,13 +95,6 @@ void	start_3d_view(t_elements *elem)
 	draw_pistol(elem);
 }
 
-// int	calculate_enemy_sprite_size(double distance)
-// {
-// 	if (distance == 0)
-// 		return (screen_height);
-// 	return ((int)(screen_height / distance));
-// }
-
 void	render(t_elements *elem)
 {
 	int	ceiling_color;
@@ -113,14 +106,14 @@ void	render(t_elements *elem)
 	ceiling_color = (elem->c->a << 16) | (elem->c->b << 8) | elem->c->c;
 	floor_color = (elem->f->a << 16) | (elem->f->b << 8) | elem->f->c;
 	y = 0;
-	while (y < screen_height)
+	while (y < SCREEN_HEIGHT)
 	{
-		if (y < screen_height / 2)
+		if (y < SCREEN_HEIGHT / 2)
 			color = ceiling_color;
 		else
 			color = floor_color;
 		x = -1;
-		while (++x < screen_width)
+		while (++x < SCREEN_WIDTH)
 		{
 			put_pixel_to_image(elem, x, y, color);
 		}

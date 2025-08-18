@@ -6,7 +6,7 @@
 /*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 11:30:43 by abifkirn          #+#    #+#             */
-/*   Updated: 2025/08/18 11:34:29 by abifkirn         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:47:56 by abifkirn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	put_pixel_to_image(t_elements *elem, int x, int y, int color)
 {
 	char	*dst;
 
-	if (x < 0 || y < 0 || x >= screen_width || y >= screen_height)
+	if (x < 0 || y < 0 || x >= SCREEN_WIDTH || y >= SCREEN_HEIGHT)
 		return ;
 	dst = elem->addr + (y * elem->line_len + x * (elem->bits_per_px / 8));
 	*(unsigned int *)dst = color;
@@ -69,7 +69,14 @@ long	get_color(t_elements *elem, t_draw draw, int y)
 	if ((draw.side == 0 && draw.ray_dir_x > 0) \
 	|| (draw.side == 1 && draw.ray_dir_y < 0))
 		tex_x = textu->width - tex_x - 1;
-	h = y * 256 - screen_height * 128 + draw.wall_height * 128;
+	h = y * 256 - SCREEN_HEIGHT * 128 + draw.wall_height * 128;
 	tex_y = ((h * textu->height) / draw.wall_height) / 256;
 	return (get_texture_pixel(textu, tex_x, tex_y));
+}
+
+void	error_textures(char *str, int i)
+{
+	printf ("Failed to load texture %s n : %d\n", str, i);
+	ft_free_all ();
+	exit (1);
 }

@@ -6,7 +6,7 @@
 /*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 10:40:30 by abifkirn          #+#    #+#             */
-/*   Updated: 2025/08/18 11:29:06 by abifkirn         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:27:10 by abifkirn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,6 @@ void	load_gun_textu(t_elements *elem)
 	init_img_ptr(elem, &elem->enemy->textures[7], "textures/enemy/frame14.xpm");
 	init_img_ptr(elem, &elem->enemy->textures[8], "textures/enemy/frame15.xpm");
 	init_img_ptr(elem, &elem->enemy->textures[9], "textures/enemy/frame16.xpm");
-}
-
-void	error_textures(char *str, int i)
-{
-	printf ("Failed to load texture %s n : %d\n", str, i);
-	ft_free_all ();
-	exit (1);
 }
 
 void	check_loading(t_elements *elem)
