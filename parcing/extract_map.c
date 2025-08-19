@@ -6,7 +6,7 @@
 /*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:43:48 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/17 11:26:02 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/17 20:37:39 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ int start_map(char *line, int fd)
 {
     int             i;
     int             ismap;
-    // t_elements      *element;
 
-    // element = getter();
     ismap = 0;
    while (line)
    {
@@ -94,7 +92,6 @@ int extruct_map(char *line, int fd)
         line = NULL;
         line = get_next_line(fd);
     }
-
     close (fd);
     element->map->map = ft_malloc(sizeof(char *) * (element->map->rows + 1));
     if (!element)
