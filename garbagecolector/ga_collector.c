@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ga_collector.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 18:38:30 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/17 15:46:33 by abifkirn         ###   ########.fr       */
+/*   Updated: 2025/08/19 10:51:39 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,12 @@ void	free_images(void)
 		
 		i++;
 	}
-	if (element && element->wind)
+	if (element->wind)
     	mlx_destroy_window(element->mlx, element->wind);
 	if (element->mlx)
 	{
 		mlx_destroy_display(element->mlx);
-		free(element->mlx);
+		free (element->mlx);
 	}
 }
 
