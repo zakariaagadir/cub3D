@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 15:42:23 by abifkirn          #+#    #+#             */
-/*   Updated: 2025/08/18 15:51:05 by abifkirn         ###   ########.fr       */
+/*   Updated: 2025/08/20 21:54:01 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ int			extruct_elements(char *line);
 int			extruct_them(char *line);
 void		cheack_map(void);
 void		valid_character(t_elements *elem);
-void		draw_sprite(t_elements *elem, t_texture *tex, int screen_x, int screen_y, int size);
+void		draw_pistol(t_elements *elem, t_texture *tex, int size);
 char		*get_next_line(int fd);
 t_draw		*getter_draw(void);
 size_t		ft_strlen(char *s);
@@ -224,7 +224,6 @@ t_elements	*getter(void);
 void		put_enemy(t_elements *element);
 void		put_doors(t_elements *element);
 void		close_doors(t_elements *elem);
-void		draw_pistol(t_elements *elem);
 void		initalize_draw_elems(t_draw *draw, int i, t_elements *elem);
 void		drawing(t_elements *elem, double dist, int i, t_draw draw);
 long		get_texture_pixel(t_texture *tex, int x, int y);
@@ -237,5 +236,10 @@ void		draw_background(t_elements *elem);
 t_m_map		init_elements(t_elements *elem);
 void		put_pixels(t_elements *elem, int x, int y);
 void		error_textures(char *str, int i);
+void		valid_char(char *line, int *val1, int *val2);
+void		limiters_valmap(char *line, int fd, t_elements *element);
+void		put_it(t_elements *elem, t_texture *tex, int size, int *data);
+int			color_val(t_texture *tex, int *first_pixel_y, int *last_pixel_y);
+
 
 #endif

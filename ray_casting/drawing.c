@@ -3,63 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 10:31:04 by abifkirn          #+#    #+#             */
-/*   Updated: 2025/08/18 15:47:56 by abifkirn         ###   ########.fr       */
+/*   Updated: 2025/08/20 21:55:21 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
 
-void	draw_sprite(t_elements *elem, t_texture *tex, int screen_x, int screen_y, int size)
+void	draw_pistol(t_elements *elem, t_texture *tex, int size)
 {
-    int first_pixel_y = tex->height;
-    int last_pixel_y = 0;
+	int	first_pixel_y;
+	int	last_pixel_y;
+	int	color;
+	int	cropped_height;
+	int	data[2];
 
-    // Find top and bottom bounds of non-transparent pixels
-    for (int y = 0; y < tex->height; y++)
-    {
-        for (int x = 0; x < tex->width; x++)
-        {
-            int color = get_texture_pixel(tex, x, y);
-            if ((color & 0x00FFFFFF) != 0x00000000) // not transparent
-            {
-                if (y < first_pixel_y) first_pixel_y = y;
-                if (y > last_pixel_y)  last_pixel_y = y;
-            }
-        }
-    }
-
-    int cropped_height = last_pixel_y - first_pixel_y + 1;
-
-    for (int y = 0; y < size; y++)
-    {
-        for (int x = 0; x < size; x++)
-        {
-            int tex_x = (x * tex->width) / size;
-            int tex_y = first_pixel_y + ((y * cropped_height) / size);
-            int color = get_texture_pixel(tex, tex_x, tex_y);
-
-            if ((color & 0x00FFFFFF) == 0x00000000) 
-                continue;
-
-            int draw_x = screen_x - size / 2 + x;
-            int draw_y = screen_y - size / 2 + y;
-
-            if (draw_x >= 0 && draw_x < SCREEN_WIDTH &&
-                draw_y >= 0 && draw_y < SCREEN_HEIGHT)
-            {
-                put_pixel_to_image(elem, draw_x, draw_y, color);
-            }
-        }
-    }
-}
-
-void	draw_pistol(t_elements *elem)
-{
-	draw_sprite(elem, &elem->enemy->textures[elem->j], \
-	(int) SCREEN_WIDTH / 2, (int) SCREEN_HEIGHT - 100, 400);
+	first_pixel_y = tex->height;
+	last_pixel_y = 0;
+	color = color_val(tex, &first_pixel_y, &last_pixel_y);
+	cropped_height = last_pixel_y - first_pixel_y + 1;
+	data[0] = first_pixel_y;
+	data[1] = cropped_height;
+	put_it(elem, tex, size, data);
 }
 
 void	step_and_side_dist(t_draw *draw, t_elements *elem)
@@ -67,26 +34,26 @@ void	step_and_side_dist(t_draw *draw, t_elements *elem)
 	if (draw->ray_dir_x < 0)
 	{
 		draw->step_x = -1;
-		draw->side_dist_x = (elem->player->x - draw->map_x) \
-		* draw->delta_dist_x;
+		draw->side_dist_x = (elem->player->x - draw->map_x)
+			* draw->delta_dist_x;
 	}
 	else
 	{
 		draw->step_x = 1;
-		draw->side_dist_x = (draw->map_x + 1.0 - elem->player->x) \
-		* draw->delta_dist_x;
+		draw->side_dist_x = (draw->map_x + 1.0 - elem->player->x)
+			* draw->delta_dist_x;
 	}
 	if (draw->ray_dir_y < 0)
 	{
 		draw->step_y = -1;
-		draw->side_dist_y = (elem->player->y - draw->map_y) \
-		* draw->delta_dist_y;
+		draw->side_dist_y = (elem->player->y - draw->map_y)
+			* draw->delta_dist_y;
 	}
 	else
 	{
 		draw->step_y = 1;
-		draw->side_dist_y = (draw->map_y + 1.0 - elem->player->y) \
-		* draw->delta_dist_y;
+		draw->side_dist_y = (draw->map_y + 1.0 - elem->player->y)
+			* draw->delta_dist_y;
 	}
 }
 

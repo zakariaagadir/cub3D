@@ -6,7 +6,7 @@
 #    By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/16 18:51:42 by zmounji           #+#    #+#              #
-#    Updated: 2025/08/19 10:54:01 by zmounji          ###   ########.fr        #
+#    Updated: 2025/08/20 21:55:32 by zmounji          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SRC = main.c parcing/parcing_mn.c parcing/extract_map.c parcing/map.c\
 	ray_casting/events.c ray_casting/mini_map.c garbagecolector/ga_collector.c\
 	getters.c doors_and_animation.c ray_casting/drawing.c ray_casting/texture.c\
 	ray_casting/ray_cast_helper.c ray_casting/moves.c ray_casting/rotation.c\
-	ray_casting/mini_map_helper.c parcing/map3.c parcing/map2.c
+	ray_casting/mini_map_helper.c parcing/map3.c parcing/map2.c\
+	parcing/map4.c ray_casting/drawing2.c
 
 OBJ = ${SRC:.c=.o}
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_cast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 09:53:01 by abifkirn          #+#    #+#             */
-/*   Updated: 2025/08/18 15:47:56 by abifkirn         ###   ########.fr       */
+/*   Updated: 2025/08/20 21:25:12 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	start_3d_view(t_elements *elem)
 		drawing(elem, dist_for_height, i, draw);
 		i++;
 	}
-	draw_pistol(elem);
+	draw_pistol(elem, &elem->enemy->textures[elem->j], 400);
 }
 
 void	render(t_elements *elem)
