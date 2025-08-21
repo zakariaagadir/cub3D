@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cube_bonus.h                                             :+:      :+:    :+:   */
+/*   cube_bonus.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/18 15:42:23 by abifkirn          #+#    #+#             */
-/*   Updated: 2025/08/21 10:53:13 by abifkirn         ###   ########.fr       */
+/*   Created: 2025/08/21 15:37:33 by abifkirn          #+#    #+#             */
+/*   Updated: 2025/08/21 15:49:47 by abifkirn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUBE_H
-# define CUBE_H
+#ifndef CUBE_BONUS_H
+# define CUBE_BONUS_H
 
 # include <string.h>
 # include <unistd.h>

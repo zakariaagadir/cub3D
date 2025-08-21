@@ -6,7 +6,7 @@
 /*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 18:38:30 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/21 10:49:22 by abifkirn         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:29:27 by abifkirn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ void	add_back(t_collecter *new_node)
 	t_collecter	*tmp;
 	t_collecter	**alloc_head;
 
-
 	alloc_head = getter_garbage();
-
 	if (!alloc_head || !*alloc_head)
 	{
 		*alloc_head = new_node;
@@ -70,13 +68,14 @@ void	free_images(void)
 			mlx_destroy_image(element->mlx, element->textures[i].img_ptr);
 		element->textures[i].img_ptr = NULL;
 	}
-	if (element->img )
+	if (element->img)
 		mlx_destroy_image(element->mlx, element->img);
 	i = -1;
 	while (++i < 10)
 	{
 		if (element->enemy && element->enemy->textures[i].img_ptr)
-			mlx_destroy_image(element->mlx, element->enemy->textures[i].img_ptr);
+			mlx_destroy_image(element->mlx, \
+			element->enemy->textures[i].img_ptr);
 		element->textures[i].img_ptr = NULL;
 	}
 	destroy_win_des(element);
@@ -87,7 +86,7 @@ void	ft_free_all(void)
 	t_collecter	*tmp;
 	t_collecter	**alloc_head;
 
-    alloc_head = getter_garbage();
+	alloc_head = getter_garbage();
 	free_images();
 	while (alloc_head && *alloc_head)
 	{
@@ -104,7 +103,7 @@ void	ft_free(void *pointer)
 	t_collecter	*prev;
 	t_collecter	**alloc_head;
 
-    alloc_head = getter_garbage();
+	alloc_head = getter_garbage();
 	prev = NULL;
 	current = *alloc_head;
 	while (current)
