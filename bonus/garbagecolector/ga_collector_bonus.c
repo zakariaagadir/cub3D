@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ga_collector.c                                     :+:      :+:    :+:   */
+/*   ga_collector_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 18:38:30 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/19 10:51:39 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/21 10:56:25 by abifkirn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cube.h"
-
-
+#include "../cube_bonus.h"
 
 void	add_back(t_collecter *new_node)
 {
@@ -20,8 +18,8 @@ void	add_back(t_collecter *new_node)
 	t_collecter	**alloc_head;
 
 
-    alloc_head = getter_garbage();
-    
+	alloc_head = getter_garbage();
+
 	if (!alloc_head || !*alloc_head)
 	{
 		*alloc_head = new_node;
@@ -61,36 +59,27 @@ void	*ft_malloc(size_t size)
 
 void	free_images(void)
 {
-	t_elements *element;
+	t_elements	*element;
 	int			i;
 
 	element = getter();
-	i = 0;
-	while (i < 6)
+	i = -1;
+	while (++i < 6)
 	{
 		if (element->textures[i].img_ptr)
 			mlx_destroy_image(element->mlx, element->textures[i].img_ptr);
 		element->textures[i].img_ptr = NULL;
-		i++;
 	}
 	if (element->img )
 		mlx_destroy_image(element->mlx, element->img);
-	i = 0;
-	while (i < 10)
+	i = -1;
+	while (++i < 10)
 	{
 		if (element->enemy && element->enemy->textures[i].img_ptr)
 			mlx_destroy_image(element->mlx, element->enemy->textures[i].img_ptr);
 		element->textures[i].img_ptr = NULL;
-		
-		i++;
 	}
-	if (element->wind)
-    	mlx_destroy_window(element->mlx, element->wind);
-	if (element->mlx)
-	{
-		mlx_destroy_display(element->mlx);
-		free (element->mlx);
-	}
+	destroy_win_des(element);
 }
 
 void	ft_free_all(void)

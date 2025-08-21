@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   upload_map.c                                       :+:      :+:    :+:   */
+/*   upload_map_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:28:16 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/20 21:03:54 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/21 10:56:25 by abifkirn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cube.h"
+#include "../cube_bonus.h"
 
 int	help_copy(t_elements *element, char *line, int *j)
 {

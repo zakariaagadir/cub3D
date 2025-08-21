@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cheack_map.c                                       :+:      :+:    :+:   */
+/*   cheack_map_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 20:26:41 by zmounji           #+#    #+#             */
-/*   Updated: 2025/08/20 21:12:14 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/21 10:56:25 by abifkirn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cube.h"
+#include "../cube_bonus.h"
 
 void	check_space(t_elements *element, int i, int j)
 {

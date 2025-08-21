@@ -1,29 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   doors_and_animation.c                              :+:      :+:    :+:   */
+/*   doors_and_animation_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 21:45:45 by abifkirn          #+#    #+#             */
-/*   Updated: 2025/08/18 09:35:32 by abifkirn         ###   ########.fr       */
+/*   Updated: 2025/08/21 10:56:41 by abifkirn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube.h"
-
-// void	print_map(t_elements *element)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	printf("start\n");
-// 	while(i < element->map->rows)
-// 	{
-// 		printf("%s\n", element->map->map[i]);
-// 		i++;
-// 	}
-// }
+#include "cube_bonus.h"
 
 void	put_enemy(t_elements *element)
 {

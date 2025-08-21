@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 15:42:23 by abifkirn          #+#    #+#             */
-/*   Updated: 2025/08/20 21:54:01 by zmounji          ###   ########.fr       */
+/*   Updated: 2025/08/21 10:49:09 by abifkirn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,6 +240,6 @@ void		valid_char(char *line, int *val1, int *val2);
 void		limiters_valmap(char *line, int fd, t_elements *element);
 void		put_it(t_elements *elem, t_texture *tex, int size, int *data);
 int			color_val(t_texture *tex, int *first_pixel_y, int *last_pixel_y);
-
+void		destroy_win_des(t_elements *element);
 
 #endif

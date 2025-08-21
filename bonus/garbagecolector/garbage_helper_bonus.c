@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_destroy_display.c                              :+:      :+:    :+:   */
+/*   garbage_helper_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mg <mg@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/03 18:56:35 by mg                #+#    #+#             */
-/*   Updated: 2020/10/04 01:55:35 by mg               ###   ########.fr       */
+/*   Created: 2025/08/21 10:47:47 by abifkirn          #+#    #+#             */
+/*   Updated: 2025/08/21 10:56:25 by abifkirn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx_int.h"
+#include "../cube_bonus.h"
 
-int	mlx_destroy_display(t_xvar *xvar)
+void	destroy_win_des(t_elements *element)
 {
-	XCloseDisplay(xvar->display);
+	if (element->wind)
+    	mlx_destroy_window(element->mlx, element->wind);
+	if (element->mlx)
+	{
+		mlx_destroy_display(element->mlx);
+		free (element->mlx);
+	}
 }
