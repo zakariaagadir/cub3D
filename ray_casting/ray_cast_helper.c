@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_cast_helper.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 11:30:43 by abifkirn          #+#    #+#             */
-/*   Updated: 2025/08/18 15:47:56 by abifkirn         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:58:31 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ long	get_color(t_elements *elem, t_draw draw, int y)
 		wallx = elem->player->y + draw.dist_to_wall * draw.ray_dir_y;
 	else
 		wallx = elem->player->x + draw.dist_to_wall * draw.ray_dir_x;
-	wallx -= floor(wallx);
+	wallx -= (int)(wallx);
 	tex_x = (int)(wallx * textu->width);
 	if ((draw.side == 0 && draw.ray_dir_x > 0) \
 	|| (draw.side == 1 && draw.ray_dir_y < 0))
