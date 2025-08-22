@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cube_bonus.h                                             :+:      :+:    :+:   */
+/*   cube_bonus.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abifkirn <abifkirn@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: zmounji <zmounji@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/18 15:42:23 by abifkirn          #+#    #+#             */
-/*   Updated: 2025/08/21 10:53:13 by abifkirn         ###   ########.fr       */
+/*   Created: 2025/08/21 15:37:33 by abifkirn          #+#    #+#             */
+/*   Updated: 2025/08/22 15:41:55 by zmounji          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUBE_H
-# define CUBE_H
+#ifndef CUBE_BONUS_H
+# define CUBE_BONUS_H
 
 # include <string.h>
 # include <unistd.h>
@@ -36,12 +36,12 @@
 # define PI 3.14285714286
 // # define alpha (PI/2 - PI/8)
 // # define square_size 10
-# define FOV PI / 3 //a FOV of 60° in radian
+# define FOV 1.04761904762 //a FOV of 60° in radian
 # define SCREEN_WIDTH 1200
 # define SCREEN_HEIGHT 720
 # define MINIMAP_TILE_SIZE 8
 # define MINIMAP_RADIUS 10
-# define MINIMAP_SIZE (2 * MINIMAP_RADIUS * MINIMAP_TILE_SIZE)
+# define MINIMAP_SIZE 160
 
 typedef struct s_mini_map
 {
